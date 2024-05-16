@@ -8,13 +8,13 @@ class AlertPage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: Text(
+          title: const Text(
             'Emergency',
             style: TextStyle(color: Colors.white),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: badges.Badge(
                 badgeContent: Text(
                   '3',

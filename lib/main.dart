@@ -1,5 +1,7 @@
 import 'package:emergency/ui/sreens/alertPage.dart';
+import 'package:emergency/ui/sreens/emergencyHomePage.dart';
 import 'package:emergency/ui/sreens/homePage.dart';
+import 'package:emergency/ui/sreens/profilePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: AlertPage()
+        home: HomePage2()
 
         // const MyHomePage(title: 'Emergency'),
         );
