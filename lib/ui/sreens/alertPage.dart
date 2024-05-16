@@ -97,7 +97,7 @@ class AlertPage extends StatelessWidget {
                                   // Forme du bouton en cercle
                                   ),
                               child: Text(
-                                'Signaler',
+                                'Signaler un incident',
                                 style: TextStyle(
                                   color: Colors
                                       .white, // Couleur du texte du bouton
