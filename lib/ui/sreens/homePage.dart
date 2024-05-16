@@ -93,6 +93,41 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.red, // Couleur du fond
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: () {
+                  // Action pour l'accueil
+                },
+                child: Text(
+                  'Accueil',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Action pour les alertes
+                },
+                child: Text(
+                  'Alert',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Action pour les conseils
+                },
+                child: Text(
+                  'Conseil',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
