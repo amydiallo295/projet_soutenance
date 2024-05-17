@@ -9,8 +9,28 @@ class HomePage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Emergency '),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(290),
+        child: AppBar(
+          flexibleSpace: Container(
+            child: Container(
+              child: Image(image: AssetImage("assets/images/logo.png")),
+              //  Image.asset("assets/images/emergencylogo.png"),
+            ),
+            //child: const Center(child: Text("Emergency",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.white),)),
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 13, 177, 241),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(60),
+                    bottomRight: Radius.circular(60))),
+/**            child: Image(
+              width: double.infinity,
+              image: AssetImage("assets/images/emergency2.png"),
+            ), */
+          ),
+        ),
+
+        //  title: Text('Emergency '),
       ),
       body: Center(
         child: Column(
@@ -24,13 +44,17 @@ class HomePage2 extends StatelessWidget {
                       builder: (context) => EmergencyReportPage()),
                 );
               },
-              icon: Icon(Icons.report),
-              label: Text('Signaler une urgence'),
+              icon: const Icon(Icons.report),
+              label: const Text(
+                'Signaler une urgence',
+                style: TextStyle(color: Color.fromARGB(255, 230, 43, 29)),
+              ),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
@@ -38,14 +62,18 @@ class HomePage2 extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => EmergencyCallPage()),
                 );
               },
-              icon: Icon(Icons.call),
-              label: Text('Appeler les services d\'urgence'),
+              icon: const Icon(Icons.call),
+              label: const Text(
+                'Appeler un service   ',
+                style: TextStyle(color: Color.fromARGB(255, 230, 43, 29)),
+              ),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               ),
             ),
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            /** Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
@@ -69,6 +97,51 @@ class HomePage2 extends StatelessWidget {
                   child: Text('Parametre'),
                 ),
               ],
+            ), */
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        // color: Colors.red, // Couleur du fond
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            // SizedBox(width: 20),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage2()),
+                );
+              },
+              icon: const Icon(Icons.home),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InformationPage()),
+                );
+              },
+              icon: const Icon(Icons.newspaper_outlined),
+            ),
+/**            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+              child: Text('Parametre'),
+            ), */
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage2()),
+                );
+              },
+              icon: const Icon(Icons.person),
             ),
           ],
         ),

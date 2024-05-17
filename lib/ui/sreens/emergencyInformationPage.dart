@@ -90,8 +90,8 @@ class EmergencyType extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          width: 400,
-          height: 100,
+          width: 500,
+          height: 300,
 
           child: Image.asset(
             image,
