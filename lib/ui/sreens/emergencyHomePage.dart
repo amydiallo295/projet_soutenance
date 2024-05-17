@@ -141,7 +141,7 @@ class HomePage2 extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => ProfilePage2()),
                 );
               },
-              icon: const Icon(Icons.person),
+              icon: const Icon(Icons.person,),
             ),
           ],
         ),

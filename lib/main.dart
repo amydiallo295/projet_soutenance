@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: RegistrationScren()
+        home: HomePage2()
 
         // const MyHomePage(title: 'Emergency'),
         );
