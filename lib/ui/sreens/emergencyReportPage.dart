@@ -47,13 +47,19 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Signaler une Urgence'),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        title: Text(
+          'Signaler une Urgence',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 50),
             Text(
               'Sélectionnez le type d\'urgence :',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -88,9 +94,12 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _pickImages,
-              child: Text('Ajouter des images'),
+            Padding(
+              padding: const EdgeInsets.only(left: 100, right: 100),
+              child: ElevatedButton(
+                onPressed: _pickImages,
+                child: Text('Ajouter des images'),
+              ),
             ),
             _imageFiles != null && _imageFiles!.isNotEmpty
                 ? Wrap(
@@ -102,11 +111,18 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
                   )
                 : SizedBox.shrink(),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _submitReport,
-              child: Text('Soumettre'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            Padding(
+              padding: const EdgeInsets.only(left: 100, right: 100),
+              child: ElevatedButton(
+                onPressed: _submitReport,
+                child: Text(
+                  'Soumettre',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                ),
               ),
             ),
           ],

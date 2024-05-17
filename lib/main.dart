@@ -1,3 +1,5 @@
+import 'package:emergency/ui/sreens/emergencyInformationPage.dart';
+import 'package:emergency/ui/sreens/emergencyProfilePage.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
 
@@ -43,10 +45,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: IndexedStack(
         index: selectedIndex,
-        children: [
-          AccueilScreen(),
-          ProfilScreen(),
-        ],
+        children: [AccueilScreen(), InformationPage(), ProfilScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
@@ -59,6 +58,13 @@ class HomeScreen extends ConsumerWidget {
               color: Colors.blue,
             ),
             label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.newspaper_outlined,
+              color: Colors.blue,
+            ),
+            label: 'Infos',
           ),
           BottomNavigationBarItem(
             icon: Icon(
