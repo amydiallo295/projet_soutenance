@@ -1,3 +1,4 @@
+import 'package:emergency/ui/sreens/emergencyInscription.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -103,7 +104,12 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegistrationScren()));
+                      },
                       child: const Text(
                         'Inscrivez-vous',
                         style: TextStyle(color: Colors.white),
