@@ -35,7 +35,7 @@ class ProfilScreen extends StatelessWidget {
                   radius: 50,
                   backgroundColor: primaryColor,
                   child: Icon(
-                    Icons.account_circle,
+                    Icons.person,
                     size: 80,
                     color: Colors.white,
                   ),

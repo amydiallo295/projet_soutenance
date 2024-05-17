@@ -1,3 +1,4 @@
+import 'package:emergency/routers/routes.dart';
 import 'package:emergency/ui/sreens/InformationPage.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: StartAppView.startupRoute,
       home: const HomeScreen(),
     );
   }
