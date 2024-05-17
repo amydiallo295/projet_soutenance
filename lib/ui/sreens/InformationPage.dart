@@ -1,22 +1,32 @@
+import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 class InformationPage extends StatelessWidget {
+  const InformationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Informations d\'Urgence'),
-      ),
-      body: SingleChildScrollView(
+          backgroundColor: primaryColor,
+          title: TitleWidget(
+            text: "Informations d\'Urgence",
+          )),
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
               Text(
                 'Informations sur les différents types d\'urgence',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10),
+              verticalSpaceSmall,
               EmergencyType(
                 image: 'assets/images/ambulance.jpg',
                 text:

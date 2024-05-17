@@ -1,4 +1,3 @@
-import 'package:emergency/ui/sreens/emergencyProfilePage.dart';
 import 'package:emergency/ui/sreens/politiqueConfidentialit%C3%A9.dart';
 import 'package:flutter/material.dart';
 
@@ -53,23 +52,6 @@ class SettingsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100),
               ),
             ),
-
-/**      
- * 
- * 
- * 
- * 
- *             SizedBox(height: 20),
-            Text(
-              'Politique de confidentialité et conditions d\'utilisation',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100),
-            ),      SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Action pour afficher la politique de confidentialité et les conditions d'utilisation
-              },
-              child: Text('Afficher'),
-            ), */
           ],
         ),
       ),

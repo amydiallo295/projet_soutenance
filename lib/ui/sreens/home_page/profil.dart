@@ -1,4 +1,6 @@
 import 'package:emergency/ui/sreens/emergencySettingsPage.dart';
+import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 class ProfilScreen extends StatelessWidget {
@@ -9,36 +11,29 @@ class ProfilScreen extends StatelessWidget {
         onPressed: () {
           // Action pour se déconnecter
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.logout,
           color: Colors.red,
         ),
-        label: Text(
+        label: const Text(
           'Se déconnecter',
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(color: Color.fromARGB(255, 174, 170, 169)),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          padding: const EdgeInsets.all(10.0),
         ),
       ),
-      // appBar: AppBar(
-      //   title: Text('Profil Utilisateur'),
-      //   backgroundColor: Colors.blueAccent,
-      // ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           Center(
-            child: Column(
+            child: const Column(
               children: [
                 // Icone de profil
+                verticalSpaceMedium,
                 CircleAvatar(
                   radius: 50,
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: primaryColor,
                   child: Icon(
                     Icons.account_circle,
                     size: 80,
@@ -50,7 +45,7 @@ class ProfilScreen extends StatelessWidget {
                 Text(
                   'Nom de l\'utilisateur',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

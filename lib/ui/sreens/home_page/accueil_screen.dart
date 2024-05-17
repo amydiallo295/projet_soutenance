@@ -1,117 +1,97 @@
-import 'package:emergency/ui/sreens/emergencyReportPage.dart';
+import 'package:emergency/ui/sreens/reportPage.dart';
 import 'package:emergency/ui/sreens/emergencyallPage.dart';
+import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 class AccueilScreen extends StatelessWidget {
+  const AccueilScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(1.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Espace pour le logo de l'application
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Text(
-                  'Bienvenue dans l\'application de signalement d\'urgence',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: primaryColor,
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: TitleWidget(
+            text: "Emergency",
+          )),
+      body: Padding(
+        padding: const EdgeInsets.all(1.0),
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Espace pour le logo de l'application
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Bienvenue dans l\'application de signalement d\'urgence',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Appuyez sur un bouton ci-dessous pour signaler une urgence.',
-                  style: TextStyle(
-                    fontSize: 13,
+                  SizedBox(height: 10),
+                  Text(
+                    'Appuyez sur un bouton ci-dessous pour signaler une urgence.',
+                    style: TextStyle(
+                      fontSize: 13,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 400, // Ajustez la hauteur en fonction de votre logo
-                  width: 500,
-                  child: Image.asset(
-                      'assets/images/emergencylogo.png'), // Assurez-vous que le logo est dans le dossier assets
-                ),
-              ],
-            ),
-          ),
-
-          // Espace flexible pour centrer les boutons verticalement
-          ElevatedButton.icon(
-            icon: Icon(Icons.report_problem, size: 40),
-            label: Text(
-              'Signaler une urgence ',
-              style: TextStyle(fontSize: 20),
-            ),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                ],
               ),
-              backgroundColor: Colors.redAccent,
             ),
-            onPressed: () {
-              // Action à effectuer lors de l'appui sur le bouton
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EmergencyReportPage()),
-              );
-            },
-          ),
-
-          SizedBox(height: 20),
-          ElevatedButton.icon(
-            icon: Icon(Icons.phone, size: 40),
-            label: Text(
-              'Appeler un service',
-              style: TextStyle(fontSize: 20),
-            ),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 100, // Ajustez la hauteur en fonction de votre logo
+                    width: 300,
+                    child: Image.asset(
+                      'assets/images/emergencylogo.png',
+                      fit: BoxFit.cover,
+                    ), // Assurez-vous que le logo est dans le dossier assets
+                  ),
+                ],
               ),
-              backgroundColor: Colors.orangeAccent,
             ),
-            onPressed: () {
-              // Action à effectuer lors de l'appui sur le bouton
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EmergencyCallPage()),
-              );
-            },
-          ),
-          SizedBox(height: 20),
-          ElevatedButton.icon(
-            icon: Icon(Icons.report_problem, size: 40),
-            label: Text(
-              'Signaler une autre urgence',
-              style: TextStyle(fontSize: 20),
+            verticalSpaceLarge,
+            ButtonWidget(
+              color: Colors.redAccent,
+              label: "Signaler une urgence ",
+              icon: Icons.report_problem,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EmergencyReportPage()),
+                );
+              },
             ),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              backgroundColor: Colors.orangeAccent,
+            verticalSpaceSmall,
+            ButtonWidget(
+              color: Colors.orangeAccent,
+              label: "Appeler un service",
+              icon: Icons.phone,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EmergencyCallPage()),
+                );
+              },
             ),
-            onPressed: () {
-              // Action à effectuer lors de l'appui sur le bouton
-            },
-          ),
-          Spacer(), // Espace flexible pour centrer les boutons verticalement
-        ],
+            verticalSpaceSmall,
+            ButtonWidget(
+                color: Colors.orangeAccent,
+                label: "Signaler une autre urgence",
+                icon: Icons.report_sharp,
+                onTap: () {}),
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:images_picker/images_picker.dart';
 import 'dart:io';
@@ -47,17 +49,18 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        // backgroundColor: ,
+        iconTheme: const IconThemeData(color: primaryColor),
         centerTitle: true,
-        title: Text(
-          'Signaler une Urgence',
-          style: TextStyle(color: Colors.white),
+        title: TitleWidget(
+          text: 'Signaler une Urgence',
+          color: primaryColor,
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 50),
             Text(
@@ -66,6 +69,8 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
             ),
             SizedBox(height: 10),
             DropdownButton<String>(
+              iconEnabledColor: primaryColor,
+              style: TextStyle(fontWeight: FontWeight.bold),
               value: _selectedEmergencyType.isEmpty
                   ? null
                   : _selectedEmergencyType,
@@ -112,7 +117,7 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
                 : SizedBox.shrink(),
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 100, right: 100),
+              padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: _submitReport,
                 child: Text(
@@ -120,8 +125,7 @@ class _EmergencyReportPageState extends State<EmergencyReportPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  backgroundColor: primaryColor,
                 ),
               ),
             ),
