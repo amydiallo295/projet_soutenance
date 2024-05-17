@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bottom Navigation Bar Example',
+      title: 'Emergency',
+      color: Colors.blue,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -33,7 +34,12 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bottom Navigation Bar Example'),
+        backgroundColor: Colors.blue,
+        title: const Text(
+          'Emergency',
+          style: TextStyle(
+              color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+        ),
       ),
       body: IndexedStack(
         index: selectedIndex,
@@ -48,11 +54,17 @@ class HomeScreen extends ConsumerWidget {
             ref.read(bottomNavigationBarProvider.notifier).state = index,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+              color: Colors.blue,
+            ),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(
+              Icons.person,
+              color: Colors.blue,
+            ),
             label: 'Profil',
           ),
         ],

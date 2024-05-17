@@ -1,3 +1,4 @@
+import 'package:emergency/ui/sreens/emergencySettingsPage.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage2 extends StatefulWidget {
@@ -52,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage2> {
               'Informations du Profil',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             TextField(
               controller: _nameController,
               decoration: InputDecoration(labelText: 'Nom'),
@@ -65,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage2> {
               controller: _phoneController,
               decoration: InputDecoration(labelText: 'Téléphone'),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -79,6 +80,23 @@ class _ProfilePageState extends State<ProfilePage2> {
                 ));
               },
               child: Text('Enregistrer les modifications'),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+              icon: const Icon(Icons.settings),
+              label: const Text(
+                'Praramtre',
+                style: TextStyle(color: Color.fromARGB(255, 230, 43, 29)),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              ),
             ),
             SizedBox(height: 10),
             ElevatedButton(

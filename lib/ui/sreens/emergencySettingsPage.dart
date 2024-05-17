@@ -1,4 +1,5 @@
 import 'package:emergency/ui/sreens/emergencyProfilePage.dart';
+import 'package:emergency/ui/sreens/politiqueConfidentialit%C3%A9.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -18,16 +19,6 @@ class SettingsPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage2()),
-                );
-                // Action pour mettre à jour les informations de profil
-              },
-              child: Text('Modifier le profil'),
-            ),
             SizedBox(height: 20),
             Text(
               'Options de notification',
@@ -48,19 +39,37 @@ class SettingsPage extends StatelessWidget {
                 // Action pour activer/désactiver les notifications de confirmation de signalement
               },
             ),
-            SizedBox(height: 20),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PrivacyPolicyPage()));
+
+                // Action pour les conseils
+              },
+              child: Text(
+                'Politique de confidentialité et conditions d\'utilisation',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100),
+              ),
+            ),
+
+/**      
+ * 
+ * 
+ * 
+ * 
+ *             SizedBox(height: 20),
             Text(
               'Politique de confidentialité et conditions d\'utilisation',
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100),
-            ),
-/**            SizedBox(height: 10),
+            ),      SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 // Action pour afficher la politique de confidentialité et les conditions d'utilisation
               },
               child: Text('Afficher'),
             ), */
-            
           ],
         ),
       ),
