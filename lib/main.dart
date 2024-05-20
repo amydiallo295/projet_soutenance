@@ -40,7 +40,7 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(
         index: selectedIndex,
-        children: [DashboardScreen(), ProfilScreen()],
+        children: const [DashboardScreen(), ProfilePage()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: primaryColor,
@@ -60,18 +60,6 @@ class HomeScreen extends ConsumerWidget {
               // color: Colors.orangeAccent,
             ),
             label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.newspaper_outlined,
-              color: primaryColor,
-              size: 28,
-            ),
-            icon: Icon(
-              Icons.newspaper_outlined,
-              // color: Colors.orangeAccent,
-            ),
-            label: 'Infos',
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(

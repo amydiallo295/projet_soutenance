@@ -1,90 +1,163 @@
 import 'package:emergency/ui/sreens/emergencySettingsPage.dart';
-import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/ui/sreens/home_page/emercencyHistoryPage.dart';
+import 'package:emergency/ui/sreens/settingPage.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
-class ProfilScreen extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: ElevatedButton.icon(
-        onPressed: () {
-          // Action pour se déconnecter
-        },
-        icon: const Icon(
-          Icons.logout,
-          color: Colors.red,
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: TitleWidget(
+          text: "Profil",
         ),
-        label: const Text(
-          'Se déconnecter',
-          style: TextStyle(color: Color.fromARGB(255, 174, 170, 169)),
-        ),
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(10.0),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          Center(
-            child: const Column(
-              children: [
-                // Icone de profil
-                verticalSpaceMedium,
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey,
-                  child: Icon(
-                    Icons.person,
-                    size: 80,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 20),
-                // Nom de l'utilisateur
-                Text(
-                  'Nom de l\'utilisateur',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                // Biographie de l'utilisateur
-              ],
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.redAccent, Colors.orangeAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-          SizedBox(height: 20),
-          Divider(),
-          // Options
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Paramètres'),
-            onTap: () {
-              // Action pour aller à la page des paramètres
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildProfileHeader(),
+              const SizedBox(height: 20),
+              _buildProfileDetail('Nom', 'John Doe'),
+              const Divider(),
+              _buildProfileDetail('Téléphone', '+123 456 7890'),
+              const Divider(),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Action pour modifier le profil
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ),
+                label: const Text(
+                  'Modifier le profil',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Paramètres', style: TextStyle(fontSize: 14)),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                onTap: () {
+                  // Action pour naviguer vers les paramètres généraux
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingsPages(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title:
+                    const Text('Historiques', style: TextStyle(fontSize: 14)),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HistoryPage(),
+                    ),
+                  );
+
+                  // Action pour naviguer vers les paramètres de notifications
+                },
+              ),
+              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Action pour se déconnecter
+                },
+                icon: const Icon(Icons.logout, color: Colors.white),
+                label: const Text(
+                  'Se déconnecter',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+              ),
+            ],
           ),
-          ListTile(
-            leading: Icon(Icons.history),
-            title: Text('Historique'),
-            onTap: () {
-              // Action pour aller à la page des paramètres
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileHeader() {
+    return const Column(
+      children: [
+        CircleAvatar(
+          radius: 50,
+          backgroundColor: Colors.grey,
+          child: Icon(
+            Icons.person,
+            size: 90,
+            color: Colors.white,
           ),
-          ListTile(
-            leading: Icon(Icons.privacy_tip),
-            title: Text('Politique de confidentialité'),
-            onTap: () {
-              // Action pour afficher la politique de confidentialité
-            },
+        ),
+        SizedBox(height: 10),
+      ],
+    );
+  }
+
+  Widget _buildProfileDetail(String title, String detail) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            detail,
+            style: const TextStyle(
+              fontSize: 14,
+            ),
           ),
         ],
       ),

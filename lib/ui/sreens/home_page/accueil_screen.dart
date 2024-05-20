@@ -1,5 +1,6 @@
 import 'package:emergency/ui/sreens/InformationPage.dart';
 import 'package:emergency/ui/sreens/emergencyallPage.dart';
+import 'package:emergency/ui/sreens/helpage.dart';
 import 'package:emergency/ui/sreens/reportPage.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,22 @@ class DashboardScreen extends StatelessWidget {
                   );
                 },
               ),
+              _buildDashboardItem(
+                context,
+                color: Colors.tealAccent,
+                icon: Icons.help,
+                label: "Conseils",
+                onTap: () {
+                  // Action pour obtenir de l'aide
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AdvicePage(),
+                    ),
+                  );
+                },
+              ),
               // _buildDashboardItem(
               //   context,
               //   color: Colors.blueAccent,
@@ -85,12 +102,12 @@ class DashboardScreen extends StatelessWidget {
                 context,
                 color: Colors.greenAccent,
                 icon: Icons.info,
-                label: "Infos",
+                label: "À propos",
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const InformationPage(),
+                      builder: (context) => const InfoPage(),
                     ),
                   );
                 },
@@ -104,15 +121,6 @@ class DashboardScreen extends StatelessWidget {
               //     // Action pour afficher les informations sur l'application
               //   },
               // ),
-              _buildDashboardItem(
-                context,
-                color: Colors.tealAccent,
-                icon: Icons.help,
-                label: "Aide",
-                onTap: () {
-                  // Action pour obtenir de l'aide
-                },
-              ),
             ],
           ),
         ),
@@ -162,20 +170,43 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
-// class TitleWidgetGrid extends StatelessWidget {
-//   final String text;
 
-//   const TitleWidgetGrid({required this.text});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       text,
-//       style: const TextStyle(
-//         color: Colors.white,
-//         fontSize: 24,
-//         fontWeight: FontWeight.bold,
-//       ),
-//     );
-//   }
-// }
+
+
+
+
+//  padding: EdgeInsets.all(16.0),
+//             child: Column(
+//               children: [
+//                 Text(
+//                   'Bienvenue dans l\'application de signalement d\'urgence',
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 SizedBox(height: 10),
+//                 Text(
+//                   'Appuyez sur un bouton ci-dessous pour signaler une urgence.',
+//                   style: TextStyle(
+//                     fontSize: 13,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                 ),
+//               ],
+//             ),
+//           ),
+//           Center(
+//             child: Column(
+//               children: [
+//                 SizedBox(
+//                   height: 400, // Ajustez la hauteur en fonction de votre logo
+//                   width: 500,
+//                   child: Image.asset(
+//                       'assets/images/emergencylogo.png'), // Assurez-vous que le logo est dans le dossier assets
+//                 ),
+//               ],
+//             ),
+//           ),
