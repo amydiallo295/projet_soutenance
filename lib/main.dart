@@ -40,11 +40,11 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(
         index: selectedIndex,
-        children: [AccueilScreen(), InformationPage(), ProfilScreen()],
+        children: [DashboardScreen(), ProfilScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: primaryColor,
-        selectedIconTheme: IconThemeData(color: Colors.red),
+        selectedIconTheme: const IconThemeData(color: Colors.red),
         currentIndex: selectedIndex,
         onTap: (index) =>
             ref.read(bottomNavigationBarProvider.notifier).state = index,
@@ -57,7 +57,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             icon: Icon(
               Icons.home,
-              color: Colors.blue,
+              // color: Colors.orangeAccent,
             ),
             label: 'Accueil',
           ),
@@ -69,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             icon: Icon(
               Icons.newspaper_outlined,
-              color: Colors.blue,
+              // color: Colors.orangeAccent,
             ),
             label: 'Infos',
           ),
@@ -81,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             icon: Icon(
               Icons.person,
-              color: Colors.blue,
+              // color: Colors.orangeAccent,
             ),
             label: 'Profil',
           ),

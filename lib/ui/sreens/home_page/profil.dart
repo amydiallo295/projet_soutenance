@@ -33,7 +33,7 @@ class ProfilScreen extends StatelessWidget {
                 verticalSpaceMedium,
                 CircleAvatar(
                   radius: 50,
-                  backgroundColor: primaryColor,
+                  backgroundColor: Colors.grey,
                   child: Icon(
                     Icons.person,
                     size: 80,
@@ -69,7 +69,7 @@ class ProfilScreen extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.history),
             title: Text('Historique'),
             onTap: () {
               // Action pour aller à la page des paramètres

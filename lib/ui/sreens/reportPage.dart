@@ -1,149 +1,184 @@
-import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:images_picker/images_picker.dart';
-import 'dart:io';
 
-class EmergencyReportPage extends StatefulWidget {
+class EmergencySubmissionPage extends StatefulWidget {
+  const EmergencySubmissionPage({super.key});
+
   @override
-  _EmergencyReportPageState createState() => _EmergencyReportPageState();
+  // ignore: library_private_types_in_public_api
+  _EmergencySubmissionPageState createState() =>
+      _EmergencySubmissionPageState();
 }
 
-class _EmergencyReportPageState extends State<EmergencyReportPage> {
-  String _selectedEmergencyType = '';
-  final TextEditingController _detailsController = TextEditingController();
-  final ImagesPicker _picker = ImagesPicker();
-  List<XFile>? _imageFiles = [];
+class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
 
-  void _submitReport() {
-    if (_selectedEmergencyType.isNotEmpty &&
-        _detailsController.text.isNotEmpty &&
-        (_imageFiles != null && _imageFiles!.isNotEmpty)) {
-      // Submit the report logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Rapport d\'urgence soumis.')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Veuillez remplir toutes les informations.')),
-      );
-    }
-  }
-
-  Future<void> _pickImages() async {
-    try {
-      // final List<XFile>? pickedFiles = await _picker.pi;
-      //if (pickedFiles != null) {
-      //setState(() {
-      //_imageFiles = pickedFiles;
-      //});
-      //}
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erreur lors de la sélection des images.')),
-      );
-    }
-  }
+  String? selectedEmergencyType;
+  final List<String> emergencyTypes = [
+    'Incendie',
+    'Accident de la route',
+    'Crime',
+    'Urgence médicale',
+    'Catastrophe naturelle',
+    'Autre'
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: Colors.redAccent,
         iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
-        title: TitleWidget(
-          text: 'Signaler une Urgence',
-          // color: primaryColor,
+        title: TitleWidget(text: "Soumission d'urgence"),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.redAccent, Colors.orangeAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 50),
-              Text(
-                'Sélectionnez le type d\'urgence :',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              DropdownButton<String>(
-                iconEnabledColor: primaryColor,
-                style: TextStyle(fontWeight: FontWeight.bold),
-                value: _selectedEmergencyType.isEmpty
-                    ? null
-                    : _selectedEmergencyType,
-                hint: Text('Choisissez un type d\'urgence'),
-                items: <String>[
-                  'Incendie',
-                  'Accident',
-                  'Médical',
-                  'Criminalité'
-                ].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Colors.black),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Soumettre une nouvelle urgence',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.redAccent,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nom',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedEmergencyType = newValue!;
-                  });
-                },
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _detailsController,
-                maxLines: 4,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Détails supplémentaires',
-                  alignLabelWithHint: true,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 100, right: 100),
-                child: ElevatedButton(
-                  onPressed: _pickImages,
-                  child: Text('Ajouter des images'),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Numéro de téléphone',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
                 ),
-              ),
-              _imageFiles != null && _imageFiles!.isNotEmpty
-                  ? Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: _imageFiles!.map((XFile image) {
-                        return Image.file(File("image"),
-                            width: 100, height: 100);
-                      }).toList(),
-                    )
-                  : SizedBox.shrink(),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: _submitReport,
-                  child: Text(
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  value: selectedEmergencyType,
+                  items: emergencyTypes.map((type) {
+                    return DropdownMenuItem(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedEmergencyType = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Type d\'urgence',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: descriptionController,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: locationController,
+                  decoration: InputDecoration(
+                    labelText: 'Localisation',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: () {
+                    // Logique pour soumettre le formulaire
+                    String name = nameController.text;
+                    String phone = phoneController.text;
+                    String emergencyType =
+                        selectedEmergencyType ?? 'Non spécifié';
+                    String description = descriptionController.text;
+                    String location = locationController.text;
+
+                    // Afficher les données soumises pour l'instant
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Urgence soumise'),
+                          content: Text(
+                            'Nom: $name\n'
+                            'Numéro de téléphone: $phone\n'
+                            'Type d\'urgence: $emergencyType\n'
+                            'Description: $description\n'
+                            'Localisation: $location',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    backgroundColor: Colors.redAccent,
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  child: const Text(
                     'Soumettre',
                     style: TextStyle(color: Colors.white),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-class XFile {}

@@ -49,7 +49,7 @@ class ButtonWidget extends StatelessWidget {
       icon: Icon(
         icon,
         size: 30,
-        color: primaryColor,
+        color: Colors.white,
       ),
       label: Text(
         label,
