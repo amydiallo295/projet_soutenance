@@ -35,7 +35,7 @@ class Palette {
     ],
   );
   static const LinearGradient appBarGradien = LinearGradient(
-    colors: [Colors.redAccent, Colors.orangeAccent],
+    colors: [appBarColor, Colors.orangeAccent],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

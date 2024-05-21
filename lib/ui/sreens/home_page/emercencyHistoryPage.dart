@@ -9,7 +9,7 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppBarColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(text: "Historique des Signalements"),
         flexibleSpace: Container(

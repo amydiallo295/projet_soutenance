@@ -1,5 +1,4 @@
 
-
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class EmergencyCallPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.redAccent,
+                  color: AppBarColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -52,7 +51,7 @@ class EmergencyCallPage extends StatelessWidget {
                 icon: const Icon(Icons.local_fire_department),
                 label: const Text('Appeler les pompiers'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: AppBarColor,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),

@@ -189,7 +189,7 @@ class InfoPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.redAccent,
+                    color: AppBarColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -250,7 +250,7 @@ class InfoPage extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.redAccent,
+            color: AppBarColor,
           ),
         ),
         const SizedBox(height: 10),
