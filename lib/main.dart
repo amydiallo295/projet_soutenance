@@ -1,5 +1,4 @@
 import 'package:emergency/routers/routes.dart';
-import 'package:emergency/ui/sreens/InformationPage.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
 import 'package:emergency/utils/app_colors.dart';
@@ -8,7 +7,9 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main()async {
+ WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-     
+ 
       home: const HomeScreen(),
     );
   }
@@ -80,3 +81,11 @@ class HomeScreen extends ConsumerWidget {
 }
 
 final bottomNavigationBarProvider = StateProvider<int>((ref) => 0);
+
+
+
+
+
+
+
+
