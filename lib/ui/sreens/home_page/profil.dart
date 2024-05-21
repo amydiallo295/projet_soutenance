@@ -1,6 +1,7 @@
 import 'package:emergency/ui/sreens/emergencySettingsPage.dart';
 import 'package:emergency/ui/sreens/home_page/emercencyHistoryPage.dart';
 import 'package:emergency/ui/sreens/settingPage.dart';
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppBarColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(
           text: "Profil",
@@ -19,7 +20,7 @@ class ProfilePage extends StatelessWidget {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.redAccent, Colors.orangeAccent],
+              colors: [AppBarColor, Colors.orangeAccent],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -109,7 +110,7 @@ class ProfilePage extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: AppBarColor,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),

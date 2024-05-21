@@ -39,9 +39,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   badges: ^3.1.2
-  images_picker: ^1.0.0
+  images_picker: ^1.1.1
   url_launcher: ^6.0.20
   flutter_riverpod: ^2.5.1
+  google_maps_flutter: ^2.6.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

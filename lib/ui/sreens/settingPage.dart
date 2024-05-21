@@ -1,3 +1,4 @@
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class SettingsPages extends StatelessWidget {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(text: "Paramètres"),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppBarColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

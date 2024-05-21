@@ -2,6 +2,7 @@ import 'package:emergency/ui/sreens/InformationPage.dart';
 import 'package:emergency/ui/sreens/emergencyallPage.dart';
 import 'package:emergency/ui/sreens/helpage.dart';
 import 'package:emergency/ui/sreens/reportPage.dart';
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppBarColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(text: "EMERCENCY"),
         actions: [
@@ -27,7 +28,7 @@ class DashboardScreen extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.redAccent,
+                AppBarColor,
                 //  Colors.orangeAccent
               ],
               begin: Alignment.topLeft,

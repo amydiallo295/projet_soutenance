@@ -151,6 +151,7 @@
 //   }
 // }
 
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -161,7 +162,7 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppBarColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(
           text: "Informations",
@@ -169,7 +170,7 @@ class InfoPage extends StatelessWidget {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.redAccent, Colors.orangeAccent],
+              colors: [AppBarColor, Colors.orangeAccent],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -188,7 +189,7 @@ class InfoPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.redAccent,
+                    color: AppBarColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -249,7 +250,7 @@ class InfoPage extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.redAccent,
+            color: AppBarColor,
           ),
         ),
         const SizedBox(height: 10),

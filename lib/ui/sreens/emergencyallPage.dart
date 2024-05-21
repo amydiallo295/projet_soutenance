@@ -70,6 +70,7 @@
 //   }
 // }
 
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -93,7 +94,7 @@ class EmergencyCallPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppBarColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(
           text: "Appeler un service",
@@ -101,7 +102,7 @@ class EmergencyCallPage extends StatelessWidget {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.redAccent, Colors.orangeAccent],
+              colors: [AppBarColor, Colors.orangeAccent],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -119,7 +120,7 @@ class EmergencyCallPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.redAccent,
+                  color: AppBarColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -129,7 +130,7 @@ class EmergencyCallPage extends StatelessWidget {
                 icon: const Icon(Icons.local_fire_department),
                 label: const Text('Appeler les pompiers'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: AppBarColor,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),

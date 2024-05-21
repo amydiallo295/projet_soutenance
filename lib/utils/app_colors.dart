@@ -6,7 +6,9 @@ const Color darkGrey = Color.fromARGB(255, 18, 18, 19);
 const Color backgroundColor = Color.fromARGB(255, 26, 27, 30);
 
 // Candidate colors
-const Color primaryColor = Colors.redAccent;
+const Color primaryColor = Colors.blue;
+const AppBarColor = Colors.blue;
+//AppBarColor;
 //  Colors.orangeAccent;
 //  Color.fromARGB(255, 19, 7, 110);
 
@@ -32,7 +34,7 @@ class Palette {
     ],
   );
   static const LinearGradient appBarGradien = LinearGradient(
-    colors: [Colors.redAccent, Colors.orangeAccent],
+    colors: [AppBarColor, Colors.orangeAccent],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
