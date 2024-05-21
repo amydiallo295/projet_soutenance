@@ -120,7 +120,7 @@ class AdvicePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppBarColor,
+                    color: appBarColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -185,7 +185,7 @@ class AdvicePage extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: AppBarColor,
+            color: appBarColor,
           ),
         ),
         const SizedBox(height: 10),

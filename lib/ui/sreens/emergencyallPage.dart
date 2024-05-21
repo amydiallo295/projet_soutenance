@@ -41,7 +41,7 @@ class EmergencyCallPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: AppBarColor,
+                  color: appBarColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -51,7 +51,7 @@ class EmergencyCallPage extends StatelessWidget {
                 icon: const Icon(Icons.local_fire_department),
                 label: const Text('Appeler les pompiers'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppBarColor,
+                  backgroundColor: appBarColor,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),

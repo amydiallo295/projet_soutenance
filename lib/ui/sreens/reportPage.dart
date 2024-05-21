@@ -34,18 +34,9 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppBarColor,
+        backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(text: "Soumission d'urgence"),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppBarColor, Colors.orangeAccent],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -59,7 +50,7 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppBarColor,
+                    color: appBarColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -186,7 +177,7 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    backgroundColor: AppBarColor,
+                    backgroundColor: appBarColor,
                     textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
