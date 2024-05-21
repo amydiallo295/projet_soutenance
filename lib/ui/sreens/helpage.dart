@@ -92,6 +92,7 @@
 //   }
 // }
 
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -102,18 +103,10 @@ class AdvicePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        iconTheme: const IconThemeData(color: Colors.white),
+         iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: primaryColor,
         title: TitleWidget(text: "Conseils d'urgence"),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.redAccent, Colors.orangeAccent],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
+     
       ),
       body: SafeArea(
         child: Padding(

@@ -1,30 +1,63 @@
-import 'package:emergency/utils/app_colors.dart';
+
+
+
+
+
+import 'package:emergency/ui/sreens/InformationPage.dart';
+import 'package:emergency/ui/sreens/emergencyallPage.dart';
+import 'package:emergency/ui/sreens/helpage.dart';
+import 'package:emergency/ui/sreens/reportPage.dart';
 import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
 
-// final GoRouter router =
-//     GoRouter(initialLocation: StartAppView.routePath, routes: [
-//   GoRoute(
-//     path: '',
-//     builder: (context, state) {
-//       return Container();
-//     },
-//   )
-// ]);
-
-class StartAppView extends StatelessWidget {
-  const StartAppView({super.key});
-  static const startupRoute = 'startupView';
-
-  @override
-  Widget build(BuildContext context) {
-    // Duration(seconds: 3)
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(
-          color: primaryColor,
-        ),
-      ),
+Route createRouteSumited () {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const EmergencySubmissionPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
     );
   }
-}
+  
+  
+Route createRouteAbout () {
+  print('jdkjdkjjkdjkd');
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const InfoPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }
+
+
+
+  Route createRouteCall () {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const EmergencyCallPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }
+
+
+   Route createRouteAdvice () {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const AdvicePage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+  }

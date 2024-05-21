@@ -1,7 +1,9 @@
+import 'package:emergency/routers/routes.dart';
 import 'package:emergency/ui/sreens/InformationPage.dart';
 import 'package:emergency/ui/sreens/emergencyallPage.dart';
 import 'package:emergency/ui/sreens/helpage.dart';
 import 'package:emergency/ui/sreens/reportPage.dart';
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(text: "EMERCENCY"),
         actions: [
@@ -23,18 +25,7 @@ class DashboardScreen extends StatelessWidget {
             },
           ),
         ],
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.redAccent,
-                //  Colors.orangeAccent
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
+       
       ),
       body: SafeArea(
         child: Padding(
@@ -50,27 +41,19 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.report_problem,
                 label: "Signaler une urgence",
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EmergencySubmissionPage(),
-                      //  EmergencyReportPage(),
-                    ),
-                  );
+                 
+                  Navigator.of(context).push(createRouteSumited());
+                 
                 },
               ),
               _buildDashboardItem(
                 context,
-                color: Colors.orangeAccent,
+                color: primaryColor,
                 icon: Icons.phone,
                 label: "Appeler un service",
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EmergencyCallPage(),
-                    ),
-                  );
+                   Navigator.of(context).push(createRouteCall ());
+                  
                 },
               ),
               _buildDashboardItem(
@@ -79,53 +62,32 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.help,
                 label: "Conseils",
                 onTap: () {
-                  // Action pour obtenir de l'aide
+                  createRouteAdvice () ;
+                Navigator.of(context).push(createRouteAdvice () );
+              
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AdvicePage(),
-                    ),
-                  );
+                
                 },
               ),
-              // _buildDashboardItem(
-              //   context,
-              //   color: Colors.blueAccent,
-              //   icon: Icons.history,
-              //   label: "Historique",
-              //   onTap: () {
-              //     // Action pour voir l'historique
-              //   },
-              // ),
+            
               _buildDashboardItem(
                 context,
                 color: Colors.greenAccent,
                 icon: Icons.info,
                 label: "À propos",
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const InfoPage(),
-                    ),
-                  );
+                   Navigator.of(context).push(createRouteAbout() );
+                 createRouteAbout();
                 },
               ),
-              // _buildDashboardItem(
-              //   context,
-              //   color: Colors.purpleAccent,
-              //   icon: Icons.info,
-              //   label: "À propos",
-              //   onTap: () {
-              //     // Action pour afficher les informations sur l'application
-              //   },
-              // ),
+        
             ],
           ),
         ),
       ),
     );
+
+    
   }
 
   Widget _buildDashboardItem(

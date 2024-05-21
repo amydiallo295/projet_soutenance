@@ -6,7 +6,10 @@ const Color darkGrey = Color.fromARGB(255, 18, 18, 19);
 const Color backgroundColor = Color.fromARGB(255, 26, 27, 30);
 
 // Candidate colors
-const Color primaryColor = Colors.redAccent;
+const Color primaryColor = 
+Colors.blue;
+const appBarColor= Colors.redAccent;
+
 //  Colors.orangeAccent;
 //  Color.fromARGB(255, 19, 7, 110);
 

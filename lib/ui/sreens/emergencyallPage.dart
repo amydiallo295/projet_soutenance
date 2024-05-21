@@ -1,75 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
-// class EmergencyCallPage extends StatelessWidget {
-//   void _callEmergencyNumber(String number) async {
-//     final url = 'tel:$number';
-//     if (await canLaunch(url)) {
-//       await launch(url);
-//     } else {
-//       throw 'Could not launch $url';
-//     }
-//   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Appeler les Services d\'Urgence'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.stretch,
-//           children: [
-//             ElevatedButton(
-//               onPressed: () => _callEmergencyNumber('112'),
-//               style: ElevatedButton.styleFrom(
-//                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-//               ),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Text('Appeler une ambulance'),
-//                   Icon(Icons.call),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: () => _callEmergencyNumber('17'),
-//               style: ElevatedButton.styleFrom(
-//                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-//               ),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Text('Appeler la Police'),
-//                   Icon(Icons.call),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: () => _callEmergencyNumber('18'),
-//               style: ElevatedButton.styleFrom(
-//                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-//               ),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Text('Appeler les Pompiers'),
-//                   Icon(Icons.call),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -93,20 +24,12 @@ class EmergencyCallPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(
           text: "Appeler un service",
         ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.redAccent, Colors.orangeAccent],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
+      
       ),
       body: SafeArea(
         child: Padding(
@@ -125,7 +48,7 @@ class EmergencyCallPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               ElevatedButton.icon(
-                onPressed: () => _makePhoneCall('112'),
+                onPressed: () => _makePhoneCall('18'),
                 icon: const Icon(Icons.local_fire_department),
                 label: const Text('Appeler les pompiers'),
                 style: ElevatedButton.styleFrom(
@@ -138,7 +61,7 @@ class EmergencyCallPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
-                onPressed: () => _makePhoneCall('911'),
+                onPressed: () => _makePhoneCall('117'),
                 icon: const Icon(Icons.local_police),
                 label: const Text('Appeler la police'),
                 style: ElevatedButton.styleFrom(
@@ -151,7 +74,7 @@ class EmergencyCallPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
-                onPressed: () => _makePhoneCall('911'),
+                onPressed: () => _makePhoneCall('116'),
                 icon: const Icon(Icons.local_hospital),
                 label: const Text('Appeler une ambulance'),
                 style: ElevatedButton.styleFrom(
@@ -164,7 +87,7 @@ class EmergencyCallPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
-                onPressed: () => _makePhoneCall('911'),
+                onPressed: () => _makePhoneCall('122'),
                 icon: const Icon(Icons.phone_in_talk),
                 label: const Text('Autre service'),
                 style: ElevatedButton.styleFrom(
@@ -183,8 +106,4 @@ class EmergencyCallPage extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: EmergencyCallPage(),
-  ));
-}
+

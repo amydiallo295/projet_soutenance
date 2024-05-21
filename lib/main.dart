@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: StartAppView.startupRoute,
+     
       home: const HomeScreen(),
     );
   }

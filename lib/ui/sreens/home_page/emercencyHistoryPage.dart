@@ -1,3 +1,4 @@
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class HistoryPage extends StatelessWidget {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.redAccent, Colors.orangeAccent],
+              colors: [primaryColor, primaryColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
