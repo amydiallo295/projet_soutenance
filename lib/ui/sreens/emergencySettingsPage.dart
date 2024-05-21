@@ -8,6 +8,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Paramètres'),
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -38,20 +39,6 @@ class SettingsPage extends StatelessWidget {
               onChanged: (bool value) {
                 // Action pour activer/désactiver les notifications de confirmation de signalement
               },
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PrivacyPolicyPage()));
-
-                // Action pour les conseils
-              },
-              child: Text(
-                'Politique de confidentialité et conditions d\'utilisation',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w100),
-              ),
             ),
 
 /**      
