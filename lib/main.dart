@@ -1,6 +1,8 @@
 import 'package:emergency/routers/routes.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
+import 'package:emergency/ui/sreens/loginPage.dart';
+import 'package:emergency/ui/sreens/login_screen.dart';
 import 'package:emergency/utils/app_colors.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: const PhoneAuthPage(),
     );
   }
 }
