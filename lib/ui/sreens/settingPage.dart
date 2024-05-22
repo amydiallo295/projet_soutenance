@@ -1,3 +1,4 @@
+import 'package:emergency/ui/sreens/politiqueConfidentialit%C3%A9.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,11 @@ class SettingsPages extends StatelessWidget {
               'Confidentialité',
               Icons.lock,
               () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PrivacyPolicyPage()));
+
                 // Action à effectuer lors du clic sur "Confidentialité"
               },
             ),

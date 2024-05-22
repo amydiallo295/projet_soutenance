@@ -40,7 +40,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   badges: ^3.1.2
-  images_picker: ^1.2.11
+  image_picker: ^1.1.1
   url_launcher: ^6.0.20
   flutter_riverpod: ^2.5.1
   animations: ^2.0.11
