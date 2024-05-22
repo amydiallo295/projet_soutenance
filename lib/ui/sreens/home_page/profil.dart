@@ -1,6 +1,5 @@
-import 'package:emergency/ui/sreens/emergencySettingsPage.dart';
-import 'package:emergency/ui/sreens/home_page/emercencyHistoryPage.dart';
-import 'package:emergency/ui/sreens/settingPage.dart';
+import 'package:emergency/ui/sreens/home_page/emercency_history_page.dart';
+import 'package:emergency/ui/sreens/setting_page.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,7 @@ class ProfilePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SettingsPages(),
+                      builder: (context) => const SettingsPages(),
                     ),
                   );
                 },

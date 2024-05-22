@@ -40,12 +40,12 @@ class SettingsPages extends StatelessWidget {
                 // Action à effectuer lors du clic sur "Confidentialité"
               },
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Préférences',
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             _buildSettingItem(
               context,
               'Thème',
@@ -79,7 +79,7 @@ class SettingsPages extends StatelessWidget {
       title: Text(title),
       leading: Icon(icon),
       onTap: onTap,
-      trailing: Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios),
     );
   }
 

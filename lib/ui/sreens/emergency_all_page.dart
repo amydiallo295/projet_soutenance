@@ -12,8 +12,8 @@ class EmergencyCallPage extends StatelessWidget {
       scheme: 'tel',
       path: phoneNumber,
     );
-    if (await canLaunch(launchUri.toString())) {
-      await launch(launchUri.toString());
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
     } else {
       throw 'Could not launch $phoneNumber';
     }

@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: Text(
+          title: const Text(
             'Emergency',
             style: TextStyle(color: Colors.white),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: badges.Badge(
                 badgeContent: Text(
                   '3',
@@ -28,14 +30,14 @@ class ProfilePage extends StatelessWidget {
             ),
 /** */
             IconButton(
-              icon: Icon(Icons.account_circle, color: Colors.white),
+              icon: const Icon(Icons.account_circle, color: Colors.white),
               onPressed: () {
                 // Action lorsque l'icône de profile est cliquée
               },
             ),
           ],
         ),
-        body: Column(
+        body: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
@@ -52,7 +54,7 @@ class ProfilePage extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.only(left: 20, bottom: 20),
+                padding: EdgeInsets.only(left: 20, bottom: 20),
                 child: Row(
                   children: [
                     Icon(Icons.settings),
@@ -81,7 +83,7 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Color.fromARGB(255, 221, 27, 13), // Couleur du fond
+          color: const Color.fromARGB(255, 221, 27, 13), // Couleur du fond
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -89,7 +91,7 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () {
                   // Action pour l'accueil
                 },
-                child: Text(
+                child: const Text(
                   'Accueil',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -98,7 +100,7 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () {
                   // Action pour les alertes
                 },
-                child: Text(
+                child: const Text(
                   'Alert',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -107,7 +109,7 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () {
                   // Action pour les conseils
                 },
-                child: Text(
+                child: const Text(
                   'Conseil',
                   style: TextStyle(color: Colors.white),
                 ),
