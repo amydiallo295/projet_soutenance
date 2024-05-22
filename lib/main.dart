@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main()async {
- WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
- 
       home: const HomeScreen(),
     );
   }
@@ -81,11 +80,3 @@ class HomeScreen extends ConsumerWidget {
 }
 
 final bottomNavigationBarProvider = StateProvider<int>((ref) => 0);
-
-
-
-
-
-
-
-

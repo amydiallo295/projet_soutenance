@@ -197,13 +197,12 @@
 //   }
 // }
 
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:images_picker/images_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
-import "package:images_picker/images_picker.dart";
 
 class EmergencySubmissionPage extends StatefulWidget {
   const EmergencySubmissionPage({super.key});
@@ -230,6 +229,13 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
   ];
 
   final List<File> _images = [];
+  Position? _currentPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -310,20 +316,8 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () async {
-                    getImage();
-                    // List<Media>? pickedImages = await ImagesPicker.pick(
-                    //   count: 3,
-                    //   pickType: PickType.image,
-                    // );
-                    // if (pickedImages != null) {
-                    //   setState(() {
-                    //     _images.addAll(
-                    //         pickedImages.map((media) => File(media.path)));
-                    //   });
-                    // }
-                  },
-                  child: Text('Ajouter des images'),
+                  onPressed: getImage,
+                  child: const Text('Ajouter des images'),
                 ),
                 SizedBox(
                   height: 200,
@@ -345,13 +339,17 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await _getCurrentLocation();
+
                     String name = nameController.text;
                     String phone = phoneController.text;
                     String emergencyType =
                         selectedEmergencyType ?? 'Non spécifié';
                     String description = descriptionController.text;
-                    String location = locationController.text;
+                    String location = _currentPosition != null
+                        ? '${_currentPosition!.latitude}, ${_currentPosition!.longitude}'
+                        : 'Non spécifié';
 
                     showDialog(
                       context: context,
@@ -361,7 +359,8 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
                           content: Text('Nom: $name\n'
                               'Numéro de téléphone: $phone\n'
                               'Type d\'urgence: $emergencyType\n'
-                              'Description: $description\n'),
+                              'Description: $description\n'
+                              'Localisation: $location\n'),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -398,16 +397,44 @@ class _EmergencySubmissionPageState extends State<EmergencySubmissionPage> {
     );
   }
 
-  
-}
-
-  Future getImage() async {
-    List<Media>? res = await ImagesPicker.pick(
+  Future<void> getImage() async {
+    List<Media>? pickedImages = await ImagesPicker.pick(
       count: 3,
       pickType: PickType.image,
     );
-// Media
-// .path
-// .thumbPath (path for video thumb)
-// .size (kb)
+    if (pickedImages != null) {
+      setState(() {
+        _images.addAll(pickedImages.map((media) => File(media.path)));
+      });
+    }
+  }
+
+  Future<void> _getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Les services de localisation sont désactivés.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Les permissions de localisation sont refusées.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Les permissions de localisation sont refusées de façon permanente, nous ne pouvons pas demander les permissions.');
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _currentPosition = position;
+    });
+  }
 }
