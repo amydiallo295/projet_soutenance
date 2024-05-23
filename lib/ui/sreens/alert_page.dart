@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 
 class AlertPage extends StatelessWidget {
+  const AlertPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,7 +30,7 @@ class AlertPage extends StatelessWidget {
             ),
 /** */
             IconButton(
-              icon: Icon(Icons.account_circle, color: Colors.white),
+              icon: const Icon(Icons.account_circle, color: Colors.white),
               onPressed: () {
                 // Action lorsque l'icône de profile est cliquée
               },
@@ -61,10 +63,10 @@ class AlertPage extends StatelessWidget {
                               width:
                                   200, // Ajustez la largeur selon votre besoin
                             ),
-                            SizedBox(
+                            const SizedBox(
                                 height:
                                     20), // Espace vertical entre l'image et le texte
-                            Text(
+                            const Text(
                               "Cliquer sur ce bouton pour emmettre une alerte d'urgence",
                               style: TextStyle(
                                   fontSize: 20,
@@ -89,14 +91,14 @@ class AlertPage extends StatelessWidget {
                                 // Action pour le bouton
                               },
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color.fromARGB(
+                                  backgroundColor: const Color.fromARGB(
                                       255, 221, 27, 13), // Couleur du bouton
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(50)
+                                  shape: const CircleBorder(),
+                                  padding:const EdgeInsets.all(50)
 
                                   // Forme du bouton en cercle
                                   ),
-                              child: Text(
+                              child:const Text(
                                 'Signaler un incident',
                                 style: TextStyle(
                                   color: Colors
@@ -116,7 +118,7 @@ class AlertPage extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Color.fromARGB(255, 221, 27, 13), // Couleur du fond
+          color: const Color.fromARGB(255, 221, 27, 13), // Couleur du fond
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -124,7 +126,7 @@ class AlertPage extends StatelessWidget {
                 onPressed: () {
                   // Action pour l'accueil
                 },
-                child: Text(
+                child: const Text(
                   'Accueil',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -133,7 +135,7 @@ class AlertPage extends StatelessWidget {
                 onPressed: () {
                   // Action pour les alertes
                 },
-                child: Text(
+                child:const Text(
                   'Alert',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -142,7 +144,7 @@ class AlertPage extends StatelessWidget {
                 onPressed: () {
                   // Action pour les conseils
                 },
-                child: Text(
+                child: const Text(
                   'Conseil',
                   style: TextStyle(color: Colors.white),
                 ),

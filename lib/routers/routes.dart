@@ -3,10 +3,10 @@
 
 
 
-import 'package:emergency/ui/sreens/InformationPage.dart';
-import 'package:emergency/ui/sreens/emergencyallPage.dart';
+import 'package:emergency/ui/sreens/information_page.dart';
+import 'package:emergency/ui/sreens/emergency_all_page.dart';
 import 'package:emergency/ui/sreens/helpage.dart';
-import 'package:emergency/ui/sreens/reportPage.dart';
+import 'package:emergency/ui/sreens/report_page.dart';
 import 'package:flutter/material.dart';
 
 Route createRouteSumited () {
@@ -23,7 +23,6 @@ Route createRouteSumited () {
   
   
 Route createRouteAbout () {
-  print('jdkjdkjjkdjkd');
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const InfoPage(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {

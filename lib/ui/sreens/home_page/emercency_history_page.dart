@@ -79,7 +79,7 @@ class HistoryPage extends StatelessWidget {
             const SizedBox(height: 5),
             Text(
               'Type: $type',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.red,
               ),
             ),

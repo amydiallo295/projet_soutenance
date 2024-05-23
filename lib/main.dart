@@ -5,6 +5,9 @@ import 'package:emergency/ui/sreens/home_page/profil.dart';
 import 'package:emergency/ui/sreens/loginPage.dart';
 import 'package:emergency/ui/sreens/login_screen.dart';
 import 'package:emergency/utils/app_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+// Import the generated file
+import 'firebase_options.dart';
 
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -12,7 +15,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
