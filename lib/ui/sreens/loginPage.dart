@@ -14,8 +14,10 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
   bool isCodeSent = false;
+  final TextEditingController _nameController = TextEditingController();
 
   void sendCode() {
+    String name = _nameController.text; //recuperer le nom saisi
     // Simuler l'envoi du code et afficher le champ de saisie du code
     setState(() {
       isCodeSent = true;
@@ -23,6 +25,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   }
 
   void verifyCode() {
+    String name = _nameController.text;
     // Simuler la vérification du code et rediriger vers la page d'accueil
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -58,6 +61,15 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                 ),
                 const SizedBox(height: 40),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Prénom et nom',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
                 TextField(
                   controller: phoneController,
                   keyboardType: TextInputType.phone,

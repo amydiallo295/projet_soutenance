@@ -1,4 +1,5 @@
 import 'package:emergency/routers/routes.dart';
+import 'package:emergency/ui/sreens/animation.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
 import 'package:emergency/ui/sreens/loginPage.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const PhoneAuthPage(),
+      home: const SplashScreen(),
     );
   }
 }
