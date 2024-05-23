@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../models/modelReport.dart';
 import '../services/serviceReport.dart';
-import 'package:geolocator/geolocator.dart';
 
 final emergencyViewModelProvider =
     ChangeNotifierProvider((ref) => EmergencyViewModel());
@@ -32,6 +32,11 @@ class EmergencyViewModel extends ChangeNotifier {
   final picker = ImagePicker();
 
   Position? get currentPosition => _currentPosition;
+
+  EmergencyViewModel() {
+    getCurrentLocation();
+  }
+  
   Future<void> getImageFromGallery() async {
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
@@ -40,34 +45,39 @@ class EmergencyViewModel extends ChangeNotifier {
 
     if (pickedFile != null) {
       image = File(pickedFile.path);
+      notifyListeners();
     } else {
       print("No image selected");
     }
   }
 
-  void setEmergencyType(value) {
+  void setEmergencyType(String? value) {
     selectedEmergencyType = value;
     notifyListeners();
   }
 
   Future<void> submitEmergency() async {
     final newSubmission = EmergencySubmission(
-      name: nameController.toString(),
-      phone: phoneController.toString(),
-      emergencyType: selectedEmergencyType.toString(),
-      description: descriptionController.toString(),
-      location: locationController.toString(),
-      // imageUrl: imageUrl,
+      name: nameController.text,
+      phone: phoneController.text,
+      emergencyType: selectedEmergencyType ?? '',
+      description: descriptionController.text,
+      location: _currentPosition != null
+          ? '${_currentPosition!.latitude}, ${_currentPosition!.longitude}'
+          : '',
     );
-    print("Voir les données du formulaire😢🎶😎😉🤞✌✌");
+    print("Voir les données du formulaire:");
     print(newSubmission.toString());
-    // return _service.submitEmergency(newSubmission, img);
+
+    if (image != null) {
+      await _service.submitEmergency(newSubmission, image!);
+    } else {
+      print("Aucune image sélectionnée pour la soumission.");
+    }
     notifyListeners();
   }
 
-  //await _service.submitEmergency(submission, image);
-  //recupperqtion de la localusation
-  Future<void> _getCurrentLocation() async {
+  Future<void> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
