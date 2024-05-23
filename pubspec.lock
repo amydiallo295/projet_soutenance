@@ -222,6 +222,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: "8cf40eebf5dec866a6d1956ad7b4f7016e6c0cc69847ab946833b7d43743809f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.19"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -305,8 +313,6 @@ packages:
     source: hosted
     version: "4.0.2"
   image_picker:
-    dependency: "direct dev"
-  images_picker:
     dependency: "direct main"
     description:
       name: image_picker
@@ -370,7 +376,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
-    version: "1.2.11"
   leak_tracker:
     dependency: transitive
     description:
@@ -444,7 +449,6 @@ packages:
     source: hosted
     version: "1.9.0"
   permission_handler:
-    dependency: "direct dev"
     dependency: "direct main"
     description:
       name: permission_handler
@@ -597,10 +601,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "360a6ed2027f18b73c8d98e159dda67a61b7f2e0f6ec26e86c3ada33b0621775"
+      sha256: "17cd5e205ea615e2c6ea7a77323a11712dffa0720a8a90540db57a01347f9ad9"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.1"
+    version: "6.3.2"
   url_launcher_ios:
     dependency: transitive
     description:

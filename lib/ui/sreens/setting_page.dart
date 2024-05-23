@@ -1,4 +1,4 @@
-import 'package:emergency/ui/sreens/politiqueConfidentialit%C3%A9.dart';
+import 'package:emergency/ui/sreens/politique_confidentialite.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';

@@ -60,7 +60,7 @@ class EmergencyViewModel extends ChangeNotifier {
       // imageUrl: imageUrl,
     );
     print("Voir les données du formulaire😢🎶😎😉🤞✌✌");
-    print(newSubmission);
+    print(newSubmission.toString());
     // return _service.submitEmergency(newSubmission, img);
     notifyListeners();
   }
