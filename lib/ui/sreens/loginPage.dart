@@ -1,6 +1,4 @@
 import 'package:emergency/main.dart';
-import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
-import 'package:emergency/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class PhoneAuthPage extends StatefulWidget {
@@ -43,7 +41,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Emergency',
                   style: TextStyle(
                     fontSize: 32,
@@ -52,7 +50,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Text(
+                const Text(
                   'Connexion',
                   style: TextStyle(
                     fontSize: 20,
@@ -74,7 +72,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone, color: Colors.blue),
+                    prefixIcon: const Icon(Icons.phone, color: Colors.blue),
                     labelText: 'Numéro de téléphone',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -87,7 +85,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                     controller: codeController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                      prefixIcon: const Icon(Icons.lock, color: Colors.blue),
                       labelText: 'Code de confirmation',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),

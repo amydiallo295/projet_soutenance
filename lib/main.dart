@@ -1,9 +1,6 @@
-import 'package:emergency/routers/routes.dart';
 import 'package:emergency/ui/sreens/animation.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
-import 'package:emergency/ui/sreens/loginPage.dart';
-import 'package:emergency/ui/sreens/login_screen.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 // Import the generated file
@@ -21,11 +18,11 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Emergency',

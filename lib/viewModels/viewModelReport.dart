@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import '../models/modelReport.dart';
+import '../models/model_report.dart';
 import '../services/serviceReport.dart';
 
 final emergencyViewModelProvider =
@@ -59,6 +59,7 @@ class EmergencyViewModel extends ChangeNotifier {
 
   Future<void> submitEmergency() async {
     final newSubmission = EmergencySubmission(
+      id: "${DateTime.now().millisecondsSinceEpoch}",
       name: nameController.text,
       phone: phoneController.text,
       emergencyType: selectedEmergencyType ?? '',
@@ -67,8 +68,6 @@ class EmergencyViewModel extends ChangeNotifier {
           ? '${_currentPosition!.latitude}, ${_currentPosition!.longitude}'
           : '',
     );
-    print("Voir les données du formulaire:");
-    print(newSubmission.toString());
 
     if (image != null) {
       await _service.submitEmergency(newSubmission, image!);

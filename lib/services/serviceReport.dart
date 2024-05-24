@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 
-import '../models/modelReport.dart';
+import '../models/model_report.dart';
 
 class EmergencyService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -14,6 +14,14 @@ class EmergencyService {
     return querySnapshot.docs;
   });
 
+  Future<List<EmergencySubmission>> getEmergencySubmissions() async {
+    QuerySnapshot snapshot = await _firestore.collection('emergencies').get();
+    List<EmergencySubmission> submissions = snapshot.docs.map((doc) {
+      return EmergencySubmission.fromMap(doc.data() as Map<String, dynamic>);
+    }).toList();
+    return submissions;
+  }
+
   Future<void> submitEmergency(
       EmergencySubmission submission, File? image) async {
     String? imageUrl;
@@ -23,6 +31,7 @@ class EmergencyService {
     }
 
     final newSubmission = EmergencySubmission(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: submission.name,
       phone: submission.phone,
       emergencyType: submission.emergencyType,
@@ -31,6 +40,12 @@ class EmergencyService {
       imageUrl: imageUrl,
     );
     await _firestore.collection('emergencies').add(newSubmission.toMap());
+  }
+
+  Future<List<DocumentSnapshot>> getEmergencies() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('emergencies').get();
+    return querySnapshot.docs;
   }
 
   Future<String> _uploadImage(File image) async {
