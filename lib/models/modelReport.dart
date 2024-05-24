@@ -4,7 +4,7 @@ class EmergencySubmission {
   final String emergencyType;
   final String description;
   final String location;
- // final String? imageUrl;
+  final String? imageUrl;
 
   EmergencySubmission({
     required this.name,
@@ -12,7 +12,7 @@ class EmergencySubmission {
     required this.emergencyType,
     required this.description,
     required this.location,
-   // this.imageUrl,
+    this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,7 +22,7 @@ class EmergencySubmission {
       'emergencyType': emergencyType,
       'description': description,
       'location': location,
-     // 'imageUrl': imageUrl,
+      'imageUrl': imageUrl,
     };
   }
 }

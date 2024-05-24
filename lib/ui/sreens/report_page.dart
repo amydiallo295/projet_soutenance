@@ -1,16 +1,13 @@
-import 'package:emergency/utils/app_colors.dart';
-import 'package:emergency/viewModels/viewModelReport.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '/utils/app_colors.dart';
-import '/utils/ui_helpers.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:emergency/viewModels/viewModelReport.dart';
 
 class EmergencySubmissionPage extends ConsumerStatefulWidget {
-  const EmergencySubmissionPage({super.key});
+  const EmergencySubmissionPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _EmergencySubmissionPageState createState() =>
       _EmergencySubmissionPageState();
 }
@@ -18,20 +15,12 @@ class EmergencySubmissionPage extends ConsumerStatefulWidget {
 class _EmergencySubmissionPageState
     extends ConsumerState<EmergencySubmissionPage> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(emergencyViewModelProvider).getCurrentLocation();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final reportProvider = ref.watch(emergencyViewModelProvider);
+    final emergencyViewModel = ref.watch(emergencyViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text("Soumission d'urgence"),
       ),
@@ -47,13 +36,13 @@ class _EmergencySubmissionPageState
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                    color: Colors.blue,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: reportProvider.nameController,
+                  controller: emergencyViewModel.nameController,
                   decoration: InputDecoration(
                     labelText: 'Nom',
                     border: OutlineInputBorder(
@@ -63,7 +52,7 @@ class _EmergencySubmissionPageState
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: reportProvider.phoneController,
+                  controller: emergencyViewModel.phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: 'Numéro de téléphone',
@@ -74,15 +63,15 @@ class _EmergencySubmissionPageState
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                  value: reportProvider.selectedEmergencyType,
-                  items: reportProvider.emergencyTypes.map((type) {
+                  value: emergencyViewModel.selectedEmergencyType,
+                  items: emergencyViewModel.emergencyTypes.map((type) {
                     return DropdownMenuItem(
                       value: type,
                       child: Text(type),
                     );
                   }).toList(),
                   onChanged: (value) {
-                    reportProvider.setEmergencyType(value);
+                    emergencyViewModel.setEmergencyType(value);
                   },
                   decoration: InputDecoration(
                     labelText: 'Type d\'urgence',
@@ -93,7 +82,7 @@ class _EmergencySubmissionPageState
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: reportProvider.descriptionController,
+                  controller: emergencyViewModel.descriptionController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     labelText: 'Description',
@@ -106,12 +95,12 @@ class _EmergencySubmissionPageState
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: reportProvider.getImageFromGallery,
+                    onPressed: emergencyViewModel.getImageFromGallery,
                     child: const Text('Ajouter une image'),
                   ),
                 ),
                 const SizedBox(height: 20),
-                reportProvider.image != null
+                emergencyViewModel.image != null
                     ? SizedBox(
                         width: 200,
                         child: Container(
@@ -124,9 +113,7 @@ class _EmergencySubmissionPageState
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12.0),
                             child: Image.file(
-                              reportProvider.image!,
-                              width: 300,
-                              height: 300,
+                              emergencyViewModel.image!,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -138,13 +125,13 @@ class _EmergencySubmissionPageState
                       ),
                 const SizedBox(height: 20),
                 Text(
-                  reportProvider.currentPosition != null
-                      ? 'Localisation: ${reportProvider.currentPosition!.latitude}, ${reportProvider.currentPosition!.longitude}'
+                  emergencyViewModel.currentPosition != null
+                      ? 'Localisation: ${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}'
                       : 'Localisation non disponible',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                    color: Colors.blue,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -152,19 +139,7 @@ class _EmergencySubmissionPageState
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await reportProvider.submitEmergency();
-
-                      String name = reportProvider.nameController.text;
-                      String phone = reportProvider.phoneController.text;
-                      String emergencyType =
-                          reportProvider.selectedEmergencyType ??
-                              'Non spécifié';
-                      String description =
-                          reportProvider.descriptionController.text;
-                      String location = reportProvider.currentPosition != null
-                          ? '${reportProvider.currentPosition!.latitude}, ${reportProvider.currentPosition!.longitude}'
-                          : 'Non spécifié';
-
+                      await emergencyViewModel.submitEmergency();
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -173,14 +148,16 @@ class _EmergencySubmissionPageState
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text('Nom: $name\n'
-                                    'Numéro de téléphone: $phone\n'
-                                    'Type d\'urgence: $emergencyType\n'
-                                    'Description: $description\n'
-                                    'Localisation: $location\n'),
-                                if (reportProvider.image != null)
+                                Text(
+                                  'Nom: ${emergencyViewModel.nameController.text}\n'
+                                  'Numéro de téléphone: ${emergencyViewModel.phoneController.text}\n'
+                                  'Type d\'urgence: ${emergencyViewModel.selectedEmergencyType}\n'
+                                  'Description: ${emergencyViewModel.descriptionController.text}\n'
+                                  'Localisation: ${emergencyViewModel.currentPosition != null ? '${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}' : 'Non disponible'}\n',
+                                ),
+                                if (emergencyViewModel.image != null)
                                   Image.file(
-                                    reportProvider.image!,
+                                    emergencyViewModel.image!,
                                     height: 50,
                                     width: 50,
                                     fit: BoxFit.scaleDown,
@@ -198,13 +175,15 @@ class _EmergencySubmissionPageState
                           );
                         },
                       );
+                      emergencyViewModel
+                          .resetFields(); // Réinitialiser les champs après la soumission
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      backgroundColor: appBarColor,
+                      backgroundColor: Colors.blue,
                       textStyle: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

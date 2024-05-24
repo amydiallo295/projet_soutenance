@@ -1,14 +1,15 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:geolocator/geolocator.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import '../models/modelReport.dart';
 import '../services/serviceReport.dart';
 
 final emergencyViewModelProvider =
     ChangeNotifierProvider((ref) => EmergencyViewModel());
+final emergencyServiceProvider = Provider((ref) => EmergencyService());
 
 class EmergencyViewModel extends ChangeNotifier {
   final EmergencyService _service = EmergencyService();
@@ -36,7 +37,7 @@ class EmergencyViewModel extends ChangeNotifier {
   EmergencyViewModel() {
     getCurrentLocation();
   }
-  
+
   Future<void> getImageFromGallery() async {
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
@@ -102,6 +103,16 @@ class EmergencyViewModel extends ChangeNotifier {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     _currentPosition = position;
+    notifyListeners();
+  }
+
+  void resetFields() {
+    nameController.clear();
+    phoneController.clear();
+    descriptionController.clear();
+    selectedEmergencyType = null;
+    image = null;
+    getCurrentLocation(); // Call getCurrentLocation to reset the location as well
     notifyListeners();
   }
 }

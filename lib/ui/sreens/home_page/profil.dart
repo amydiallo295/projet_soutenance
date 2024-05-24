@@ -12,11 +12,10 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-         iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(
           text: "Profil",
         ),
-       
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -82,7 +81,7 @@ class ProfilePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HistoryPage(),
+                      builder: (context) => HistoryPage(),
                     ),
                   );
 
