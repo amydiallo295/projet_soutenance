@@ -5,6 +5,7 @@ import 'dart:io';
 
 import '../models/model_report.dart';
 
+
 class EmergencyService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;

@@ -1,22 +1,16 @@
-import 'dart:io';
+import 'package:emergency/providers/emergency_submission.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:emergency/viewModels/viewModelReport.dart';
 
-class EmergencySubmissionPage extends ConsumerStatefulWidget {
-  const EmergencySubmissionPage({Key? key}) : super(key: key);
-
+class EmergencySubmissionPage extends ConsumerWidget {
+  const EmergencySubmissionPage({super.key});
   @override
-  _EmergencySubmissionPageState createState() =>
-      _EmergencySubmissionPageState();
-}
-
-class _EmergencySubmissionPageState
-    extends ConsumerState<EmergencySubmissionPage> {
-  @override
-  Widget build(BuildContext context) {
-    final emergencyViewModel = ref.watch(emergencyViewModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final emergencyViewModel = ref.watch(emergencyProvider.notifier);
+    final formState = ref.watch(emergencyFormProvider);
+    final selectedImage = ref.watch(selectedImageProvider);
+    final currentPosition = ref.watch(currentPositionProvider);
+    final emergencyNotifier = ref.watch(emergencyProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,17 +36,18 @@ class _EmergencySubmissionPageState
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: emergencyViewModel.nameController,
                   decoration: InputDecoration(
                     labelText: 'Nom',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                   ),
+                  onChanged: (value) {
+                    ref.read(emergencyFormProvider.notifier).updateName(value);
+                  },
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: emergencyViewModel.phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: 'Numéro de téléphone',
@@ -60,18 +55,32 @@ class _EmergencySubmissionPageState
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                   ),
+                  onChanged: (value) {
+                    ref.read(emergencyFormProvider.notifier).updatePhone(value);
+                  },
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                  value: emergencyViewModel.selectedEmergencyType,
-                  items: emergencyViewModel.emergencyTypes.map((type) {
+                  value: ref.watch(emergencyFormProvider).selectedEmergencyType,
+                  items: [
+                    'Incendie',
+                    'Accident de la route',
+                    'Crime',
+                    'Urgence médicale',
+                    'Catastrophe naturelle',
+                    'Autre'
+                  ].map((type) {
                     return DropdownMenuItem(
                       value: type,
                       child: Text(type),
                     );
                   }).toList(),
                   onChanged: (value) {
-                    emergencyViewModel.setEmergencyType(value);
+                    if (value != '') {
+                      ref
+                          .read(emergencyFormProvider.notifier)
+                          .updateEmergencyType(value);
+                    }
                   },
                   decoration: InputDecoration(
                     labelText: 'Type d\'urgence',
@@ -82,25 +91,35 @@ class _EmergencySubmissionPageState
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: emergencyViewModel.descriptionController,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
                     ),
-                  ),
-                ),
+                    onChanged: (value) {
+                      if (value != '') {
+                        ref
+                            .read(emergencyFormProvider.notifier)
+                            .updateDescription(value);
+                      }
+                    }),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: emergencyViewModel.getImageFromGallery,
+                    onPressed: () async {
+                      await ref
+                          .read(selectedImageProvider.notifier)
+                          .getImageFromGallery();
+                      debugPrint("Selected image button get pressed");
+                    },
                     child: const Text('Ajouter une image'),
                   ),
                 ),
                 const SizedBox(height: 20),
-                emergencyViewModel.image != null
+                selectedImage != null
                     ? SizedBox(
                         width: 200,
                         child: Container(
@@ -113,7 +132,7 @@ class _EmergencySubmissionPageState
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12.0),
                             child: Image.file(
-                              emergencyViewModel.image!,
+                              selectedImage,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -125,8 +144,8 @@ class _EmergencySubmissionPageState
                       ),
                 const SizedBox(height: 20),
                 Text(
-                  emergencyViewModel.currentPosition != null
-                      ? 'Localisation: ${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}'
+                  currentPosition != null
+                      ? 'Localisation: ${currentPosition.latitude}, ${currentPosition.longitude}'
                       : 'Localisation non disponible',
                   style: const TextStyle(
                     fontSize: 16,
@@ -139,7 +158,7 @@ class _EmergencySubmissionPageState
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await emergencyViewModel.submitEmergency();
+                      // await emergencyViewModel.submitEmergency();
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -149,15 +168,15 @@ class _EmergencySubmissionPageState
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  'Nom: ${emergencyViewModel.nameController.text}\n'
-                                  'Numéro de téléphone: ${emergencyViewModel.phoneController.text}\n'
-                                  'Type d\'urgence: ${emergencyViewModel.selectedEmergencyType}\n'
-                                  'Description: ${emergencyViewModel.descriptionController.text}\n'
-                                  'Localisation: ${emergencyViewModel.currentPosition != null ? '${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}' : 'Non disponible'}\n',
+                                  'Nom: ${formState.name}\n'
+                                  'Numéro de téléphone: ${formState.phone}\n'
+                                  'Type d\'urgence: ${formState.selectedEmergencyType}\n'
+                                  'Description: ${formState.description}\n'
+                                  'Localisation: ${currentPosition != null ? '${currentPosition.latitude}, ${currentPosition.longitude}' : 'Non disponible'}\n',
                                 ),
-                                if (emergencyViewModel.image != null)
+                                if (selectedImage != null)
                                   Image.file(
-                                    emergencyViewModel.image!,
+                                    selectedImage,
                                     height: 50,
                                     width: 50,
                                     fit: BoxFit.scaleDown,
@@ -175,8 +194,8 @@ class _EmergencySubmissionPageState
                           );
                         },
                       );
-                      emergencyViewModel
-                          .resetFields(); // Réinitialiser les champs après la soumission
+                      //reset form
+                      emergencyNotifier.formState.resetFields();
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
