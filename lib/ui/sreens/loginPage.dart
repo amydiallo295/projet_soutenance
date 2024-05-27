@@ -55,7 +55,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
           context,
           MaterialPageRoute(
             builder: (context) => EnterCodePage(
-                verificationId: verificationId, phoneNumber: phoneNumber),
+                verificationId: verificationId, phoneNumber: phoneNumber,userName:name),
           ),
         );
       },

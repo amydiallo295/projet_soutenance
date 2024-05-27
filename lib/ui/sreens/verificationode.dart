@@ -7,9 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class EnterCodePage extends StatefulWidget {
   final String verificationId;
   final String phoneNumber;
+  final String userName;
 
   const EnterCodePage(
-      {Key? key, required this.verificationId, required this.phoneNumber})
+      {Key? key,
+      required this.verificationId,
+      required this.phoneNumber,
+      required this.userName})
       : super(key: key);
 
   @override
@@ -32,15 +36,16 @@ class _EnterCodePageState extends State<EnterCodePage> {
 
     try {
       // Sign in the user with the credential
-      await _auth.signInWithCredential(credential);
+      await _auth.signInWithCredential(credential).then((value) async => {
+            await _firestore.collection('users').doc(widget.phoneNumber).set({
+              'phoneNumber': widget.phoneNumber,
+              'lastLogin': Timestamp.now(),
+              'name': widget.userName,
+              // Ajoutez d'autres informations de connexion que vous souhaitez enregistrer
+            })
+          });
 
       // Enregistrer les informations dans Firestore
-      await _firestore.collection('users').doc(widget.phoneNumber).set({
-        'phoneNumber': widget.phoneNumber,
-        'lastLogin': Timestamp.now(),
-        // Ajoutez d'autres informations de connexion que vous souhaitez enregistrer
-      });
-
       // Enregistrer l'état de connexion dans SharedPreferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
