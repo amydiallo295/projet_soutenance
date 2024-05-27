@@ -1,7 +1,8 @@
 import 'package:emergency/main.dart';
-import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
-import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/ui/sreens/verificationode.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PhoneAuthPage extends StatefulWidget {
   const PhoneAuthPage({super.key});
@@ -12,23 +13,57 @@ class PhoneAuthPage extends StatefulWidget {
 
 class _PhoneAuthPageState extends State<PhoneAuthPage> {
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController codeController = TextEditingController();
-  bool isCodeSent = false;
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void sendCode() {
-    String name = _nameController.text; //recuperer le nom saisi
-    // Simuler l'envoi du code et afficher le champ de saisie du code
-    setState(() {
-      isCodeSent = true;
-    });
+  void sendCode() async {
+    String phoneNumber = phoneController.text.trim();
+    String name = nameController.text.trim();
+      // Vérifiez si l'utilisateur est déjà connecté
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  if (isLoggedIn) {
+    // Si l'utilisateur est déjà connecté, naviguez vers l'écran d'accueil
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
+    return;
   }
 
-  void verifyCode() {
-    String name = _nameController.text;
-    // Simuler la vérification du code et rediriger vers la page d'accueil
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+  // Si l'utilisateur n'est pas déjà connecté, procédez à l'envoi du code de vérification
+  await prefs.setString('userName', name);
+
+    // Enregistrez le nom dans SharedPreferences
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setString('userName', name);
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        // Cette méthode est appelée automatiquement si Firebase peut vérifier le numéro de téléphone sans envoyer de code de confirmation.
+        // Vous pouvez gérer la connexion automatique ici si nécessaire.
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        // Gérez les erreurs de vérification, par exemple si le numéro de téléphone est invalide.
+        print('Erreur de vérification: ${e.message}');
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        // Cette méthode est appelée après l'envoi du code de vérification.
+        // Passez à l'écran suivant pour saisir le code de vérification
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EnterCodePage(
+                verificationId: verificationId, phoneNumber: phoneNumber),
+          ),
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Cette méthode est appelée lorsque le temps imparti pour récupérer automatiquement le code de vérification expire.
+        print('Délai de récupération automatique du code expiré');
+      },
+      timeout: const Duration(seconds: 60),
     );
   }
 
@@ -62,8 +97,10 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                 ),
                 const SizedBox(height: 40),
                 TextField(
+                  controller: nameController,
                   decoration: InputDecoration(
-                    labelText: 'Prénom et nom',
+                    prefixIcon: Icon(Icons.person, color: Colors.blue),
+                    labelText: 'Nom',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
@@ -82,30 +119,13 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (isCodeSent)
-                  TextField(
-                    controller: codeController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock, color: Colors.blue),
-                      labelText: 'Code de confirmation',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                  ),
-                const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    if (isCodeSent) {
-                      verifyCode();
-                    } else {
-                      sendCode();
-                    }
-                  },
+                  onPressed: sendCode,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15.0, horizontal: 30.0),
+                      vertical: 15.0,
+                      horizontal: 30.0,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
@@ -115,9 +135,9 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: Text(
-                    isCodeSent ? 'Vérifier le code' : 'Envoyer le code',
-                    style: const TextStyle(color: Colors.white),
+                  child: const Text(
+                    'Envoyer le code',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],
