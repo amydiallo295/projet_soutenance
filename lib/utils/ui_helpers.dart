@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 // ignore: must_be_immutable
 class TitleWidget extends StatelessWidget {
@@ -116,3 +117,7 @@ double halfScreenWidth(BuildContext context) =>
 
 double thirdScreenWidth(BuildContext context) =>
     screenWidthFraction(context, dividedBy: 3);
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);

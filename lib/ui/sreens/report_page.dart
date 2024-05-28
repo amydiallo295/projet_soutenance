@@ -7,6 +7,8 @@ class EmergencySubmissionPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final emergencyViewModel = ref.watch(emergencyProvider.notifier);
+    final getCurrentPosition =
+        ref.read(currentPositionProvider.notifier).getCurrentLocation();
     final formState = ref.watch(emergencyFormProvider);
     final selectedImage = ref.watch(selectedImageProvider);
     final currentPosition = ref.watch(currentPositionProvider);

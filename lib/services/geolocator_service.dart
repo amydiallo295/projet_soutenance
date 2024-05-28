@@ -1,3 +1,4 @@
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,7 +27,7 @@ class GeolocatorService {
     }
     final currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    debugPrint("currentPosition.toString(): ${currentPosition.toString()}");
+    logger.i("currentPosition.toString(): ${currentPosition.toString()}");
     return currentPosition;
   }
 }

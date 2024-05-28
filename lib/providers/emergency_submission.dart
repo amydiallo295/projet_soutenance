@@ -27,12 +27,12 @@ final emergencyFormProvider =
 // Provider principal pour gérer la soumission d'urgence
 final emergencyProvider =
     StateNotifierProvider<EmergencyNotifier, EmergencyState>((ref) {
-  final emergencyService = ref.watch(emergencyServiceProvider);
-  final imagePickerService = ref.watch(imagePickerServiceProvider);
-  final geolocatorService = ref.watch(geolocatorServiceProvider);
-  final selectedImage = ref.watch(selectedImageProvider.notifier);
-  final currentPosition = ref.watch(currentPositionProvider.notifier);
-  final formState = ref.watch(emergencyFormProvider.notifier);
+  final emergencyService = ref.read(emergencyServiceProvider);
+  final imagePickerService = ref.read(imagePickerServiceProvider);
+  final geolocatorService = ref.read(geolocatorServiceProvider);
+  final selectedImage = ref.read(selectedImageProvider.notifier);
+  final currentPosition = ref.read(currentPositionProvider.notifier);
+  final formState = ref.read(emergencyFormProvider.notifier);
 
   return EmergencyNotifier(
     emergencyService: emergencyService,
@@ -72,7 +72,8 @@ class EmergencyFormState {
       phone: phone ?? this.phone,
       description: description ?? this.description,
       location: location ?? this.location,
-      selectedEmergencyType: selectedEmergencyType ?? this.selectedEmergencyType,
+      selectedEmergencyType:
+          selectedEmergencyType ?? this.selectedEmergencyType,
     );
   }
 }
@@ -82,9 +83,9 @@ class EmergencyFormNotifier extends StateNotifier<EmergencyFormState> {
   EmergencyFormNotifier()
       : super(EmergencyFormState(
           name: "",
-          phone:  "",
+          phone: "",
           description: "",
-          location: "",      
+          location: "",
         ));
 
   void updateName(String name) {
@@ -96,8 +97,7 @@ class EmergencyFormNotifier extends StateNotifier<EmergencyFormState> {
   }
 
   void updateDescription(String description) {
-    state =
-        state.copyWith(description: description);
+    state = state.copyWith(description: description);
   }
 
   void updateLocation(String location) {
