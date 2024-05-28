@@ -15,28 +15,39 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    phoneController.addListener(() {
+      final text = phoneController.text;
+      if (!text.startsWith('+224 ')) {
+        phoneController.value = phoneController.value.copyWith(
+          text: '+224 ',
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: 5), // Position the cursor at the end
+          ),
+        );
+      }
+    });
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? loggedIn = prefs.getBool('isLoggedIn');
+    if (loggedIn != null && loggedIn) {
+      // Si l'utilisateur est déjà connecté, naviguer directement vers l'écran d'accueil
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
+  }
 
   void sendCode() async {
     String phoneNumber = phoneController.text.trim();
-    String name = nameController.text.trim();
-      // Vérifiez si l'utilisateur est déjà connecté
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-  if (isLoggedIn) {
-    // Si l'utilisateur est déjà connecté, naviguez vers l'écran d'accueil
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-    return;
-  }
-
-  // Si l'utilisateur n'est pas déjà connecté, procédez à l'envoi du code de vérification
-  await prefs.setString('userName', name);
-
-    // Enregistrez le nom dans SharedPreferences
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('userName', name);
+    String UserName = nameController.text.trim();
 
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
@@ -49,13 +60,17 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
         print('Erreur de vérification: ${e.message}');
       },
       codeSent: (String verificationId, int? resendToken) {
+        
+
         // Cette méthode est appelée après l'envoi du code de vérification.
         // Passez à l'écran suivant pour saisir le code de vérification
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => EnterCodePage(
-                verificationId: verificationId, phoneNumber: phoneNumber,userName:name),
+                verificationId: verificationId,
+                phoneNumber: phoneNumber,
+                userName: UserName),
           ),
         );
       },
@@ -96,22 +111,23 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                 ),
                 const SizedBox(height: 40),
+                const SizedBox(height: 40),
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person, color: Colors.blue),
-                    labelText: 'Nom',
+                    labelText: 'Prénom et nom',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 TextField(
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.phone, color: Colors.blue),
+                    // prefixText: '+224 ',
+                    //  Icon(Icons.phone, color: Colors.blue),
                     labelText: 'Numéro de téléphone',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
