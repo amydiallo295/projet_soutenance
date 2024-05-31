@@ -25,6 +25,7 @@ class EmergencyService {
     final newSubmission = EmergencySubmission(
       name: submission.name,
       phone: submission.phone,
+      status: submission.status,
       emergencyType: submission.emergencyType,
       description: submission.description,
       location: submission.location,

@@ -21,7 +21,6 @@ class DashboardScreen extends StatelessWidget {
             },
           ),
         ],
-       
       ),
       body: SafeArea(
         child: Padding(
@@ -37,9 +36,7 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.report_problem,
                 label: "Signaler une urgence",
                 onTap: () {
-                 
                   Navigator.of(context).push(createRouteSumited());
-                 
                 },
               ),
               _buildDashboardItem(
@@ -48,8 +45,7 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.phone,
                 label: "Appeler un service",
                 onTap: () {
-                   Navigator.of(context).push(createRouteCall ());
-                  
+                  Navigator.of(context).push(createRouteCall());
                 },
               ),
               _buildDashboardItem(
@@ -58,32 +54,25 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.help,
                 label: "Conseils",
                 onTap: () {
-                  createRouteAdvice () ;
-                Navigator.of(context).push(createRouteAdvice () );
-              
-
-                
+                  createRouteAdvice();
+                  Navigator.of(context).push(createRouteAdvice());
                 },
               ),
-            
               _buildDashboardItem(
                 context,
                 color: Colors.greenAccent,
                 icon: Icons.info,
                 label: "À propos",
                 onTap: () {
-                   Navigator.of(context).push(createRouteAbout() );
-                 createRouteAbout();
+                  Navigator.of(context).push(createRouteAbout());
+                  createRouteAbout();
                 },
               ),
-        
             ],
           ),
         ),
       ),
     );
-
-    
   }
 
   Widget _buildDashboardItem(

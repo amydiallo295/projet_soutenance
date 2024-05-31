@@ -63,6 +63,7 @@ class EmergencyViewModel extends ChangeNotifier {
       phone: phoneController.text,
       emergencyType: selectedEmergencyType ?? '',
       description: descriptionController.text,
+      status: false,
       location: _currentPosition != null
           ? '${_currentPosition!.latitude}, ${_currentPosition!.longitude}'
           : '',

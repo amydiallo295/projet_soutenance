@@ -3,6 +3,7 @@ class EmergencySubmission {
   final String phone;
   final String emergencyType;
   final String description;
+  final bool status;
   final String location;
   final String? imageUrl;
 
@@ -10,6 +11,7 @@ class EmergencySubmission {
     required this.name,
     required this.phone,
     required this.emergencyType,
+    required this.status,
     required this.description,
     required this.location,
     this.imageUrl,
@@ -22,6 +24,7 @@ class EmergencySubmission {
       'emergencyType': emergencyType,
       'description': description,
       'location': location,
+      'status': status,
       'imageUrl': imageUrl,
     };
   }

@@ -38,7 +38,7 @@ class _RegistrationScren extends State<RegistrationScren> {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -46,14 +46,14 @@ class _RegistrationScren extends State<RegistrationScren> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
                 controller: _nameController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
                   labelText: 'Nom et Prenom',
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: UnderlineInputBorder(
@@ -63,8 +63,8 @@ class _RegistrationScren extends State<RegistrationScren> {
               ),
               TextField(
                 controller: _emailController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: UnderlineInputBorder(
@@ -75,8 +75,8 @@ class _RegistrationScren extends State<RegistrationScren> {
               const SizedBox(height: 20.0),
               TextField(
                 controller: _phoneController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
                   labelText: 'Telephone',
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: UnderlineInputBorder(
@@ -85,7 +85,7 @@ class _RegistrationScren extends State<RegistrationScren> {
                 ),
                 obscureText: true,
               ),
-              TextField(
+              const TextField(
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'Mot de passe',
@@ -96,11 +96,11 @@ class _RegistrationScren extends State<RegistrationScren> {
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextField(
                 controller: _revalidatePasController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
                   labelText: 'Confirmer le mot de passe',
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: UnderlineInputBorder(
@@ -109,7 +109,7 @@ class _RegistrationScren extends State<RegistrationScren> {
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -125,14 +125,14 @@ class _RegistrationScren extends State<RegistrationScren> {
 
                     // Cette propriété définit la couleur de la coche
                   ),
-                  SizedBox(height: 5),
-                  Text(
+                  const SizedBox(height: 5),
+                  const Text(
                     'Acceptez-vous les règles de confidentialité ?',
                     style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: _submit,
                 style: ElevatedButton.styleFrom(
