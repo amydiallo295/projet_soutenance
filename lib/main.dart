@@ -3,7 +3,6 @@ import 'package:emergency/ui/sreens/animation.dart';
 import 'package:emergency/ui/sreens/home_page/accueil_screen.dart';
 import 'package:emergency/ui/sreens/home_page/profil.dart';
 import 'package:emergency/ui/sreens/loginPage.dart';
-import 'package:emergency/ui/sreens/login_screen.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 // Import the generated file

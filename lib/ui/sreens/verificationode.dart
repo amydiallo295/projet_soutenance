@@ -90,11 +90,12 @@ class EnterCodePage extends ConsumerStatefulWidget {
   final String phoneNumber;
   final String userName;
 
-  const EnterCodePage(
-      {super.key,
-      required this.verificationId,
-      required this.phoneNumber,
-      required this.userName});
+  const EnterCodePage({
+    super.key,
+    required this.verificationId,
+    required this.phoneNumber,
+    required this.userName,
+  });
 
   @override
   // ignore: library_private_types_in_public_api

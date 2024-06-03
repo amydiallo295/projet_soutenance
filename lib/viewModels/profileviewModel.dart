@@ -193,13 +193,14 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> updateUserProfile(
-      {String? displayName, String? phoneNumber}) async {
+      {String? displayName, String? phoneNumber, String? userPassword}) async {
     if (_currentUser != null) {
       String userData = displayName ?? _currentUser!.displayName ?? "";
 
       // Mettre à jour Firebase Authentication
       try {
         await _currentUser!.updateDisplayName(userData);
+        await _currentUser!.updatePassword(userPassword!);
       } catch (e) {
         print("Erreur lors de la mise à jour du nom d'utilisateur : $e");
         // Gérer les erreurs de mise à jour
@@ -262,6 +263,18 @@ class ProfileViewModel extends ChangeNotifier {
         'phoneNumber': _currentUser!.phoneNumber,
       });
 
+      // Recharger l'utilisateur pour obtenir les informations mises à jour
+      await _currentUser!.reload();
+      _currentUser = FirebaseAuth.instance.currentUser;
+      notifyListeners();
+    } catch (e) {
+      print("Erreur lors de la mise à jour du numéro de téléphone : $e");
+    }
+  }
+
+  Future<void> updateUserPassword(String userpassword) async {
+    try {
+      await _currentUser!.updatePassword(userpassword);
       // Recharger l'utilisateur pour obtenir les informations mises à jour
       await _currentUser!.reload();
       _currentUser = FirebaseAuth.instance.currentUser;

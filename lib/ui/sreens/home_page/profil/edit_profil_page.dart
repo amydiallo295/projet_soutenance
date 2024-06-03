@@ -14,6 +14,7 @@ class EditProfilePage extends ConsumerStatefulWidget {
 class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
+  late TextEditingController _passwordController;
   final _formKey = GlobalKey<FormState>();
   String? _verificationId;
 
@@ -25,6 +26,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         text: profileViewModel.currentUser?.displayName ?? '');
     _phoneController = TextEditingController(
         text: profileViewModel.currentUser?.phoneNumber ?? '');
+    _passwordController = TextEditingController();
     if (!_phoneController.text.startsWith('+224')) {
       _phoneController.text = '+224${_phoneController.text}';
     }
@@ -54,7 +56,24 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Nom'),
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Nouveau nom',
+                  // prefixIcon: const Icon(Icons.person, color: Colors.blue),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(color: Colors.blue),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Le nom est obligatoire';
@@ -65,7 +84,24 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Téléphone'),
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Nouveau téléphone',
+                  prefixIcon: const Icon(Icons.phone, color: Colors.blue),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(color: Colors.blue),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Le téléphone est obligatoire';
@@ -77,6 +113,33 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                 },
               ),
               const SizedBox(height: 20),
+              TextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Nouveau mot de passe',
+                  prefixIcon: const Icon(Icons.lock, color: Colors.blue),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(color: Colors.blue),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Ce champ est obligatoire';
+                  }
+                  return null;
+                },
+              ),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -97,6 +160,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           .updateUserProfile(
                             displayName: _nameController.text,
                             phoneNumber: _phoneController.text,
+                            userPassword: _passwordController.text,
                           )
                           .whenComplete(() => Navigator.pop(context));
                     }
@@ -131,6 +195,19 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     }
                   },
                 ),
+                // const SizedBox(height: 20),
+                // TextFormField(
+                //   decoration:
+                //       const InputDecoration(labelText: 'Nouveau mot de passe'),
+                //   onChanged: (password) async {
+                //     // Confirmer le numéro de téléphone
+                //     await profileViewModel
+                //         .updateUserPassword(
+                //           password,
+                //         )
+                //         .whenComplete(() => Navigator.pop(context));
+                //   },
+                // ),
               ],
             ],
           ),

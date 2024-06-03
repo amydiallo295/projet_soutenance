@@ -400,11 +400,10 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
                                   isLoading = true;
                                 });
                                 await authProvider.sendToPhoneCode(
-                                  // ignore: use_build_context_synchronously
-                                  context,
-                                  phoneController.text.trim(),
-                                  nameController.text.trim(),
-                                );
+                                    // ignore: use_build_context_synchronously
+                                    context,
+                                    phoneController.text.trim(),
+                                    nameController.text.trim());
                                 print("🫅🫅");
                                 setState(() {
                                   isLoading = false;
