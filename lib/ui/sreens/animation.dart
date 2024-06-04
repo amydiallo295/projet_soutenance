@@ -182,13 +182,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (ref.watch(splashscreenModel).currentUser != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) =>
-              // const HomeScreen()
-              Scaffold(
-            body: Container(),
-          ),
-        ),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } else {
       Navigator.pushReplacement(

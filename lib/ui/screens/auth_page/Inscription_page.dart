@@ -28,21 +28,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
     ref.read(authViewModelProvider).checkNetworkConnectivity();
-  }
-
-  void checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? loggedIn = prefs.getBool('isLoggedIn');
-    if (loggedIn != null && loggedIn) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-            builder: (context) =>
-                //  PhoneAuthPage())
-                const HomeScreen()),
-      );
-    }
   }
 
   @override
