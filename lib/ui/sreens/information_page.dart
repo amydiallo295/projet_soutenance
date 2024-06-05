@@ -1,4 +1,3 @@
-
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
+        centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
         title: TitleWidget(
           text: "Informations",
@@ -27,7 +27,7 @@ class InfoPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(50.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,11 +37,11 @@ class InfoPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                    color: primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 50),
                 const Text(
                   'Cette application permet aux utilisateurs de signaler des urgences de manière rapide et efficace. Vous pouvez signaler différents types d\'urgences, appeler des services d\'urgence et obtenir de l\'aide rapidement.',
                   style: TextStyle(fontSize: 16),

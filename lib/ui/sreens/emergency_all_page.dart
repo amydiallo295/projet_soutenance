@@ -1,4 +1,3 @@
-
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +27,10 @@ class EmergencyCallPage extends StatelessWidget {
         title: TitleWidget(
           text: "Appeler un service",
         ),
-      
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(50.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -104,5 +102,3 @@ class EmergencyCallPage extends StatelessWidget {
     );
   }
 }
-
-

@@ -58,7 +58,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   const Text(
                     'Connexion',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
                     ),
@@ -150,14 +150,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     child: isLoading
                         ? const SpinKitCircle(
                             color: primaryColor,
-                            size: 80.0,
+                            size: 50.0,
                           )
                         : ElevatedButton(
                             key: const ValueKey('button'),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                print("voir se conncecter⛪⛪⛪⛪⛪222");
-
                                 await authProvider.checkNetworkConnectivity();
                                 if (authProvider.connectivityResult ==
                                     ConnectivityResult.none) {
@@ -175,13 +173,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   isLoading = true;
                                 });
 
-                                print("voir se conncecter⛪⛪⛪⛪⛪3333");
-                                // await authProvider.userLogingWithPassWord(
-                                //     context,
-                                //     passwordController.text.trim(),
-                                //     passwordController.text.trim());
-                                print("voir numero de phone");
-                                print(phoneController.text.trim());
+                                await authProvider
+                                    .loginUserWithEmailAndPassword(
+                                  '${phoneController.text.trim()}@gmail.com',
+                                  passwordController.text.trim(),
+                                  context,
+                                );
+
                                 setState(() {
                                   isLoading = false;
                                 });

@@ -186,21 +186,20 @@ class ProfileViewModel extends ChangeNotifier {
 
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
-    print("object,djd;;dkd;kd");
-    print(currentUser);
     _currentUser = null;
     notifyListeners();
   }
 
-  Future<void> updateUserProfile(
-      {String? displayName, String? phoneNumber, String? userPassword}) async {
+  Future<void> updateUserProfile({
+    String? displayName,
+    String? phoneNumber,
+  }) async {
     if (_currentUser != null) {
       String userData = displayName ?? _currentUser!.displayName ?? "";
 
       // Mettre à jour Firebase Authentication
       try {
         await _currentUser!.updateDisplayName(userData);
-        await _currentUser!.updatePassword(userPassword!);
       } catch (e) {
         print("Erreur lors de la mise à jour du nom d'utilisateur : $e");
         // Gérer les erreurs de mise à jour

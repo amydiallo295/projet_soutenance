@@ -1,233 +1,5 @@
-// import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:emergency/main.dart';
-// import 'package:emergency/utils/app_colors.dart';
-// import 'package:emergency/viewModels/authentificationViewModel.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:flutter/services.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-// class PhoneAuthPage extends ConsumerStatefulWidget {
-//   const PhoneAuthPage({super.key});
-
-//   @override
-//   _PhoneAuthPageState createState() => _PhoneAuthPageState();
-// }
-
-// class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
-//   final TextEditingController phoneController =
-//       TextEditingController(text: '+224');
-//   final TextEditingController nameController = TextEditingController();
-//   final _formKey = GlobalKey<FormState>();
-//   bool isLoading = false;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     checkLoginStatus();
-//     ref.read(authViewModelProvider).checkNetworkConnectivity();
-//   }
-
-//   void checkLoginStatus() async {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     bool? loggedIn = prefs.getBool('isLoggedIn');
-//     if (loggedIn != null && loggedIn) {
-//       Navigator.of(context).pushReplacement(
-//         MaterialPageRoute(builder: (context) => const HomeScreen()),
-//       );
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final authProvider = ref.watch(authViewModelProvider);
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: SafeArea(
-//         child: Center(
-//           child: Padding(
-//             padding: const EdgeInsets.all(24.0),
-//             child: Form(
-//               key: _formKey,
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   const Icon(Icons.person, size: 150, color: Colors.grey),
-//                   const Text(
-//                     'Emergency',
-//                     style: TextStyle(
-//                       fontSize: 32,
-//                       fontWeight: FontWeight.bold,
-//                       color: Colors.blue,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 10),
-//                   const Text(
-//                     'Connexion',
-//                     style: TextStyle(
-//                       fontSize: 20,
-//                       fontWeight: FontWeight.bold,
-//                       color: Colors.blue,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 40),
-//                   TextFormField(
-//                     controller: nameController,
-//                     decoration: InputDecoration(
-//                       labelText: 'Prénom et nom',
-//                       prefixIcon: Icon(Icons.person, color: Colors.blue),
-//                       filled: true,
-//                       fillColor: Colors.grey[200],
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                       ),
-//                       enabledBorder: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                         borderSide: BorderSide(color: Colors.grey[300]!),
-//                       ),
-//                       focusedBorder: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                         borderSide: BorderSide(color: Colors.blue),
-//                       ),
-//                     ),
-//                     validator: (value) {
-//                       if (value == null || value.isEmpty) {
-//                         return 'Ce champ est obligatoire';
-//                       }
-//                       return null;
-//                     },
-//                   ),
-//                   const SizedBox(height: 20),
-//                   TextFormField(
-//                     controller: phoneController,
-//                     keyboardType: TextInputType.phone,
-//                     decoration: InputDecoration(
-//                       labelText: 'Numéro de téléphone',
-//                       prefixIcon: const Icon(Icons.phone, color: Colors.blue),
-//                       filled: true,
-//                       fillColor: Colors.grey[200],
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                       ),
-//                       enabledBorder: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                         borderSide: BorderSide(color: Colors.grey[300]!),
-//                       ),
-//                       focusedBorder: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                         borderSide: const BorderSide(color: Colors.blue),
-//                       ),
-//                     ),
-//                     inputFormatters: [
-//                       LengthLimitingTextInputFormatter(16),
-//                       PhoneNumberInputFormatter(),
-//                     ],
-//                     validator: (value) {
-//                       if (value == null || value.isEmpty) {
-//                         return 'Ce champ est obligatoire';
-//                       }
-//                       if (!RegExp(r'^\+224\d+$').hasMatch(value)) {
-//                         return 'Numéro de téléphone invalide';
-//                       }
-//                       return null;
-//                     },
-//                   ),
-//                   const SizedBox(height: 30),
-//                   AnimatedSwitcher(
-//                     duration: const Duration(milliseconds: 300),
-//                     child: isLoading
-//                         ? const SpinKitCircle(
-//                             color: primaryColor,
-//                             size: 50.0,
-//                           )
-//                         : ElevatedButton(
-//                             key: const ValueKey('button'),
-//                             onPressed: () async {
-//                               if (_formKey.currentState!.validate()) {
-//                                 await authProvider.checkNetworkConnectivity();
-//                                 if (authProvider.connectivityResult ==
-//                                     ConnectivityResult.none) {
-//                                   ScaffoldMessenger.of(context).showSnackBar(
-//                                     const SnackBar(
-//                                         duration: Duration(seconds: 1),
-//                                         backgroundColor: Colors.grey,
-//                                         content:
-//                                             Text('Pas de connexion Internet')),
-//                                   );
-//                                   return;
-//                                 }
-//                                 setState(() {
-//                                   isLoading = true;
-//                                 });
-//                                 // await authProvider.sendToPhoneCode(
-//                                 //   context,
-//                                 //   phoneController.text.trim(),
-//                                 //   nameController.text.trim(),
-//                                 // );
-//                                 setState(() {
-//                                   isLoading = false;
-//                                 });
-//                               }
-//                             },
-//                             style: ElevatedButton.styleFrom(
-//                               padding: const EdgeInsets.symmetric(
-//                                 vertical: 15.0,
-//                                 horizontal: 30.0,
-//                               ),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(12.0),
-//                               ),
-//                               backgroundColor: Colors.blue,
-//                               textStyle: const TextStyle(
-//                                 fontSize: 18,
-//                                 fontWeight: FontWeight.bold,
-//                               ),
-//                             ),
-//                             child: const Text(
-//                               'Envoyer le code',
-//                               style: TextStyle(color: Colors.white),
-//                             ),
-//                           ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class PhoneNumberInputFormatter extends TextInputFormatter {
-//   static const String prefix = '+224';
-
-//   @override
-//   TextEditingValue formatEditUpdate(
-//     TextEditingValue oldValue,
-//     TextEditingValue newValue,
-//   ) {
-//     if (!newValue.text.startsWith(prefix)) {
-//       final updatedText = prefix + newValue.text.replaceAll(prefix, '');
-//       return TextEditingValue(
-//         text: updatedText,
-//         selection: TextSelection.fromPosition(
-//           TextPosition(offset: updatedText.length),
-//         ),
-//       );
-//     }
-
-//     final selectionIndex = newValue.selection.end < prefix.length
-//         ? prefix.length
-//         : newValue.selection.end;
-
-//     return TextEditingValue(
-//       text: newValue.text,
-//       selection: TextSelection.collapsed(offset: selectionIndex),
-//     );
-//   }
-// }
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:emergency/main.dart';
 import 'package:emergency/utils/app_colors.dart';
@@ -315,7 +87,7 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
                     controller: nameController,
                     decoration: InputDecoration(
                       labelText: 'Prénom et nom',
-                      prefixIcon: Icon(Icons.person, color: Colors.blue),
+                      prefixIcon: const Icon(Icons.person, color: Colors.blue),
                       filled: true,
                       fillColor: Colors.grey[200],
                       border: OutlineInputBorder(
@@ -327,7 +99,7 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide(color: Colors.blue),
+                        borderSide: const BorderSide(color: Colors.blue),
                       ),
                     ),
                     validator: (value) {
@@ -385,6 +157,10 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 await authProvider.checkNetworkConnectivity();
+
+                                print('voir connectivite');
+                                print(authProvider.connectivityResult ==
+                                    ConnectivityResult.none);
                                 if (authProvider.connectivityResult ==
                                     ConnectivityResult.none) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -400,11 +176,13 @@ class _PhoneAuthPageState extends ConsumerState<PhoneAuthPage> {
                                   isLoading = true;
                                 });
                                 await authProvider.sendToPhoneCode(
-                                    // ignore: use_build_context_synchronously
-                                    context,
-                                    phoneController.text.trim(),
-                                    nameController.text.trim());
-                                print("🫅🫅");
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  phoneController.text.trim(),
+                                  nameController.text.trim(),
+                                  phoneController.text.trim(),
+                                );
+
                                 setState(() {
                                   isLoading = false;
                                 });

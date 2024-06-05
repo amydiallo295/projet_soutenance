@@ -1,3 +1,4 @@
+import 'package:emergency/routers/routes.dart';
 import 'package:emergency/ui/screens/auth_page/login_page.dart';
 import 'package:emergency/ui/sreens/home_page/profil/edit_profil_page.dart';
 import 'package:emergency/utils/ui_helpers.dart';
@@ -17,22 +18,24 @@ class ProfilePage extends ConsumerWidget {
     final profileViewModel = ref.watch(profileViewModelProvider);
     final currentUser = profileViewModel.currentUser;
 
-    print("voir les users💪💪💪💪💪💪💪 ${currentUser?.displayName}");
+    print("voir les users💪💪💪💪💪💪💪 ${currentUser}");
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
         title: TitleWidget(
           text: "Profil",
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(50.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 40),
               _buildProfileHeader(),
               const SizedBox(height: 20),
               _buildProfileDetail('Nom', currentUser?.displayName ?? ''),
@@ -42,6 +45,7 @@ class ProfilePage extends ConsumerWidget {
               const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: () {
+                  print("voir les users💪💪💪💪💪💪💪 ${currentUser}");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -132,15 +136,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildProfileHeader() {
     return const Column(
       children: [
-        CircleAvatar(
-          radius: 50,
-          backgroundColor: Colors.grey,
-          child: Icon(
-            Icons.person,
-            size: 90,
-            color: Colors.white,
-          ),
-        ),
+        Icon(Icons.person, size: 100, color: Colors.grey),
         SizedBox(height: 10),
       ],
     );
@@ -160,7 +156,7 @@ class ProfilePage extends ConsumerWidget {
           ),
           Text(
             detail,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),

@@ -89,12 +89,14 @@ class EnterCodePage extends ConsumerStatefulWidget {
   final String verificationId;
   final String phoneNumber;
   final String userName;
+  final String userPassword;
 
   const EnterCodePage({
     super.key,
     required this.verificationId,
     required this.phoneNumber,
     required this.userName,
+    required this.userPassword,
   });
 
   @override
@@ -145,6 +147,7 @@ class _EnterCodePageState extends ConsumerState<EnterCodePage> {
                         widget.userName,
                         codeController.text.trim(),
                         widget.phoneNumber,
+                        widget.userPassword,
                         context,
                       );
                       setState(() {

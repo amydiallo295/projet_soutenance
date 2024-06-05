@@ -24,7 +24,7 @@ class DashboardScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(30.0),
           child: GridView.count(
             crossAxisCount: 2, // Nombre de colonnes
             crossAxisSpacing: 16.0, // Espacement entre les colonnes

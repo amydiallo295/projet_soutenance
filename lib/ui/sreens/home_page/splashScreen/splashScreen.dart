@@ -12,7 +12,9 @@ class SplashscreenModel extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> loadCurrentUser() async {
-    _currentUser = FirebaseAuth.instance.currentUser;
-    notifyListeners();
+    if (_currentUser != null) {
+      _currentUser = FirebaseAuth.instance.currentUser;
+      notifyListeners();
+    }
   }
 }

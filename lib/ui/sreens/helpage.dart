@@ -105,11 +105,12 @@ class AdvicePage extends StatelessWidget {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: primaryColor,
+        centerTitle: true,
         title: TitleWidget(text: "Conseils d'urgence"),
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(50.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -119,7 +120,7 @@ class AdvicePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: appBarColor,
+                    color: primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),

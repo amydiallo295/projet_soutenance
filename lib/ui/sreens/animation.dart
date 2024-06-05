@@ -147,6 +147,7 @@
 
 import 'package:emergency/main.dart';
 import 'package:emergency/ui/screens/auth_page/login_page.dart';
+import 'package:emergency/ui/sreens/home_page/profil.dart';
 import 'package:emergency/ui/sreens/home_page/splashScreen/splashScreen.dart';
 import 'package:emergency/ui/sreens/loginPage.dart';
 import 'package:emergency/ui/sreens/verificationode.dart';
@@ -187,9 +188,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()
-            //  LoginPage()
-            ),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     }
   }

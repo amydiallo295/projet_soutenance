@@ -6,6 +6,7 @@ class EmergencySubmission {
   final bool status;
   final String location;
   final String? imageUrl;
+  bool isTreat;
 
   EmergencySubmission({
     required this.name,
@@ -15,6 +16,7 @@ class EmergencySubmission {
     required this.description,
     required this.location,
     this.imageUrl,
+    this.isTreat = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class EmergencySubmission {
       'location': location,
       'status': status,
       'imageUrl': imageUrl,
+      'isTreat': isTreat
     };
   }
 }

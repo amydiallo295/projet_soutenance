@@ -202,6 +202,7 @@
 //   }
 // }
 
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:emergency/viewModels/viewModelReport.dart';
@@ -226,25 +227,29 @@ class _EmergencySubmissionPageState
       appBar: AppBar(
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text("Soumission d'urgence"),
+        centerTitle: true,
+        title: TitleWidget(text: "Soumission d'urgence"),
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(50.0),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Soumettre une nouvelle urgence',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                  const SizedBox(height: 20),
+                  const Center(
+                    child: Text(
+                      'Soumettre une nouvelle urgence',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -327,9 +332,13 @@ class _EmergencySubmissionPageState
                   const SizedBox(height: 20),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.image,
+                        // color: Colors.white,
+                      ),
                       onPressed: emergencyViewModel.getImageFromGallery,
-                      child: const Text('Ajouter une image'),
+                      label: const Text('Ajouter une image ici'),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -354,19 +363,19 @@ class _EmergencySubmissionPageState
                         )
                       : const Text(
                           'Aucune image sélectionnée',
-                          style: TextStyle(color: Colors.red),
+                          style: TextStyle(color: Colors.black),
                         ),
                   const SizedBox(height: 20),
-                  Text(
-                    emergencyViewModel.currentPosition != null
-                        ? 'Localisation: ${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}'
-                        : 'Localisation non disponible',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
+                  // Text(
+                  //   emergencyViewModel.currentPosition != null
+                  //       ? 'Localisation: ${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}'
+                  //       : 'Localisation non disponible',
+                  //   style: const TextStyle(
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //     color: Colors.blue,
+                  //   ),
+                  // ),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
