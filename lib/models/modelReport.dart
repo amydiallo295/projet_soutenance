@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class EmergencySubmission {
   final String name;
   final String phone;
@@ -7,6 +9,11 @@ class EmergencySubmission {
   final String location;
   final String? imageUrl;
   bool isTreat;
+  final String userId;
+  final Timestamp cretedAt;
+
+  // 'lastLoginDate': Timestamp.now(),
+  // Tim // Ajoutez ce champ
 
   EmergencySubmission({
     required this.name,
@@ -17,6 +24,8 @@ class EmergencySubmission {
     required this.location,
     this.imageUrl,
     this.isTreat = false,
+    required this.userId,
+    required this.cretedAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,7 +37,9 @@ class EmergencySubmission {
       'location': location,
       'status': status,
       'imageUrl': imageUrl,
-      'isTreat': isTreat
+      'isTreat': isTreat,
+      'userId': userId,
+      'cretedAt': Timestamp.now(),
     };
   }
 }

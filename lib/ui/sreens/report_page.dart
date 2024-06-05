@@ -1,207 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:emergency/viewModels/viewModelReport.dart';
-
-// class EmergencySubmissionPage extends ConsumerStatefulWidget {
-//   const EmergencySubmissionPage({Key? key}) : super(key: key);
-
-//   @override
-//   _EmergencySubmissionPageState createState() =>
-//       _EmergencySubmissionPageState();
-// }
-
-// class _EmergencySubmissionPageState
-//     extends ConsumerState<EmergencySubmissionPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final emergencyViewModel = ref.watch(emergencyViewModelProvider);
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.blue,
-//         iconTheme: const IconThemeData(color: Colors.white),
-//         title: const Text("Soumission d'urgence"),
-//       ),
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.all(16.0),
-//           child: SingleChildScrollView(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 const Text(
-//                   'Soumettre une nouvelle urgence',
-//                   style: TextStyle(
-//                     fontSize: 20,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.blue,
-//                   ),
-//                   textAlign: TextAlign.center,
-//                 ),
-//                 const SizedBox(height: 20),
-//                 TextField(
-//                   controller: emergencyViewModel.nameController,
-//                   decoration: InputDecoration(
-//                     labelText: 'Nom',
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.circular(12.0),
-//                     ),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20),
-//                 TextField(
-//                   controller: emergencyViewModel.phoneController,
-//                   keyboardType: TextInputType.phone,
-//                   decoration: InputDecoration(
-//                     labelText: 'Numéro de téléphone',
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.circular(12.0),
-//                     ),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20),
-//                 DropdownButtonFormField<String>(
-//                   value: emergencyViewModel.selectedEmergencyType,
-//                   items: emergencyViewModel.emergencyTypes.map((type) {
-//                     return DropdownMenuItem(
-//                       value: type,
-//                       child: Text(type),
-//                     );
-//                   }).toList(),
-//                   onChanged: (value) {
-//                     emergencyViewModel.setEmergencyType(value);
-//                   },
-//                   decoration: InputDecoration(
-//                     labelText: 'Type d\'urgence',
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.circular(12.0),
-//                     ),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20),
-//                 TextField(
-//                   controller: emergencyViewModel.descriptionController,
-//                   maxLines: 5,
-//                   decoration: InputDecoration(
-//                     labelText: 'Description',
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.circular(12.0),
-//                     ),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20),
-//                 SizedBox(
-//                   width: double.infinity,
-//                   child: ElevatedButton(
-//                     onPressed: emergencyViewModel.getImageFromGallery,
-//                     child: const Text('Ajouter une image'),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 20),
-//                 emergencyViewModel.image != null
-//                     ? SizedBox(
-//                         width: 200,
-//                         child: Container(
-//                           height: 300,
-//                           width: 200,
-//                           decoration: BoxDecoration(
-//                             border: Border.all(color: Colors.grey),
-//                             borderRadius: BorderRadius.circular(12.0),
-//                           ),
-//                           child: ClipRRect(
-//                             borderRadius: BorderRadius.circular(12.0),
-//                             child: Image.file(
-//                               emergencyViewModel.image!,
-//                               fit: BoxFit.cover,
-//                             ),
-//                           ),
-//                         ),
-//                       )
-//                     : const Text(
-//                         'Aucune image sélectionnée',
-//                         style: TextStyle(color: Colors.red),
-//                       ),
-//                 const SizedBox(height: 20),
-//                 Text(
-//                   emergencyViewModel.currentPosition != null
-//                       ? 'Localisation: ${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}'
-//                       : 'Localisation non disponible',
-//                   style: const TextStyle(
-//                     fontSize: 16,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.blue,
-//                   ),
-//                 ),
-//                 const SizedBox(height: 30),
-//                 SizedBox(
-//                   width: double.infinity,
-//                   child: ElevatedButton(
-//                     onPressed: () async {
-//                       await emergencyViewModel.submitEmergency();
-//                       showDialog(
-//                         context: context,
-//                         builder: (context) {
-//                           return AlertDialog(
-//                             title: const Text('Urgence soumise'),
-//                             content: Column(
-//                               mainAxisSize: MainAxisSize.min,
-//                               children: [
-//                                 Text(
-//                                   'Nom: ${emergencyViewModel.nameController.text}\n'
-//                                   'Numéro de téléphone: ${emergencyViewModel.phoneController.text}\n'
-//                                   'Type d\'urgence: ${emergencyViewModel.selectedEmergencyType}\n'
-//                                   'Description: ${emergencyViewModel.descriptionController.text}\n'
-//                                   'Localisation: ${emergencyViewModel.currentPosition != null ? '${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}' : 'Non disponible'}\n',
-//                                 ),
-//                                 if (emergencyViewModel.image != null)
-//                                   Image.file(
-//                                     emergencyViewModel.image!,
-//                                     height: 50,
-//                                     width: 50,
-//                                     fit: BoxFit.scaleDown,
-//                                   ),
-//                               ],
-//                             ),
-//                             actions: [
-//                               TextButton(
-//                                 onPressed: () {
-//                                   Navigator.of(context).pop();
-//                                 },
-//                                 child: const Text('OK'),
-//                               ),
-//                             ],
-//                           );
-//                         },
-//                       );
-//                       emergencyViewModel
-//                           .resetFields(); // Réinitialiser les champs après la soumission
-//                     },
-//                     style: ElevatedButton.styleFrom(
-//                       padding: const EdgeInsets.symmetric(vertical: 15.0),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                       ),
-//                       backgroundColor: Colors.blue,
-//                       textStyle: const TextStyle(
-//                         fontSize: 18,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                     child: const Text(
-//                       'Soumettre',
-//                       style: TextStyle(color: Colors.white),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
+import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -222,6 +19,7 @@ class _EmergencySubmissionPageState
   @override
   Widget build(BuildContext context) {
     final emergencyViewModel = ref.watch(emergencyViewModelProvider);
+    final isLoading = emergencyViewModel.isLoading;
 
     return Scaffold(
       appBar: AppBar(
@@ -366,62 +164,66 @@ class _EmergencySubmissionPageState
                           style: TextStyle(color: Colors.black),
                         ),
                   const SizedBox(height: 20),
-                  // Text(
-                  //   emergencyViewModel.currentPosition != null
-                  //       ? 'Localisation: ${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}'
-                  //       : 'Localisation non disponible',
-                  //   style: const TextStyle(
-                  //     fontSize: 16,
-                  //     fontWeight: FontWeight.bold,
-                  //     color: Colors.blue,
-                  //   ),
-                  // ),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await emergencyViewModel.submitEmergency();
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Urgence soumise'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'Nom: ${emergencyViewModel.nameController.text}\n'
-                                      'Numéro de téléphone: ${emergencyViewModel.phoneController.text}\n'
-                                      'Type d\'urgence: ${emergencyViewModel.selectedEmergencyType}\n'
-                                      'Description: ${emergencyViewModel.descriptionController.text}\n'
-                                      'Localisation: ${emergencyViewModel.currentPosition != null ? '${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}' : 'Non disponible'}\n',
-                                    ),
-                                    if (emergencyViewModel.image != null)
-                                      Image.file(
-                                        emergencyViewModel.image!,
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.scaleDown,
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                await emergencyViewModel.submitEmergency();
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Urgence soumise'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'Nom: ${emergencyViewModel.nameController.text}\n'
+                                            'Numéro de téléphone: ${emergencyViewModel.phoneController.text}\n'
+                                            'Type d\'urgence: ${emergencyViewModel.selectedEmergencyType}\n'
+                                            'Description: ${emergencyViewModel.descriptionController.text}\n'
+                                            'Localisation: ${emergencyViewModel.currentPosition != null ? '${emergencyViewModel.currentPosition!.latitude}, ${emergencyViewModel.currentPosition!.longitude}' : 'Non disponible'}\n',
+                                          ),
+                                          if (emergencyViewModel.image != null)
+                                            Image.file(
+                                              emergencyViewModel.image!,
+                                              height: 50,
+                                              width: 50,
+                                              fit: BoxFit.scaleDown,
+                                            ),
+                                        ],
                                       ),
-                                  ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              );
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            emergencyViewModel.nameController
+                                                .clear();
+                                            emergencyViewModel.phoneController
+                                                .clear();
+                                            emergencyViewModel
+                                                .descriptionController
+                                                .clear();
+                                            emergencyViewModel.image = null;
+                                            emergencyViewModel
+                                                .setEmergencyType(null);
+                                            emergencyViewModel
+                                                .resetCurrentPosition();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+
+                                // .resetFields(); // Réinitialiser les champs après la soumission
+                              }
                             },
-                          );
-                          emergencyViewModel
-                              .resetFields(); // Réinitialiser les champs après la soumission
-                        }
-                      },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
                         shape: RoundedRectangleBorder(
@@ -433,10 +235,14 @@ class _EmergencySubmissionPageState
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      child: const Text(
-                        'Soumettre',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              color: primaryColor,
+                            )
+                          : const Text(
+                              'Soumettre',
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
                   ),
                 ],

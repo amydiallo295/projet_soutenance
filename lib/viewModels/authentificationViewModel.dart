@@ -42,7 +42,15 @@ class AuthViewModel extends ChangeNotifier {
             context,
           )
           .then((value) {
-        Navigator.of(context).push(createRouteHomeScreen());
+        if (_auth.currentUser != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          );
+        }
+        // Navigator.of(context).push(createRouteHomeScreen());
       });
     } catch (e) {
       const SnackBar(
@@ -91,12 +99,15 @@ class AuthViewModel extends ChangeNotifier {
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Délai de récupération automatique du code expiré'),
-              backgroundColor: Colors.red,
-            ),
-          );
+          if (_auth.currentUser != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content:
+                    Text('Délai de récupération automatique du code expiré'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         },
         timeout: const Duration(seconds: 60),
       );

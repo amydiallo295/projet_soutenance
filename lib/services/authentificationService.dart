@@ -71,6 +71,24 @@ class AuthentificationService extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
+      if (e == 'invalid-verification-code') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Code invalide: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+      if (e == 'invalid-verification-id') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('ID invalide: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erreur lors de la vérification du code: $e'),

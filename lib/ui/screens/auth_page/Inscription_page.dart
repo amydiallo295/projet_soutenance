@@ -169,7 +169,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                       ),
                       const SizedBox(height: 20),
                       AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 500),
                         child: isLoading
                             ? const SpinKitCircle(
                                 color: primaryColor,
