@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:emergency/viewModels/viewModelReport.dart';
 
 class EmergencySubmissionPage extends ConsumerStatefulWidget {
-  const EmergencySubmissionPage({Key? key}) : super(key: key);
+  const EmergencySubmissionPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EmergencySubmissionPageState createState() =>
       _EmergencySubmissionPageState();
 }
@@ -49,44 +52,11 @@ class _EmergencySubmissionPageState
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: emergencyViewModel.nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Nom',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Le nom est obligatoire';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: emergencyViewModel.phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      labelText: 'Numéro de téléphone',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Le numéro de téléphone est obligatoire';
-                      }
-                      if (!value.startsWith('+224')) {
-                        return 'Le numéro de téléphone doit commencer par +224';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
+
+                  const SizedBox(height: 50),
                   DropdownButtonFormField<String>(
+                    iconSize: 30.0,
+                    iconEnabledColor: primaryColor,
                     value: emergencyViewModel.selectedEmergencyType,
                     items: emergencyViewModel.emergencyTypes.map((type) {
                       return DropdownMenuItem(
@@ -110,6 +80,56 @@ class _EmergencySubmissionPageState
                       return null;
                     },
                   ),
+
+                  // MultiSelectDialogField(
+                  //   items: emergencyViewModel.emergencyTypes
+                  //       .map((e) => MultiSelectItem(e, e))
+                  //       .toList(),
+                  //   listType: MultiSelectListType.CHIP,
+                  //   onConfirm: (values) {
+                  //     emergencyViewModel.listOFSelectedItem = values;
+                  //     print(
+                  //         "selection: ${emergencyViewModel.listOFSelectedItem}");
+                  //   },
+                  // ),
+
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: emergencyViewModel.nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Nom',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Le nom est obligatoire';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  TextFormField(
+                    controller: emergencyViewModel.phoneController,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      labelText: 'Numéro de téléphone',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Le numéro de téléphone est obligatoire';
+                      }
+                      if (!value.startsWith('+224')) {
+                        return 'Le numéro de téléphone doit commencer par +224';
+                      }
+                      return null;
+                    },
+                  ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: emergencyViewModel.descriptionController,
@@ -120,12 +140,6 @@ class _EmergencySubmissionPageState
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'La description est obligatoire';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
@@ -133,7 +147,6 @@ class _EmergencySubmissionPageState
                     child: ElevatedButton.icon(
                       icon: const Icon(
                         Icons.image,
-                        // color: Colors.white,
                       ),
                       onPressed: emergencyViewModel.getImageFromGallery,
                       label: const Text('Ajouter une image ici'),
@@ -173,6 +186,7 @@ class _EmergencySubmissionPageState
                           : () async {
                               if (_formKey.currentState!.validate()) {
                                 await emergencyViewModel.submitEmergency();
+
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -203,8 +217,10 @@ class _EmergencySubmissionPageState
                                             Navigator.of(context).pop();
                                             emergencyViewModel.nameController
                                                 .clear();
-                                            emergencyViewModel.phoneController
-                                                .clear();
+                                            emergencyViewModel.phoneController =
+                                                TextEditingController(
+                                                    text: '+224');
+
                                             emergencyViewModel
                                                 .descriptionController
                                                 .clear();
@@ -220,8 +236,6 @@ class _EmergencySubmissionPageState
                                     );
                                   },
                                 );
-
-                                // .resetFields(); // Réinitialiser les champs après la soumission
                               }
                             },
                       style: ElevatedButton.styleFrom(

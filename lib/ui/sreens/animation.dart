@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:emergency/main.dart';
 import 'package:emergency/ui/screens/auth_page/login_page.dart';
 import 'package:emergency/ui/sreens/home_page/splashScreen/splashScreen.dart';
@@ -19,10 +21,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     // Ne rien mettre ici qui dépend de ref
+
+    print("voir user init😁😁😁😁⛪⛪⛪⛪⛪");
   }
 
   @override
   void didChangeDependencies() {
+    print("voir user init😁😁😁😁⛪⛪⛪⛪⛪444");
     super.didChangeDependencies();
     ref.watch(splashscreenModel).loadCurrentUser();
     _navigateToHome();
@@ -31,8 +36,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   _navigateToHome() async {
     await Future.delayed(const Duration(seconds: 3), () {});
     if (ref.watch(splashscreenModel).currentUser != null) {
-      print("voir currentUser❤️❤️❤️");
-      print(ref.watch(splashscreenModel).currentUser);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),

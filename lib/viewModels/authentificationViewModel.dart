@@ -43,12 +43,13 @@ class AuthViewModel extends ChangeNotifier {
           )
           .then((value) {
         if (_auth.currentUser != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-          );
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const HomeScreen(),
+          //   ),
+          // );
+          Navigator.of(context).push(createRouteHomeScreen());
         }
         // Navigator.of(context).push(createRouteHomeScreen());
       });
@@ -123,9 +124,6 @@ class AuthViewModel extends ChangeNotifier {
   }
 
   Future loginUserWithEmailAndPassword(email, password, context) async {
-    print("voir email❤️❤️❤️");
-    print(email);
-
     await _read
         .read(authServiceProvider)
         .signInWithEmailAndPassword(email, password, context);

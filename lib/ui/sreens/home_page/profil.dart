@@ -1,4 +1,3 @@
-import 'package:emergency/routers/routes.dart';
 import 'package:emergency/ui/screens/auth_page/login_page.dart';
 import 'package:emergency/ui/sreens/home_page/profil/edit_profil_page.dart';
 import 'package:emergency/utils/ui_helpers.dart';
@@ -18,13 +17,11 @@ class ProfilePage extends ConsumerWidget {
     final profileViewModel = ref.watch(profileViewModelProvider);
     final currentUser = profileViewModel.currentUser;
 
-    print("voir les users💪💪💪💪💪💪💪 ${currentUser}");
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
+        // centerTitle: true,
         title: TitleWidget(
           text: "Profil",
         ),
@@ -35,57 +32,56 @@ class ProfilePage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 40),
               _buildProfileHeader(),
               const SizedBox(height: 20),
-              _buildProfileDetail('Nom', currentUser?.displayName ?? ''),
-              const Divider(),
-              _buildProfileDetail('Téléphone', currentUser?.phoneNumber ?? ''),
-              const Divider(),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: () {
-                  print("voir les users💪💪💪💪💪💪💪 ${currentUser}");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const EditProfilePage()),
-                  );
-                },
-                icon: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
+              Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: primaryColor,
+                      ),
+                      Text('Modifier', style: TextStyle(color: primaryColor)),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EditProfilePage()),
+                    );
+                  },
                 ),
-                label: const Text(
-                  'Modifier le profil',
-                  style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 10),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orangeAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                elevation: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      _buildProfileDetail(
+                        Icons.person,
+                        'Nom de l\'utilisateur',
+                        currentUser?.displayName ?? '',
+                      ),
+                      const Divider(),
+                      _buildProfileDetail(
+                        Icons.phone,
+                        'Téléphone',
+                        currentUser?.phoneNumber ?? '',
+                      ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text('Paramètres', style: TextStyle(fontSize: 14)),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingsPages(),
-                    ),
-                  );
-                },
-              ),
-              const Divider(),
               ListTile(
                 leading: const Icon(Icons.history),
                 title:
@@ -104,14 +100,26 @@ class ProfilePage extends ConsumerWidget {
                 },
               ),
               const SizedBox(height: 20),
-              const SizedBox(height: 10),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Paramètres', style: TextStyle(fontSize: 14)),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SettingsPages(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 50),
               ElevatedButton.icon(
                 onPressed: () {
-                  print('fonction de deconnexion⛪⛪⛪⛪⛪⛪⛪');
-                  _showLogoutConfirmationDialog(context, ref
-                      // profileViewModel.signOut
-
-                      );
+                  _showLogoutConfirmationDialog(context, ref);
                 },
                 icon: const Icon(Icons.logout, color: Colors.white),
                 label: const Text(
@@ -136,30 +144,9 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildProfileHeader() {
     return const Column(
       children: [
-        Icon(Icons.person, size: 100, color: Colors.grey),
+        Icon(Icons.person, size: 120, color: Colors.grey),
         SizedBox(height: 10),
       ],
-    );
-  }
-
-  Widget _buildProfileDetail(String title, String detail) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-            ),
-          ),
-          Text(
-            detail,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
     );
   }
 
@@ -185,7 +172,6 @@ class ProfilePage extends ConsumerWidget {
               child: const Text('Déconnexion',
                   style: TextStyle(color: Colors.red, fontSize: 18)),
               onPressed: () {
-                print('devvvvvvv😁😁😁😁😁😁😁😁');
                 ref.read(profileViewModelProvider).signOut().then((value) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -198,6 +184,30 @@ class ProfilePage extends ConsumerWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildProfileDetail(IconData icon, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(icon),
+          const SizedBox(width: 16),
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            value.toUpperCase(),
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
     );
   }
 }

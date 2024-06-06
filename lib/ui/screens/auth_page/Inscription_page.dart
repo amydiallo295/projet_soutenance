@@ -18,8 +18,7 @@ class InscriptionPage extends ConsumerStatefulWidget {
 }
 
 class _InscriptionPageState extends ConsumerState<InscriptionPage> {
-  final TextEditingController phoneController =
-      TextEditingController(text: '+224');
+  TextEditingController phoneController = TextEditingController(text: '+224');
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();

@@ -4,28 +4,26 @@ class EmergencySubmission {
   final String name;
   final String phone;
   final String emergencyType;
-  final String description;
+
+  final String? description;
   final bool status;
   final String location;
   final String? imageUrl;
   bool isTreat;
   final String userId;
-  final Timestamp cretedAt;
-
-  // 'lastLoginDate': Timestamp.now(),
-  // Tim // Ajoutez ce champ
+  final Timestamp createdAt;
 
   EmergencySubmission({
     required this.name,
     required this.phone,
     required this.emergencyType,
     required this.status,
-    required this.description,
+    this.description,
     required this.location,
     this.imageUrl,
     this.isTreat = false,
     required this.userId,
-    required this.cretedAt,
+    required this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -39,7 +37,7 @@ class EmergencySubmission {
       'imageUrl': imageUrl,
       'isTreat': isTreat,
       'userId': userId,
-      'cretedAt': Timestamp.now(),
+      'createdAt': Timestamp.now(),
     };
   }
 }

@@ -5,6 +5,7 @@ import 'package:emergency/ui/screens/auth_page/Inscription_page.dart';
 import 'package:emergency/ui/screens/auth_page/reset_password.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/viewModels/authentificationViewModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
