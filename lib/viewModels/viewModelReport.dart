@@ -18,7 +18,7 @@ class EmergencyViewModel extends ChangeNotifier {
   final EmergencyService _service = EmergencyService();
   Position? _currentPosition;
   final TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController(text: '+224');
+  TextEditingController phoneController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
 
@@ -62,7 +62,6 @@ class EmergencyViewModel extends ChangeNotifier {
 
   void setEmergencyType(String? value) {
     selectedEmergencyType = value;
-    notifyListeners();
   }
 
   Future<void> submitEmergency() async {
@@ -127,6 +126,11 @@ class EmergencyViewModel extends ChangeNotifier {
 
   void resetCurrentPosition() {
     _currentPosition = null;
+  }
+
+  void resetCurrentImage() {
+    image = null;
+    notifyListeners();
   }
 
   Future<void> fetUserReport() async {

@@ -82,6 +82,7 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 30),
               ListTile(
                 leading: const Icon(Icons.history),
                 title:

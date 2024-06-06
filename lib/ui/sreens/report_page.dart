@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:emergency/utils/app_colors.dart';
-import 'package:emergency/utils/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:emergency/viewModels/viewModelReport.dart';
@@ -20,20 +19,46 @@ class _EmergencySubmissionPageState
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final emergencyViewModel = ref.read(emergencyViewModelProvider);
+      emergencyViewModel.resetCurrentImage();
+      emergencyViewModel.nameController.clear();
+      emergencyViewModel.phoneController.clear();
+      emergencyViewModel.descriptionController.clear();
+      emergencyViewModel.setEmergencyType(null);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final emergencyViewModel = ref.watch(emergencyViewModelProvider);
     final isLoading = emergencyViewModel.isLoading;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
-        title: TitleWidget(text: "Soumission d'urgence"),
+        title: const Text(
+          "Soumission d'urgence",
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(50.0),
+          padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -45,15 +70,14 @@ class _EmergencySubmissionPageState
                     child: Text(
                       'Soumettre une nouvelle urgence',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: primaryColor,
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 30),
                   DropdownButtonFormField<String>(
                     iconSize: 30.0,
                     iconEnabledColor: primaryColor,
@@ -80,19 +104,6 @@ class _EmergencySubmissionPageState
                       return null;
                     },
                   ),
-
-                  // MultiSelectDialogField(
-                  //   items: emergencyViewModel.emergencyTypes
-                  //       .map((e) => MultiSelectItem(e, e))
-                  //       .toList(),
-                  //   listType: MultiSelectListType.CHIP,
-                  //   onConfirm: (values) {
-                  //     emergencyViewModel.listOFSelectedItem = values;
-                  //     print(
-                  //         "selection: ${emergencyViewModel.listOFSelectedItem}");
-                  //   },
-                  // ),
-
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: emergencyViewModel.nameController,
@@ -110,7 +121,6 @@ class _EmergencySubmissionPageState
                     },
                   ),
                   const SizedBox(height: 20),
-
                   TextFormField(
                     controller: emergencyViewModel.phoneController,
                     keyboardType: TextInputType.phone,
@@ -124,9 +134,9 @@ class _EmergencySubmissionPageState
                       if (value == null || value.isEmpty) {
                         return 'Le numéro de téléphone est obligatoire';
                       }
-                      if (!value.startsWith('+224')) {
-                        return 'Le numéro de téléphone doit commencer par +224';
-                      }
+                      // if (!value.startsWith('+224')) {
+                      //   return 'Le numéro de téléphone doit commencer par +224';
+                      // }
                       return null;
                     },
                   ),
@@ -176,7 +186,6 @@ class _EmergencySubmissionPageState
                           'Aucune image sélectionnée',
                           style: TextStyle(color: Colors.black),
                         ),
-                  const SizedBox(height: 20),
                   const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
@@ -186,6 +195,8 @@ class _EmergencySubmissionPageState
                           : () async {
                               if (_formKey.currentState!.validate()) {
                                 await emergencyViewModel.submitEmergency();
+
+                                if (!mounted) return;
 
                                 showDialog(
                                   context: context,
@@ -217,18 +228,19 @@ class _EmergencySubmissionPageState
                                             Navigator.of(context).pop();
                                             emergencyViewModel.nameController
                                                 .clear();
-                                            emergencyViewModel.phoneController =
-                                                TextEditingController(
-                                                    text: '+224');
+                                            emergencyViewModel.phoneController
+                                                .clear();
 
                                             emergencyViewModel
                                                 .descriptionController
                                                 .clear();
-                                            emergencyViewModel.image = null;
+                                            emergencyViewModel
+                                                .resetCurrentImage();
                                             emergencyViewModel
                                                 .setEmergencyType(null);
                                             emergencyViewModel
                                                 .resetCurrentPosition();
+                                            // Affiche le message de soumission réussie
                                           },
                                           child: const Text('OK'),
                                         ),
@@ -243,7 +255,8 @@ class _EmergencySubmissionPageState
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: primaryColor,
+                        disabledBackgroundColor: Colors.white,
                         textStyle: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -255,7 +268,6 @@ class _EmergencySubmissionPageState
                             )
                           : const Text(
                               'Soumettre',
-                              style: TextStyle(color: Colors.white),
                             ),
                     ),
                   ),
