@@ -128,7 +128,7 @@ class ProfilePage extends ConsumerWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: appBarColor,
+                  backgroundColor: primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
@@ -162,31 +162,90 @@ class ProfilePage extends ConsumerWidget {
           ),
           content: const Text('Voulez-vous vraiment vous déconnecter ?'),
           actions: <Widget>[
-            TextButton(
-              child: const Text('Annuler',
-                  style: TextStyle(color: Colors.blue, fontSize: 18)),
-              onPressed: () {
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(Colors.grey)),
+              onPressed: () async {
                 Navigator.of(context).pop();
               },
+              child: const Padding(
+                padding: EdgeInsets.all(0.0),
+                child: Text(
+                  'Annuler',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
-            TextButton(
-              child: const Text('Déconnexion',
-                  style: TextStyle(color: Colors.red, fontSize: 18)),
-              onPressed: () {
-                ref.read(profileViewModelProvider).signOut().then((value) {
-                  Navigator.of(context).pushReplacement(
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(Colors.red)),
+              onPressed: () async {
+                await ref
+                    .read(profileViewModelProvider)
+                    .signOut()
+                    .then((value) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
                     MaterialPageRoute(
                       builder: (context) => const LoginPage(),
                     ),
+                    (route) => false, // Supprime toutes les autres routes
                   );
                 });
               },
-            ),
+              child: const Padding(
+                padding: EdgeInsets.all(0.0),
+                child: Text(
+                  'Déconnexion',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            )
           ],
         );
       },
     );
   }
+
+  // void _showLogoutConfirmationDialog(BuildContext context, WidgetRef ref) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text(
+  //           'Déconnexion',
+  //           style: TextStyle(color: primaryColor, fontSize: 18),
+  //         ),
+  //         content: const Text('Voulez-vous vraiment vous déconnecter ?'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Annuler',
+  //                 style: TextStyle(color: Colors.blue, fontSize: 18)),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: const Text('Déconnexion',
+  //                 style: TextStyle(color: Colors.red, fontSize: 18)),
+  //             onPressed: () async {
+  //               await ref
+  //                   .read(profileViewModelProvider)
+  //                   .signOut()
+  //                   .then((value) {
+  //                 Navigator.of(context).pushReplacement(
+  //                   MaterialPageRoute(
+  //                     builder: (context) => const LoginPage(),
+  //                   ),
+  //                 );
+  //               });
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildProfileDetail(IconData icon, String label, String value) {
     return Padding(

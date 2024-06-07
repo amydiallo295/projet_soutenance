@@ -1,15 +1,14 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api
 
-import 'package:emergency/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:emergency/viewModels/viewModelReport.dart';
+import 'package:emergency/utils/app_colors.dart';
 
 class EmergencySubmissionPage extends ConsumerStatefulWidget {
   const EmergencySubmissionPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _EmergencySubmissionPageState createState() =>
       _EmergencySubmissionPageState();
 }
@@ -25,7 +24,8 @@ class _EmergencySubmissionPageState
       final emergencyViewModel = ref.read(emergencyViewModelProvider);
       emergencyViewModel.resetCurrentImage();
       emergencyViewModel.nameController.clear();
-      emergencyViewModel.phoneController.clear();
+      emergencyViewModel.phoneController.text =
+          '+224'; // Initialize with prefix
       emergencyViewModel.descriptionController.clear();
       emergencyViewModel.setEmergencyType(null);
     });
@@ -126,17 +126,31 @@ class _EmergencySubmissionPageState
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       labelText: 'Numéro de téléphone',
+                      prefixIcon: Icon(Icons.phone),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
+                    onChanged: (value) {
+                      if (!value.startsWith('+224')) {
+                        emergencyViewModel.phoneController.text = '+224';
+                        emergencyViewModel.phoneController.selection =
+                            TextSelection.fromPosition(TextPosition(
+                                offset: emergencyViewModel
+                                    .phoneController.text.length));
+                      }
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Le numéro de téléphone est obligatoire';
                       }
-                      // if (!value.startsWith('+224')) {
-                      //   return 'Le numéro de téléphone doit commencer par +224';
-                      // }
+                      if (!value.startsWith('+224')) {
+                        return 'Le numéro de téléphone doit commencer par +224';
+                      }
+                      if (value.length <= 8 + 4) {
+                        // 8 for the number + 4 for the prefix
+                        return 'Le numéro de téléphone doit contenir plus de 8 caractères';
+                      }
                       return null;
                     },
                   ),
@@ -240,7 +254,6 @@ class _EmergencySubmissionPageState
                                                 .setEmergencyType(null);
                                             emergencyViewModel
                                                 .resetCurrentPosition();
-                                            // Affiche le message de soumission réussie
                                           },
                                           child: const Text('OK'),
                                         ),
@@ -268,6 +281,7 @@ class _EmergencySubmissionPageState
                             )
                           : const Text(
                               'Soumettre',
+                              style: TextStyle(color: Colors.white),
                             ),
                     ),
                   ),

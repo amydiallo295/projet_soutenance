@@ -121,7 +121,8 @@ class AuthentificationService extends ChangeNotifier {
       User? user = phoneAuthCredential.user;
 
       if (user != null) {
-        String email = '$phoneNumber@example.com';
+        String email = '$phoneNumber@gmail.com';
+
         await user.updateDisplayName(userName);
         // Associer l'authentification par email et mot de passe
         AuthCredential emailCredential = EmailAuthProvider.credential(
@@ -158,10 +159,6 @@ class AuthentificationService extends ChangeNotifier {
         // Mettre à jour le profil de l'utilisateur
         await user.reload();
         user = FirebaseAuth.instance.currentUser;
-        print("voir les informations user 🍽️🍽️🍽️🍽️");
-        print(FirebaseAuth.instance.currentUser);
-        print(user);
-
         notifyListeners();
       }
     } catch (e) {
@@ -187,7 +184,7 @@ class AuthentificationService extends ChangeNotifier {
       // Authentification de l'utilisateur avec l'email et le mot de passe
       final UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
+        email: '$email@gmail.com',
         password: password,
       );
 

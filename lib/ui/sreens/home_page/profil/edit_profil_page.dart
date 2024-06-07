@@ -107,9 +107,13 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                   if (value == null || value.isEmpty) {
                     return 'Le téléphone est obligatoire';
                   }
+                  // if (!RegExp(r'^\+224\d+$').hasMatch(value)) {
+                  //   return 'Numéro de téléphone invalide';
+                  // }
                   if (!value.startsWith('+224')) {
                     return 'Le numéro de téléphone doit commencer par +224';
                   }
+
                   return null;
                 },
               ),

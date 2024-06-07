@@ -131,8 +131,10 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                           if (value == null || value.isEmpty) {
                             return 'Ce champ est obligatoire';
                           }
-                          if (!RegExp(r'^\+224\d+$').hasMatch(value)) {
-                            return 'Numéro de téléphone invalide';
+                          // Vérifier que le numéro de téléphone contient plus de 8 chiffres après le préfixe
+                          if (value.length <= 8 + 4) {
+                            // 4 caractères pour "+224"
+                            return 'Le numéro de téléphone doit contenir plus de 8 chiffres après le préfixe';
                           }
                           return null;
                         },
@@ -166,7 +168,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 40),
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 500),
                         child: isLoading
@@ -175,7 +177,9 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                                 size: 50.0,
                               )
                             : ElevatedButton(
-                                key: const ValueKey('button'),
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all(Colors.blue)),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
                                     await authProvider
@@ -212,23 +216,12 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                                     isLoading = false;
                                   });
                                 },
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 15.0,
-                                    horizontal: 30.0,
+                                child: const Padding(
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Text(
+                                    'Envoyer le code',
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  backgroundColor: Colors.blue,
-                                  textStyle: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                child: const Text(
-                                  'Envoyer le code',
-                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                       ),

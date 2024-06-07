@@ -18,7 +18,7 @@ class EmergencyViewModel extends ChangeNotifier {
   final EmergencyService _service = EmergencyService();
   Position? _currentPosition;
   final TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController phoneController = TextEditingController(text: '+224');
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
 

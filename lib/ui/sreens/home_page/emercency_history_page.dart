@@ -65,7 +65,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               ))
             : history.reportUsers.isEmpty
                 ? const NoDataWidget(
-                    message: 'Aucun signalement',
+                    message: 'Aucun signalement signalé',
                   )
                 : SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),

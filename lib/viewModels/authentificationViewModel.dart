@@ -1,5 +1,4 @@
 import 'package:emergency/main.dart';
-import 'package:emergency/routers/routes.dart';
 import 'package:emergency/services/authentificationService.dart';
 import 'package:emergency/ui/sreens/verificationode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,15 +42,14 @@ class AuthViewModel extends ChangeNotifier {
           )
           .then((value) {
         if (_auth.currentUser != null) {
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const HomeScreen(),
-          //   ),
-          // );
-          Navigator.of(context).push(createRouteHomeScreen());
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+            (route) => false, // Supprime toutes les autres routes
+          );
         }
-        // Navigator.of(context).push(createRouteHomeScreen());
       });
     } catch (e) {
       const SnackBar(
@@ -114,9 +112,9 @@ class AuthViewModel extends ChangeNotifier {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content:
-              Text('Erreur lors de la vérification du numéro de téléphone: $e'),
+              Text('Erreur lors de la vérification du numéro de téléphone'),
           backgroundColor: Colors.red,
         ),
       );

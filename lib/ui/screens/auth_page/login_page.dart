@@ -1,11 +1,10 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:emergency/ui/screens/auth_page/Inscription_page.dart';
 import 'package:emergency/ui/screens/auth_page/reset_password.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:emergency/viewModels/authentificationViewModel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +23,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       TextEditingController(text: '+224');
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
@@ -48,23 +48,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 children: [
                   const Icon(Icons.person, size: 100, color: Colors.grey),
                   const Text(
-                    'Emergency',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Connexion',
+                    ' Connexion à Emergency',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 40),
                   TextFormField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
@@ -93,8 +84,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       if (value == null || value.isEmpty) {
                         return 'Ce champ est obligatoire';
                       }
-                      if (!RegExp(r'^\+224\d+$').hasMatch(value)) {
-                        return 'Numéro de téléphone invalide';
+                      // Vérifier que le numéro de téléphone contient plus de 8 chiffres après le préfixe
+                      if (value.length <= 8 + 4) {
+                        // 4 caractères pour "+224"
+                        return 'Le numéro de téléphone doit contenir plus de 8 chiffres après le préfixe';
                       }
                       return null;
                     },
@@ -102,10 +95,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
                       labelText: 'Veillez saisir votre mot de passe',
                       prefixIcon: const Icon(Icons.lock, color: Colors.blue),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
+                        },
+                      ),
                       filled: true,
                       fillColor: Colors.grey[200],
                       border: OutlineInputBorder(
@@ -134,7 +140,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => const ResetPassword()),
+                            builder: (context) =>
+                                const ResetPasswordWithPhone(),
+                          ),
                         );
                       },
                       child: const Text(
@@ -154,7 +162,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             size: 50.0,
                           )
                         : ElevatedButton(
-                            key: const ValueKey('button'),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    WidgetStateProperty.all(Colors.blue)),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 await authProvider.checkNetworkConnectivity();
@@ -162,10 +172,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     ConnectivityResult.none) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        duration: Duration(seconds: 1),
-                                        backgroundColor: Colors.grey,
-                                        content:
-                                            Text('Pas de connexion Internet')),
+                                      duration: Duration(seconds: 1),
+                                      backgroundColor: Colors.grey,
+                                      content:
+                                          Text('Pas de connexion Internet'),
+                                    ),
                                   );
                                   return;
                                 }
@@ -176,8 +187,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                                 await authProvider
                                     .loginUserWithEmailAndPassword(
-                                  '${phoneController.text.trim()}@gmail.com',
+                                  phoneController.text.trim(),
                                   passwordController.text.trim(),
+                                  // ignore: use_build_context_synchronously
                                   context,
                                 );
 
@@ -186,23 +198,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 });
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 15.0,
-                                horizontal: 30.0,
+                            child: const Padding(
+                              padding: EdgeInsets.all(0.0),
+                              child: Text(
+                                'Se connecter',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              backgroundColor: Colors.blue,
-                              textStyle: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            child: const Text(
-                              'Se connecter',
-                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                   ),
@@ -218,7 +221,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => const InscriptionPage()),
+                              builder: (context) => const InscriptionPage(),
+                            ),
                           );
                         },
                         child: const Text(
@@ -234,6 +238,35 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PhoneNumberInputFormatter extends TextInputFormatter {
+  static const String prefix = '+224';
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (!newValue.text.startsWith(prefix)) {
+      final updatedText = prefix + newValue.text.replaceAll(prefix, '');
+      return TextEditingValue(
+        text: updatedText,
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: updatedText.length),
+        ),
+      );
+    }
+
+    final selectionIndex = newValue.selection.end < prefix.length
+        ? prefix.length
+        : newValue.selection.end;
+
+    return TextEditingValue(
+      text: newValue.text,
+      selection: TextSelection.collapsed(offset: selectionIndex),
     );
   }
 }
