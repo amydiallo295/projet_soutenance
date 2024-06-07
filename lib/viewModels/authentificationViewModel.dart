@@ -60,141 +60,65 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-//  envoi de code a l'utilisateur
-  // Future<void> sendToPhoneCode(BuildContext context, String phoneNumber,
-  //     String userName, String userPassword) async {
-  //   print('sendToPhoneCode💕💕💕💕💕');
-  //   print(phoneNumber);
-  //   print(userName);
-  //   print(userPassword);
-  //   try {
-  // await _auth.verifyPhoneNumber(
-  //   phoneNumber: phoneNumber,
-  //   verificationCompleted: (PhoneAuthCredential credential) async {},
-  //   verificationFailed: (FirebaseAuthException e) {
-  //     if (e.code == 'invalid-phone-number') {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Numéro de numéro invalide'),
-  //           backgroundColor: Colors.red,
-  //         ),
-  //       );
-  //       return;
-  //     } else if (e.code == 'too-many-requests') {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Trop de requêtes'),
-  //           backgroundColor: Colors.red,
-  //         ),
-  //       );
-  //       return;
-  //     }
-  //   },
-  //   codeSent: (String verificationId, int? resendToken) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => EnterCodePage(
-  //           verificationId: verificationId,
-  //           phoneNumber: phoneNumber,
-  //           userName: userName,
-  //           userPassword: userPassword,
-  //         ),
-  //       ),
-  //     );
-  //   },
-  //   codeAutoRetrievalTimeout: (String verificationId) {
-  //     if (_auth.currentUser != null) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content:
-  //               Text('Délai de récupération automatique du code expiré'),
-  //           backgroundColor: Colors.red,
-  //         ),
-  //       );
-  //     }
-  //   },
-  //   timeout: const Duration(seconds: 60),
-  // );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content:
-  //             Text('Erreur lors de la vérification du numéro de téléphone'),
-  //         backgroundColor: Colors.red,
-  //       ),
-  //     );
-  //   }
-  // }
-
-  Future<void> sendToPhoneCode(
+  void sendSMS(
     BuildContext context,
     String phoneNumber,
     String userName,
     String userPassword,
   ) async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    // String phoneNumber = phoneNumberController.text;
+
+    // Initialize Firebase Auth
+    FirebaseAuth auth = FirebaseAuth.instance;
 
     print('sendToPhoneCode💕💕💕💕💕');
     print(phoneNumber);
     print(userName);
     print(userPassword);
 
-    try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // This is called when verification is completed automatically.
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          String errorMessage;
-          if (e.code == 'invalid-phone-number') {
-            errorMessage = 'Numéro de téléphone invalide';
-          } else if (e.code == 'too-many-requests') {
-            errorMessage = 'Trop de requêtes. Veuillez réessayer plus tard.';
-          } else {
-            errorMessage =
-                'Échec de la vérification du téléphone : ${e.message}';
-          }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(errorMessage),
-              backgroundColor: Colors.red,
+    // Verify the phone number
+    await auth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) {
+        // Auto-retrieve OTP and sign in
+        auth.signInWithCredential(credential);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('le code est envoyé à $phoneNumber'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('erreur lors de l\'envoi du code '),
+            backgroundColor: Colors.red,
+          ),
+        );
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EnterCodePage(
+              verificationId: verificationId,
+              phoneNumber: phoneNumber,
+              userName: userName,
+              userPassword: userPassword,
             ),
-          );
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EnterCodePage(
-                verificationId: verificationId,
-                phoneNumber: phoneNumber,
-                userName: userName,
-                userPassword: userPassword,
-              ),
-            ),
-          );
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Délai de récupération automatique du code expiré'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        },
-        timeout: const Duration(seconds: 60),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              'Erreur lors de la vérification du numéro de téléphone : ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('SMS sent to $phoneNumber'),
+          ),
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Handle timeout
+      },
+    );
   }
 
 // auth with email and password

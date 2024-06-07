@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InscriptionPage extends ConsumerStatefulWidget {
   const InscriptionPage({super.key});
@@ -53,6 +54,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(Icons.person, size: 100, color: Colors.grey),
                       const Text(
@@ -164,6 +166,9 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                           if (value == null || value.isEmpty) {
                             return 'Ce champ est obligatoire';
                           }
+                          if (value.length < 8) {
+                            return 'Le mot de passe doit contenir au moins 8 caractères';
+                          }
                           return null;
                         },
                       ),
@@ -198,20 +203,29 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    // // await authProvider.sendToPhoneCode(
-                                    // //   // ignore: use_build_context_synchronously
-                                    // //   context,
-                                    // //   phoneController.text.trim(),
-                                    // //   nameController.text.trim(),
-                                    // //   passwordController.text.trim(),
-                                    // // );
+                                    // await authProvider.sendToPhoneCode(
+                                    //   // ignore: use_build_context_synchronously
+                                    //   context,
+                                    //   phoneController.text,
+                                    //   nameController.text.trim(),
+                                    //   passwordController.text.trim(),
+                                    // );
+                                    authProvider.sendSMS(
+                                      // ignore: use_build_context_synchronously
+                                      context,
+                                      phoneController.text,
+                                      nameController.text.trim(),
+                                      passwordController.text.trim(),
+                                    );
 
-                                    // // SharedPreferences prefs =
-                                    // //     await SharedPreferences.getInstance();
-                                    // // await prefs.setString('password',
-                                    // //     passwordController.text.trim());
-
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    await prefs.setString('password',
+                                        passwordController.text.trim());
                                     print("voir la page suivante⛪⛪⛪⛪⛪⛪");
+                                    print(phoneController.text);
+                                    print(passwordController.text.trim());
+                                    print(nameController.text.trim());
                                   }
                                   setState(() {
                                     isLoading = false;
@@ -266,139 +280,3 @@ class PhoneNumberInputFormatter extends TextInputFormatter {
     );
   }
 }
-
-
-
-// class CreateAccountPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.grey[200],
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Container(
-//               color: Colors.red,
-//               padding:
-//                   EdgeInsets.only(top: 60, left: 16, right: 16, bottom: 20),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   IconButton(
-//                     icon: Icon(Icons.arrow_back, color: Colors.white),
-//                     onPressed: () {
-//                       // Logic to go back
-//                     },
-//                   ),
-//                   Text(
-//                     'CREATE YOUR ACCOUNT',
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 22,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   IconButton(
-//                     icon: Icon(Icons.menu, color: Colors.white),
-//                     onPressed: () {
-//                       // Logic to open menu
-//                     },
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: Column(
-//                 children: [
-//                   SizedBox(height: 20),
-//                   TextField(
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(30.0),
-//                       ),
-//                       labelText: 'Email',
-//                       fillColor: Colors.white,
-//                       filled: true,
-//                     ),
-//                   ),
-//                   SizedBox(height: 20),
-//                   TextField(
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(30.0),
-//                       ),
-//                       labelText: 'Full Name',
-//                       fillColor: Colors.white,
-//                       filled: true,
-//                     ),
-//                   ),
-//                   SizedBox(height: 20),
-//                   TextField(
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(30.0),
-//                       ),
-//                       labelText: 'Username',
-//                       fillColor: Colors.white,
-//                       filled: true,
-//                     ),
-//                   ),
-//                   SizedBox(height: 20),
-//                   TextField(
-//                     obscureText: true,
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(30.0),
-//                       ),
-//                       labelText: 'Password',
-//                       fillColor: Colors.white,
-//                       filled: true,
-//                       suffixIcon: Icon(Icons.visibility_off),
-//                     ),
-//                   ),
-//                   SizedBox(height: 20),
-//                   TextField(
-//                     obscureText: true,
-//                     decoration: InputDecoration(
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(30.0),
-//                       ),
-//                       labelText: 'Repeat Password',
-//                       fillColor: Colors.white,
-//                       filled: true,
-//                       suffixIcon: Icon(Icons.visibility_off),
-//                     ),
-//                   ),
-//                   SizedBox(height: 40),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       // Logic to create account
-//                     },
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: Colors.red,
-//                       padding: EdgeInsets.symmetric(
-//                         horizontal: 100,
-//                         vertical: 15,
-//                       ),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(30.0),
-//                       ),
-//                     ),
-//                     child: Text(
-//                       'Create Account',
-//                       style: TextStyle(
-//                         color: Colors.white,
-//                         fontSize: 18,
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
