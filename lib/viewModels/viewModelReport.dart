@@ -55,9 +55,7 @@ class EmergencyViewModel extends ChangeNotifier {
     if (pickedFile != null) {
       image = File(pickedFile.path);
       notifyListeners();
-    } else {
-      print("Aucune image sélectionnée");
-    }
+    } else {}
   }
 
   void setEmergencyType(String? value) {
@@ -80,8 +78,6 @@ class EmergencyViewModel extends ChangeNotifier {
       userId: '${FirebaseAuth.instance.currentUser?.uid}',
       createdAt: Timestamp.now(),
     );
-    print("Voir les données du formulaire:");
-    print(newSubmission.toString());
 
     await _service.submitEmergency(newSubmission, image ?? File(''));
 

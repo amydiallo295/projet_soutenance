@@ -203,15 +203,8 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    // await authProvider.sendToPhoneCode(
-                                    //   // ignore: use_build_context_synchronously
-                                    //   context,
-                                    //   phoneController.text,
-                                    //   nameController.text.trim(),
-                                    //   passwordController.text.trim(),
-                                    // );
+
                                     authProvider.sendSMS(
-                                      // ignore: use_build_context_synchronously
                                       context,
                                       phoneController.text,
                                       nameController.text.trim(),
@@ -220,12 +213,8 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
 
                                     SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
-                                    await prefs.setString('password',
-                                        passwordController.text.trim());
-                                    print("voir la page suivante⛪⛪⛪⛪⛪⛪");
-                                    print(phoneController.text);
-                                    print(passwordController.text.trim());
-                                    print(nameController.text.trim());
+                                    await prefs.setString(
+                                        'password', passwordController.text);
                                   }
                                   setState(() {
                                     isLoading = false;

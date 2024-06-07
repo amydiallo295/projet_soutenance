@@ -41,7 +41,7 @@ class SettingsPages extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PrivacyPolicyPage()));
+                        builder: (context) => const PrivacyPolicyPage()));
 
                 // Action à effectuer lors du clic sur "Confidentialité"
               },

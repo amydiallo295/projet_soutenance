@@ -233,11 +233,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   ),
                                 ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Vous n'avez pas de compte? "),
+                            const Text("Vous n'avez pas de compte? "),
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(

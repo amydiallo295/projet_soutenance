@@ -126,7 +126,7 @@ class _EmergencySubmissionPageState
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       labelText: 'Numéro de téléphone',
-                      prefixIcon: Icon(Icons.phone),
+                      prefixIcon: const Icon(Icons.phone),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -213,6 +213,7 @@ class _EmergencySubmissionPageState
                                 if (!mounted) return;
 
                                 showDialog(
+                                  // ignore: use_build_context_synchronously
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
