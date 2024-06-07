@@ -187,7 +187,7 @@ class ProfilePage extends ConsumerWidget {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
+                      builder: (context) => LoginPage(),
                     ),
                     (route) => false, // Supprime toutes les autres routes
                   );

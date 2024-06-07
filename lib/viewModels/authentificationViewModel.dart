@@ -22,6 +22,7 @@ class AuthViewModel extends ChangeNotifier {
   ConnectivityResult _connectivityResult = ConnectivityResult.none;
 
   ConnectivityResult get connectivityResult => _connectivityResult;
+  // verification de code envoyé
   Future userCodeVerifyToLogin(
       String verifyCode,
       String userName,
@@ -59,30 +60,108 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> sendToPhoneCode(BuildContext context, String phoneNumber,
-      String userName, String userPassword) async {
+//  envoi de code a l'utilisateur
+  // Future<void> sendToPhoneCode(BuildContext context, String phoneNumber,
+  //     String userName, String userPassword) async {
+  //   print('sendToPhoneCode💕💕💕💕💕');
+  //   print(phoneNumber);
+  //   print(userName);
+  //   print(userPassword);
+  //   try {
+  // await _auth.verifyPhoneNumber(
+  //   phoneNumber: phoneNumber,
+  //   verificationCompleted: (PhoneAuthCredential credential) async {},
+  //   verificationFailed: (FirebaseAuthException e) {
+  //     if (e.code == 'invalid-phone-number') {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Numéro de numéro invalide'),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //       return;
+  //     } else if (e.code == 'too-many-requests') {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Trop de requêtes'),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //       return;
+  //     }
+  //   },
+  //   codeSent: (String verificationId, int? resendToken) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => EnterCodePage(
+  //           verificationId: verificationId,
+  //           phoneNumber: phoneNumber,
+  //           userName: userName,
+  //           userPassword: userPassword,
+  //         ),
+  //       ),
+  //     );
+  //   },
+  //   codeAutoRetrievalTimeout: (String verificationId) {
+  //     if (_auth.currentUser != null) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content:
+  //               Text('Délai de récupération automatique du code expiré'),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //     }
+  //   },
+  //   timeout: const Duration(seconds: 60),
+  // );
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content:
+  //             Text('Erreur lors de la vérification du numéro de téléphone'),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //   }
+  // }
+
+  Future<void> sendToPhoneCode(
+    BuildContext context,
+    String phoneNumber,
+    String userName,
+    String userPassword,
+  ) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    print('sendToPhoneCode💕💕💕💕💕');
+    print(phoneNumber);
+    print(userName);
+    print(userPassword);
+
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {},
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          // This is called when verification is completed automatically.
+        },
         verificationFailed: (FirebaseAuthException e) {
+          String errorMessage;
           if (e.code == 'invalid-phone-number') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Numéro de numéro invalide'),
-                backgroundColor: Colors.red,
-              ),
-            );
-            return;
+            errorMessage = 'Numéro de téléphone invalide';
           } else if (e.code == 'too-many-requests') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Trop de requêtes'),
-                backgroundColor: Colors.red,
-              ),
-            );
-            return;
+            errorMessage = 'Trop de requêtes. Veuillez réessayer plus tard.';
+          } else {
+            errorMessage =
+                'Échec de la vérification du téléphone : ${e.message}';
           }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
+            ),
+          );
         },
         codeSent: (String verificationId, int? resendToken) {
           Navigator.push(
@@ -98,29 +177,27 @@ class AuthViewModel extends ChangeNotifier {
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          if (_auth.currentUser != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content:
-                    Text('Délai de récupération automatique du code expiré'),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Délai de récupération automatique du code expiré'),
+              backgroundColor: Colors.red,
+            ),
+          );
         },
         timeout: const Duration(seconds: 60),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text('Erreur lors de la vérification du numéro de téléphone'),
+        SnackBar(
+          content: Text(
+              'Erreur lors de la vérification du numéro de téléphone : ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
     }
   }
 
+// auth with email and password
   Future loginUserWithEmailAndPassword(email, password, context) async {
     await _read
         .read(authServiceProvider)

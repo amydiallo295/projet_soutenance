@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'package:emergency/main.dart';
 import 'package:emergency/routers/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -192,7 +193,13 @@ class AuthentificationService extends ChangeNotifier {
       final User? user = userCredential.user;
 
       if (user != null) {
-        Navigator.of(context).push(createRouteHomeScreen());
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+          (route) => false, // Supprime toutes les autres routes
+        );
       }
     } catch (e) {
       // Gérer les erreurs potentielles ici

@@ -298,6 +298,7 @@
 // }
 
 import 'package:emergency/ui/screens/auth_page/Inscription_page.dart';
+import 'package:emergency/ui/screens/auth_page/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:emergency/utils/app_colors.dart';
@@ -557,7 +558,6 @@ class _ResetPasswordWithPhoneState extends State<ResetPasswordWithPhone> {
                     ),
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(16),
-                      PhoneNumberInputFormatter(),
                     ],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
