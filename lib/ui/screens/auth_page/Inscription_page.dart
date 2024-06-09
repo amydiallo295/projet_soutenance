@@ -56,7 +56,8 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(Icons.person, size: 100, color: Colors.grey),
+                      const Icon(Icons.app_registration,
+                          size: 100, color: primaryColor),
                       const Text(
                         'Emergency',
                         style: TextStyle(

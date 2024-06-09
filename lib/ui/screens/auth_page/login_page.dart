@@ -50,7 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   size: 100,
                   color: primaryColor,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
                   ' EMERGENCY',
                   style: TextStyle(
@@ -107,7 +107,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: passwordController,
                           obscureText: !_isPasswordVisible,
@@ -237,17 +237,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Vous n'avez pas de compte? "),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const InscriptionPage(),
-                                  ),
-                                );
-                              },
-                              child: Text('Inscrivez-vous'),
+                            const Expanded(
+                                flex: -1,
+                                child: Text("Vous n'avez pas de compte? ")),
+                            Expanded(
+                              flex: -1,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const InscriptionPage(),
+                                    ),
+                                  );
+                                },
+                                child: const Text('Inscrivez-vous'),
+                              ),
                             ),
                           ],
                         ),

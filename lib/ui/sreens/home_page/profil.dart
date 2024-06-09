@@ -28,7 +28,7 @@ class ProfilePage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(50.0),
+          padding: const EdgeInsets.all(40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -63,26 +63,27 @@ class ProfilePage extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 elevation: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      _buildProfileDetail(
-                        Icons.person,
-                        'Nom de l\'utilisateur',
-                        currentUser?.displayName ?? '',
-                      ),
-                      const Divider(),
-                      _buildProfileDetail(
-                        Icons.phone,
-                        'Téléphone',
-                        currentUser?.phoneNumber ?? '',
-                      ),
-                    ],
+                child: Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        _buildProfileDetail(
+                          Icons.person,
+                          currentUser?.displayName ??
+                              'guilavogui pokapa Woloma  ',
+                        ),
+                        const Divider(),
+                        _buildProfileDetail(
+                          Icons.phone,
+                          currentUser?.phoneNumber ?? '+224628610357',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               ListTile(
                 leading: const Icon(Icons.history),
                 title:
@@ -145,7 +146,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildProfileHeader() {
     return const Column(
       children: [
-        Icon(Icons.person, size: 120, color: Colors.grey),
+        Icon(Icons.person, size: 100, color: primaryColor),
         SizedBox(height: 10),
       ],
     );
@@ -207,64 +208,25 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  // void _showLogoutConfirmationDialog(BuildContext context, WidgetRef ref) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text(
-  //           'Déconnexion',
-  //           style: TextStyle(color: primaryColor, fontSize: 18),
-  //         ),
-  //         content: const Text('Voulez-vous vraiment vous déconnecter ?'),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: const Text('Annuler',
-  //                 style: TextStyle(color: Colors.blue, fontSize: 18)),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: const Text('Déconnexion',
-  //                 style: TextStyle(color: Colors.red, fontSize: 18)),
-  //             onPressed: () async {
-  //               await ref
-  //                   .read(profileViewModelProvider)
-  //                   .signOut()
-  //                   .then((value) {
-  //                 Navigator.of(context).pushReplacement(
-  //                   MaterialPageRoute(
-  //                     builder: (context) => const LoginPage(),
-  //                   ),
-  //                 );
-  //               });
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  Widget _buildProfileDetail(IconData icon, String label, String value) {
+  Widget _buildProfileDetail(IconData icon, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(icon),
-          const SizedBox(width: 16),
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+          Icon(
+            icon,
+            // color: Colors.grey,
           ),
+          // const SizedBox(width: 16),
           const Spacer(),
-          Text(
-            value.toUpperCase(),
-            style: const TextStyle(fontSize: 16),
+          SizedBox(
+            width: 240,
+            child: Text(
+              overflow: TextOverflow.clip,
+              value.toUpperCase(),
+              style: const TextStyle(fontSize: 16),
+            ),
           ),
         ],
       ),

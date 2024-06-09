@@ -51,7 +51,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
           centerTitle: true,
           title: TitleWidget(text: "Modifier le profil")),
       body: Padding(
-        padding: const EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(10.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -117,7 +117,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child: isLoading

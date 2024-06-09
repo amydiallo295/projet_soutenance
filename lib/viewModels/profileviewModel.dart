@@ -50,9 +50,7 @@ class ProfileViewModel extends ChangeNotifier {
       try {
         await _firestore.collection('users').doc(_currentUser!.uid).update({
           'userName': userData,
-          'phoneNumber': phoneNumber ??
-              _currentUser!
-                  .phoneNumber, // Update phone number only in Firestore
+          'phoneNumber': phoneNumber ?? _currentUser!.phoneNumber,
         });
       } catch (e) {
         const SnackBar(

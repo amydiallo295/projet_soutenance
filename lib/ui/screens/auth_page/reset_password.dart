@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:emergency/utils/app_colors.dart';
@@ -220,6 +221,10 @@ class _ResetPasswordWithPhoneState extends State<ResetPasswordWithPhone> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        title: TitleWidget(
+          text: 'Modification du mot de passe',
+          color: primaryColor,
+        ),
         iconTheme: const IconThemeData(color: primaryColor),
       ),
       backgroundColor: Colors.white,
@@ -232,21 +237,12 @@ class _ResetPasswordWithPhoneState extends State<ResetPasswordWithPhone> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.person, size: 100, color: Colors.grey),
-                  const SizedBox(height: 10),
+                  const Icon(Icons.person, size: 100, color: primaryColor),
+                  const SizedBox(height: 5),
                   const Text(
                     'Emergency',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Modification du mot de passe',
-                    style: TextStyle(
-                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
                     ),
