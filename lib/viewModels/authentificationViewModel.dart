@@ -60,44 +60,95 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  // void sendSMS(
+  //   BuildContext context,
+  //   String phoneNumber,
+  //   String userName,
+  //   String userPassword,
+  // ) async {
+  //   // String phoneNumber = phoneNumberController.text;
+
+  //   // Initialize Firebase Auth
+  //   FirebaseAuth auth = FirebaseAuth.instance;
+
+  //   print('sendToPhoneCode💕💕💕💕💕');
+  //   print(phoneNumber);
+  //   print(userName);
+  //   print(userPassword);
+
+  //   try {
+  //     // Verify the phone number
+  //     await auth.verifyPhoneNumber(
+  //       phoneNumber: phoneNumber,
+  //       verificationCompleted: (PhoneAuthCredential credential) {
+  //         // Auto-retrieve OTP and sign in
+  //         auth.signInWithCredential(credential);
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Text('le code est envoyé à $phoneNumber'),
+  //             backgroundColor: Colors.red,
+  //           ),
+  //         );
+  //       },
+  //       verificationFailed: (FirebaseAuthException e) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('erreur lors de l\'envoi du code '),
+  //             backgroundColor: Colors.red,
+  //           ),
+  //         );
+  //       },
+  //       codeSent: (String verificationId, int? resendToken) async {
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => EnterCodePage(
+  //               verificationId: verificationId,
+  //               phoneNumber: phoneNumber,
+  //               userName: userName,
+  //               userPassword: userPassword,
+  //             ),
+  //           ),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Text('SMS sent to $phoneNumber'),
+  //           ),
+  //         );
+  //       },
+  //       codeAutoRetrievalTimeout: (String verificationId) {
+  //         // Handle timeout
+  //       },
+  //     );
+  //   } catch (e) {
+  //     print("voir erreur⛪⛪⛪⛪⛪⛪⛪⛪😋😋😋😋😋");
+  //     print(e);
+  //   }
+  // }
+
   void sendSMS(
     BuildContext context,
     String phoneNumber,
     String userName,
     String userPassword,
   ) async {
-    // String phoneNumber = phoneNumberController.text;
-
-    // Initialize Firebase Auth
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    print('sendToPhoneCode💕💕💕💕💕');
-    print(phoneNumber);
-    print(userName);
-    print(userPassword);
-
-    // Verify the phone number
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {
-        // Auto-retrieve OTP and sign in
-        auth.signInWithCredential(credential);
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await auth.signInWithCredential(credential);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('le code est envoyé à $phoneNumber'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text('Authentification réussie pour $userName!')),
         );
       },
       verificationFailed: (FirebaseAuthException e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('erreur lors de l\'envoi du code '),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(
+              content: Text('Erreur lors de l\'envoi du code : ${e.message}')),
         );
       },
-      codeSent: (String verificationId, int? resendToken) async {
+      codeSent: (String verificationId, int? resendToken) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -110,14 +161,10 @@ class AuthViewModel extends ChangeNotifier {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('SMS sent to $phoneNumber'),
-          ),
+          SnackBar(content: Text('Code envoyé à $phoneNumber')),
         );
       },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        // Handle timeout
-      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 

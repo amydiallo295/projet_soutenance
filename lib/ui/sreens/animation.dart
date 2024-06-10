@@ -158,8 +158,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()
-            //  LoginPage()
+        MaterialPageRoute(builder: (context) => const LoginPage()
+            //
             ),
       );
     }
@@ -195,7 +195,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   "Signalement d'urgence",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Roboto',
                   ),

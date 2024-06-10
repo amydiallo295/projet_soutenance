@@ -9,26 +9,19 @@ class PrivacyPolicyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: primaryColor),
+        backgroundColor: primaryColor,
+        iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
-        title: TitleWidget(text: 'Politique de confidentialité '),
+        title: TitleWidget(
+            text: 'Politique de confidentialité ', color: Colors.white),
       ),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 20),
-            Text(
-              'Politique de confidentialité',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: primaryColor),
-            ),
-            SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.all(50.0),
+              padding: EdgeInsets.all(30.0),
               child: Text(
                 "Politique de confidentialité  "
                 "Cette Politique de confidentialité décrit comment les informations personnelles sont collectées,"

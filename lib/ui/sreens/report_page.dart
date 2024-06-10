@@ -65,12 +65,12 @@ class _EmergencySubmissionPageState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const Center(
                     child: Text(
                       'Soumettre une nouvelle urgence',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
                       ),
@@ -104,11 +104,12 @@ class _EmergencySubmissionPageState
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: emergencyViewModel.nameController,
                     decoration: InputDecoration(
                       labelText: 'Nom',
+                      fillColor: Colors.grey[200],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -120,7 +121,7 @@ class _EmergencySubmissionPageState
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: emergencyViewModel.phoneController,
                     keyboardType: TextInputType.phone,
@@ -154,7 +155,7 @@ class _EmergencySubmissionPageState
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: emergencyViewModel.descriptionController,
                     maxLines: 5,
@@ -165,7 +166,7 @@ class _EmergencySubmissionPageState
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
@@ -176,7 +177,7 @@ class _EmergencySubmissionPageState
                       label: const Text('Ajouter une image ici'),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   emergencyViewModel.image != null
                       ? SizedBox(
                           width: 200,
@@ -265,14 +266,14 @@ class _EmergencySubmissionPageState
                               }
                             },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
                         backgroundColor: primaryColor,
                         disabledBackgroundColor: Colors.white,
                         textStyle: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

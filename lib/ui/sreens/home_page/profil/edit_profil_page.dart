@@ -107,11 +107,9 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                   if (value == null || value.isEmpty) {
                     return 'Le téléphone est obligatoire';
                   }
-                  // if (!RegExp(r'^\+224\d+$').hasMatch(value)) {
-                  //   return 'Numéro de téléphone invalide';
-                  // }
-                  if (!value.startsWith('+224')) {
-                    return 'Le numéro de téléphone doit commencer par +224';
+                  if (value.length <= 8 + 4) {
+                    // 4 caractères pour "+224"
+                    return 'Le numéro de téléphone doit contenir plus de 8 chiffres après le préfixe';
                   }
 
                   return null;
@@ -126,6 +124,9 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         size: 50.0,
                       )
                     : ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all(Colors.blue)),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if (_phoneController.text !=
@@ -156,16 +157,14 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                             });
                           }
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orangeAccent,
-                          padding: const EdgeInsets.all(10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
+                        child: const Padding(
+                          padding: EdgeInsets.all(0.0),
+                          child: Text(
+                            'Enregistrer la modification',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'Enregistrer la modification',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
               ),

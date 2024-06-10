@@ -28,12 +28,11 @@ class ProfilePage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildProfileHeader(),
-              const SizedBox(height: 20),
               Align(
                 alignment: Alignment.topRight,
                 child: InkWell(
@@ -63,23 +62,20 @@ class ProfilePage extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 elevation: 0,
-                child: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        _buildProfileDetail(
-                          Icons.person,
-                          currentUser?.displayName ??
-                              'guilavogui pokapa Woloma  ',
-                        ),
-                        const Divider(),
-                        _buildProfileDetail(
-                          Icons.phone,
-                          currentUser?.phoneNumber ?? '+224628610357',
-                        ),
-                      ],
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      _buildProfileDetail(
+                        Icons.person,
+                        currentUser?.displayName ?? '',
+                      ),
+                      const Divider(),
+                      _buildProfileDetail(
+                        Icons.phone,
+                        currentUser?.phoneNumber ?? '',
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -130,9 +126,9 @@ class ProfilePage extends ConsumerWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),
@@ -147,7 +143,6 @@ class ProfilePage extends ConsumerWidget {
     return const Column(
       children: [
         Icon(Icons.person, size: 100, color: primaryColor),
-        SizedBox(height: 10),
       ],
     );
   }

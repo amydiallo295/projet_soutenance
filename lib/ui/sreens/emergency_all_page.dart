@@ -30,14 +30,14 @@ class EmergencyCallPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(50.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
                 'Sélectionnez un service à appeler',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: appBarColor,
                 ),
@@ -50,48 +50,48 @@ class EmergencyCallPage extends StatelessWidget {
                 label: const Text('Appeler les pompiers'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: appBarColor,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () => _makePhoneCall('117'),
                 icon: const Icon(Icons.local_police),
                 label: const Text('Appeler la police'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () => _makePhoneCall('116'),
                 icon: const Icon(Icons.local_hospital),
                 label: const Text('Appeler une ambulance'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () => _makePhoneCall('122'),
                 icon: const Icon(Icons.phone_in_talk),
                 label: const Text('Autre service'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orangeAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),
