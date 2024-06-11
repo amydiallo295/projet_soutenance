@@ -31,47 +31,64 @@ class ProfileViewModel extends ChangeNotifier {
     String? displayName,
     String? phoneNumber,
   }) async {
-    if (_currentUser != null) {
-      String userData = displayName ?? _currentUser!.displayName ?? "";
+    if (_currentUser == null) return;
 
+    String newDisplayName = displayName ?? _currentUser!.displayName ?? "";
+    String? currentPhoneNumber = _currentUser!.phoneNumber;
+    bool isPhoneNumberChange =
+        phoneNumber != null && phoneNumber != currentPhoneNumber;
+
+    try {
       // Mettre à jour Firebase Authentication
-      try {
-        await _currentUser!.updateDisplayName(userData);
-      } catch (e) {
-        const SnackBar(
-          content: Text("Erreur lors de la mise à jour du nom d'utilisateur"),
-          backgroundColor: Colors.red,
-        );
-
-        // Gérer les erreurs de mise à jour
-      }
+      await _updateFirebaseAuthProfile(newDisplayName,
+          isPhoneNumberChange ? phoneNumber : currentPhoneNumber!);
 
       // Mettre à jour Firestore
-      try {
-        await _firestore.collection('users').doc(_currentUser!.uid).update({
-          'userName': userData,
-          'phoneNumber': phoneNumber ?? _currentUser!.phoneNumber,
-        });
-      } catch (e) {
-        const SnackBar(
-          content: Text("Erreur lors de la mise à jour du document Firestore"),
-          backgroundColor: Colors.red,
-        );
-        // Gérer les erreurs de mise à jour
-      }
+      await _updateFirestoreProfile(
+          newDisplayName, phoneNumber ?? currentPhoneNumber!);
 
       // Recharger l'utilisateur pour obtenir les informations mises à jour
-      try {
-        await _currentUser!.reload();
-        _currentUser = FirebaseAuth.instance.currentUser;
-        notifyListeners();
-      } catch (e) {
-        const SnackBar(
-          content: Text("Erreur lors du rechargement de l'utilisateur"),
-          backgroundColor: Colors.red,
-        );
-      }
+      await _currentUser!.reload();
+      _currentUser = FirebaseAuth.instance.currentUser;
+      notifyListeners();
+    } catch (e) {
+      _showSnackBar("Erreur lors de la mise à jour du profil", Colors.red);
     }
+  }
+
+  Future<void> _updateFirebaseAuthProfile(
+      String displayName, String phoneNumber) async {
+    try {
+      await _currentUser!.updateDisplayName(displayName);
+      await _currentUser!.verifyBeforeUpdateEmail('$phoneNumber@gmail.com');
+      await _currentUser!.reload();
+    } catch (e) {
+      _showSnackBar(
+          "Erreur lors de la mise à jour du nom d'utilisateur", Colors.red);
+      rethrow;
+    }
+  }
+
+  Future<void> _updateFirestoreProfile(
+      String displayName, String phoneNumber) async {
+    try {
+      await _firestore.collection('users').doc(_currentUser!.uid).update({
+        'userName': displayName,
+        'phoneNumber': phoneNumber,
+        'email': '$phoneNumber@gmail.com',
+      });
+    } catch (e) {
+      _showSnackBar(
+          "Erreur lors de la mise à jour du document Firestore", Colors.red);
+      rethrow;
+    }
+  }
+
+  void _showSnackBar(String message, Color backgroundColor) {
+    SnackBar(
+      content: Text(message),
+      backgroundColor: backgroundColor,
+    );
   }
 
   Future<void> verifyPhoneNumber(

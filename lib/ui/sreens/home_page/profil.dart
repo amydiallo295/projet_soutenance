@@ -213,10 +213,9 @@ class ProfilePage extends ConsumerWidget {
             icon,
             // color: Colors.grey,
           ),
-          // const SizedBox(width: 16),
           const Spacer(),
           SizedBox(
-            width: 240,
+            width: 200,
             child: Text(
               overflow: TextOverflow.clip,
               value.toUpperCase(),

@@ -1,4 +1,5 @@
 import 'package:emergency/utils/app_colors.dart';
+import 'package:emergency/utils/ui_helpers.dart';
 import 'package:emergency/viewModels/authentificationViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,23 +33,47 @@ class _EnterCodePageState extends ConsumerState<EnterCodePage> {
     final authProvider = ref.watch(authViewModelProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Entrer le Code de Confirmation'),
-      ),
+          iconTheme: const IconThemeData(color: primaryColor),
+          title: TitleWidget(
+            text: 'Entrer le Code de Confirmation',
+          )
+          //  const Text('Entrer le Code de Confirmation'),
+          ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
               controller: codeController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.lock, color: Colors.blue),
                 labelText: 'Code de confirmation',
+                prefixIcon: const Icon(Icons.lock, color: Colors.blue),
+                filled: true,
+                fillColor: Colors.grey[200],
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide(color: Colors.grey[300]!),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: const BorderSide(color: Colors.blue),
+                ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Ce champ est obligatoire';
+                }
+                if (value.length != 6) {
+                  return 'Code invalide';
+                }
+
+                return null;
+              },
             ),
             const SizedBox(height: 20),
             isLoading // Show loading spinner if isLoading is true

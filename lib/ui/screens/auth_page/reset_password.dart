@@ -1,10 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:emergency/ui/screens/auth_page/login_page.dart';
 import 'package:emergency/utils/ui_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:emergency/utils/app_colors.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ResetPasswordWithPhone extends StatefulWidget {
   const ResetPasswordWithPhone({super.key});
@@ -149,64 +151,79 @@ class _ResetPasswordWithPhoneState extends State<ResetPasswordWithPhone> {
                     Navigator.of(context).pop();
                   },
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                  ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
                   child: isDialogLoading
-                      ? const CircularProgressIndicator(
+                      ? const SpinKitCircle(
                           color: primaryColor,
+                          size: 50.0,
                         )
-                      : const Text(
-                          'Confirmer',
-                          style: TextStyle(color: Colors.white),
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor,
+                          ),
+                          child: const Text(
+                            'Confirmer',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            if (codeController.text.isEmpty ||
+                                newPasswordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Veuillez remplir tous les champs')),
+                              );
+                              return;
+                            }
+
+                            setState(() {
+                              isDialogLoading = true;
+                            });
+
+                            try {
+                              PhoneAuthCredential credential =
+                                  PhoneAuthProvider.credential(
+                                verificationId: verificationId,
+                                smsCode: codeController.text,
+                              );
+
+                              UserCredential userCredential = await FirebaseAuth
+                                  .instance
+                                  .signInWithCredential(credential);
+
+                              await userCredential.user
+                                  ?.updatePassword(newPasswordController.text);
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Mot de passe réinitialisé avec succès.'),
+                                ),
+                              );
+
+                              Navigator.of(context).pop();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage(),
+                                ),
+                                (route) =>
+                                    false, // Supprime toutes les autres routes
+                              );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Erreur,information invalide')),
+                              );
+                            } finally {
+                              setState(() {
+                                isDialogLoading = false;
+                              });
+                            }
+                          },
                         ),
-                  onPressed: () async {
-                    if (codeController.text.isEmpty ||
-                        newPasswordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Veuillez remplir tous les champs')),
-                      );
-                      return;
-                    }
-
-                    setState(() {
-                      isDialogLoading = true;
-                    });
-
-                    try {
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                        verificationId: verificationId,
-                        smsCode: codeController.text,
-                      );
-
-                      UserCredential userCredential = await FirebaseAuth
-                          .instance
-                          .signInWithCredential(credential);
-
-                      await userCredential.user
-                          ?.updatePassword(newPasswordController.text);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content:
-                              Text('Mot de passe réinitialisé avec succès.'),
-                        ),
-                      );
-
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Erreur: ${e.toString()}')),
-                      );
-                    } finally {
-                      setState(() {
-                        isDialogLoading = false;
-                      });
-                    }
-                  },
                 ),
               ],
             );
@@ -284,20 +301,25 @@ class _ResetPasswordWithPhoneState extends State<ResetPasswordWithPhone> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Colors.blue)),
-                    onPressed: _isLoading ? null : _sendCode,
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
                     child: _isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
+                        ? const SpinKitCircle(
+                            color: primaryColor,
+                            size: 50.0,
                           )
-                        : const Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Text(
-                              'Envoyer le code de vérification',
-                              style: TextStyle(
-                                color: Colors.white,
+                        : ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    WidgetStateProperty.all(Colors.blue)),
+                            onPressed: _sendCode,
+                            child: const Padding(
+                              padding: EdgeInsets.all(0.0),
+                              child: Text(
+                                'Envoyer le code de vérification',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

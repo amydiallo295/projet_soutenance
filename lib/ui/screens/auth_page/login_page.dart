@@ -146,6 +146,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             if (value == null || value.isEmpty) {
                               return 'Ce champ est obligatoire';
                             }
+
                             return null;
                           },
                         ),
@@ -153,15 +154,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: false,
-                                  onChanged: (bool? value) {},
-                                ),
-                                const Text('Se souvenir de moi'),
-                              ],
-                            ),
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(
@@ -238,8 +230,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Expanded(
-                                flex: -1,
-                                child: Text("Vous n'avez pas de compte? ")),
+                                flex: -1, child: Text("Pas de compte? ")),
                             Expanded(
                               flex: -1,
                               child: TextButton(

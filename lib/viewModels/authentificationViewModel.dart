@@ -60,112 +60,78 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  // void sendSMS(
-  //   BuildContext context,
-  //   String phoneNumber,
-  //   String userName,
-  //   String userPassword,
-  // ) async {
-  //   // String phoneNumber = phoneNumberController.text;
+  // send message to user and display login page
 
-  //   // Initialize Firebase Auth
-  //   FirebaseAuth auth = FirebaseAuth.instance;
+  Future<void> sendToPhoneCode(BuildContext context, String phoneNumber,
+      String userName, String userPassword) async {
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          // Vous pouvez gérer l'authentification automatique ici si nécessaire
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          // Gestion des erreurs de vérification
+          String errorMessage;
+          switch (e.code) {
+            case 'invalid-phone-number':
+              errorMessage = 'Le numéro de téléphone est invalide.';
+              break;
+            case 'too-many-requests':
+              errorMessage =
+                  'Trop de tentatives. Veuillez réessayer plus tard.';
+              break;
+            default:
+              errorMessage = 'Erreur de vérification: ${e.message}';
+              break;
+          }
 
-  //   print('sendToPhoneCode💕💕💕💕💕');
-  //   print(phoneNumber);
-  //   print(userName);
-  //   print(userPassword);
-
-  //   try {
-  //     // Verify the phone number
-  //     await auth.verifyPhoneNumber(
-  //       phoneNumber: phoneNumber,
-  //       verificationCompleted: (PhoneAuthCredential credential) {
-  //         // Auto-retrieve OTP and sign in
-  //         auth.signInWithCredential(credential);
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //             content: Text('le code est envoyé à $phoneNumber'),
-  //             backgroundColor: Colors.red,
-  //           ),
-  //         );
-  //       },
-  //       verificationFailed: (FirebaseAuthException e) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(
-  //             content: Text('erreur lors de l\'envoi du code '),
-  //             backgroundColor: Colors.red,
-  //           ),
-  //         );
-  //       },
-  //       codeSent: (String verificationId, int? resendToken) async {
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => EnterCodePage(
-  //               verificationId: verificationId,
-  //               phoneNumber: phoneNumber,
-  //               userName: userName,
-  //               userPassword: userPassword,
-  //             ),
-  //           ),
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //             content: Text('SMS sent to $phoneNumber'),
-  //           ),
-  //         );
-  //       },
-  //       codeAutoRetrievalTimeout: (String verificationId) {
-  //         // Handle timeout
-  //       },
-  //     );
-  //   } catch (e) {
-  //     print("voir erreur⛪⛪⛪⛪⛪⛪⛪⛪😋😋😋😋😋");
-  //     print(e);
-  //   }
-  // }
-
-  void sendSMS(
-    BuildContext context,
-    String phoneNumber,
-    String userName,
-    String userPassword,
-  ) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    await auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Authentification réussie pour $userName!')),
-        );
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Erreur lors de l\'envoi du code : ${e.message}')),
-        );
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EnterCodePage(
-              verificationId: verificationId,
-              phoneNumber: phoneNumber,
-              userName: userName,
-              userPassword: userPassword,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
             ),
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Code envoyé à $phoneNumber')),
-        );
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+          );
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EnterCodePage(
+                verificationId: verificationId,
+                phoneNumber: phoneNumber,
+                userName: userName,
+                userPassword: userPassword,
+              ),
+            ),
+          );
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          // Cette méthode est appelée lorsque le temps imparti pour récupérer automatiquement le code de vérification expire.
+          const errorMessage =
+              'Délai de récupération automatique du code expiré';
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+        timeout: const Duration(seconds: 60),
+      );
+    } catch (e) {
+      const errorMessage =
+          'Erreur lors de la vérification du numéro de téléphone';
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
 // auth with email and password

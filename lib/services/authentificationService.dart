@@ -60,8 +60,8 @@ class AuthentificationService extends ChangeNotifier {
         } catch (e) {
           // Afficher une notification en cas d'erreur lors de la liaison de l'email
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Erreur lors de la liaison de l\'email: $e'),
+            const SnackBar(
+              content: Text('Erreur lors de la liaison de l\'email'),
               backgroundColor: Colors.red,
             ),
           );
@@ -76,9 +76,9 @@ class AuthentificationService extends ChangeNotifier {
       // Afficher une notification en cas d'erreur lors de la vérification du code
       String errorMessage = 'Erreur lors de la vérification du code';
       if (e == 'invalid-verification-code') {
-        errorMessage = 'Code invalide: $e';
+        errorMessage = 'Code invalide: ';
       } else if (e == 'invalid-verification-id') {
-        errorMessage = 'ID invalide: $e';
+        errorMessage = 'ID invalide: ';
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -89,8 +89,88 @@ class AuthentificationService extends ChangeNotifier {
     }
   }
 
+//   Future<void> signInWithEmailAndPassword(
+//       String email, String password, BuildContext context) async {
+//     try {
+//       // Authentification de l'utilisateur avec l'email et le mot de passe
+//       final UserCredential userCredential =
+//           await FirebaseAuth.instance.signInWithEmailAndPassword(
+//         email: '$email@gmail.com',
+//         password: password,
+//       );
+
+//       // Récupération de l'utilisateur authentifié
+//       final User? user = userCredential.user;
+
+//       if (user != null) {
+//         // Mettre à jour le profil de l'utilisateur
+//         await user.updateDisplayName(user.displayName);
+
+//         await user.reload();
+//         final updatedUser = FirebaseAuth.instance.currentUser;
+//         notifyListeners();
+
+//         // Naviguer vers la page d'accueil
+//         Navigator.pushAndRemoveUntil(
+//           context,
+//           MaterialPageRoute(
+//             builder: (context) => const HomeScreen(),
+//           ),
+//           (route) => false, // Supprime toutes les autres routes
+//         );
+
+//         // Afficher un message de succès
+//         ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(
+//             content: Text('Bienvenue ${updatedUser?.displayName}!'),
+//             backgroundColor: Colors.green,
+//           ),
+//         );
+//       }
+//     } catch (e) {
+//       // Gérer les erreurs potentielles ici
+//       if (e is FirebaseAuthException) {
+//         if (e.code == 'user-not-found') {
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             const SnackBar(
+//               content: Text('Aucun utilisateur trouvé pour cet email.'),
+//               backgroundColor: Colors.red,
+//             ),
+//           );
+//         } else if (e.code == 'wrong-password') {
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             const SnackBar(
+//               content: Text('Mot de passe incorrect'),
+//               backgroundColor: Colors.red,
+//             ),
+//           );
+//         } else {
+//           ScaffoldMessenger.of(context).showSnackBar(
+//             const SnackBar(
+//               content: Text(
+//                   'Informations d\'identification invalides. Veuillez vérifier et réessayer.'),
+//               backgroundColor: Colors.red,
+//             ),
+//           );
+//         }
+//       }
+//     }
+//   }
+// }
+
   Future<void> signInWithEmailAndPassword(
       String email, String password, BuildContext context) async {
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text('L\'email et le mot de passe ne peuvent pas être vides.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     try {
       // Authentification de l'utilisateur avec l'email et le mot de passe
       final UserCredential userCredential =
@@ -103,6 +183,16 @@ class AuthentificationService extends ChangeNotifier {
       final User? user = userCredential.user;
 
       if (user != null) {
+        // Mettre à jour le profil de l'utilisateur si nécessaire
+        if (user.displayName != null && user.displayName!.isNotEmpty) {
+          print("infos user⛪⛪⛪⛪⛪⛪⛪");
+          await user.updateDisplayName(user.displayName);
+        }
+
+        await user.reload();
+        final updatedUser = FirebaseAuth.instance.currentUser;
+        notifyListeners();
+        // Naviguer vers la page d'accueil
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -110,9 +200,16 @@ class AuthentificationService extends ChangeNotifier {
           ),
           (route) => false, // Supprime toutes les autres routes
         );
+
+        // Afficher un message de succès
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Bienvenue ${updatedUser?.displayName}!'),
+            backgroundColor: Colors.green,
+          ),
+        );
       }
     } catch (e) {
-      // Gérer les erreurs potentielles ici
       if (e is FirebaseAuthException) {
         if (e.code == 'user-not-found') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -124,7 +221,7 @@ class AuthentificationService extends ChangeNotifier {
         } else if (e.code == 'wrong-password') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Mot de passe incorrect'),
+              content: Text('Mot de passe incorrect.'),
               backgroundColor: Colors.red,
             ),
           );
@@ -137,6 +234,14 @@ class AuthentificationService extends ChangeNotifier {
             ),
           );
         }
+      } else {
+        // Gestion des erreurs non FirebaseAuthException
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Une erreur s\'est produite. Veuillez réessayer.'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
