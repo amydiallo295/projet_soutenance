@@ -29,7 +29,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       setState(() {
         _isLoading = true;
       });
-      ref.read(emergencyViewModelProvider).fetUserReport().then((_) {
+      ref.read(emergencyViewModelProvider).fetchUserReport().then((_) {
         setState(() {
           _isLoading = false;
         });
