@@ -16,9 +16,39 @@ class ProfileViewModel extends ChangeNotifier {
     _loadCurrentUser();
   }
 
+  // Future<void> _loadCurrentUser() async {
+  //   _currentUser = FirebaseAuth.instance.currentUser;
+  //   notifyListeners();
+  // }
+
+  Map<String, dynamic>? _firestoreUserData;
+
+  Map<String, dynamic>? get firestoreUserData => _firestoreUserData;
+
+  // Fonction pour charger l'utilisateur actuel depuis Firebase Auth
   Future<void> _loadCurrentUser() async {
     _currentUser = FirebaseAuth.instance.currentUser;
+    if (_currentUser != null) {
+      await _loadUserFromFirestore(_currentUser!.uid);
+    }
     notifyListeners();
+  }
+
+  // Fonction pour récupérer les informations de l'utilisateur dans Firestore
+  Future<void> _loadUserFromFirestore(String uid) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (userDoc.exists) {
+        _firestoreUserData = userDoc.data();
+        notifyListeners();
+      } else {
+        print("L'utilisateur n'existe pas dans Firestore.");
+      }
+    } catch (e) {
+      print("Erreur lors de la récupération des données utilisateur: $e");
+    }
   }
 
   Future<void> signOut() async {

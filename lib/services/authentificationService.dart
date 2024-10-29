@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final emergencyServiceProvider = Provider((ref) => AuthentificationService());
@@ -89,91 +90,169 @@ class AuthentificationService extends ChangeNotifier {
     }
   }
 
-  Future<void> signInWithEmailAndPassword(
-      String email, String password, BuildContext context) async {
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text('L\'email et le mot de passe ne peuvent pas être vides.'),
-          backgroundColor: Colors.red,
-        ),
-      );
+  void showSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Center(child: Text(message)), backgroundColor: color),
+    );
+  }
+
+  Future<void> signUpWithEmailAndPassword(String email, String password,
+      String displayName, String phoneNumber, BuildContext context) async {
+    if ([email, password, displayName].any((field) => field.isEmpty)) {
+      showSnackBar(
+          context,
+          'Les champs email, mot de passe et nom d\'utilisateur ne peuvent pas être vides.',
+          Colors.red);
       return;
     }
 
     try {
-      // Authentification de l'utilisateur avec l'email et le mot de passe
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: '$email@gmail.com',
+      final userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
         password: password,
       );
 
-      // Récupération de l'utilisateur authentifié
-      final User? user = userCredential.user;
-
+      final user = userCredential.user;
       if (user != null) {
-        // Mettre à jour le profil de l'utilisateur si nécessaire
-        if (user.displayName != null && user.displayName!.isNotEmpty) {
-          print("infos user⛪⛪⛪⛪⛪⛪⛪");
-          await user.updateDisplayName(user.displayName);
-        }
+        await user.updateDisplayName(displayName);
 
         await user.reload();
-        final updatedUser = FirebaseAuth.instance.currentUser;
+        // Ajout de l'utilisateur dans Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'createdAt': FieldValue.serverTimestamp(),
+          'email': email,
+          'name': displayName,
+          'role': 'user',
+          'uid': user.uid,
+          'phoneNumber': phoneNumber,
+        });
         notifyListeners();
-        // Naviguer vers la page d'accueil
+        // Afficher une notification de_succès
+        showSnackBar(
+            context, 'Compte créé avec succès! Bienvenue!', Colors.green);
+
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-          (route) => false, // Supprime toutes les autres routes
-        );
-
-        // Afficher un message de succès
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Bienvenue ${updatedUser?.displayName}!'),
-            backgroundColor: Colors.green,
-          ),
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
         );
       }
     } catch (e) {
-      if (e is FirebaseAuthException) {
-        if (e.code == 'user-not-found') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Aucun utilisateur trouvé pour cet email.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        } else if (e.code == 'wrong-password') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Mot de passe incorrect.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                  'Informations d\'identification invalides. Veuillez vérifier et réessayer.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } else {
-        // Gestion des erreurs non FirebaseAuthException
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Une erreur s\'est produite. Veuillez réessayer.'),
-            backgroundColor: Colors.red,
-          ),
-        );
+      handleAuthError(e, context);
+    }
+  }
+
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      // Initialisez Google Sign-In
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        showSnackBar(context, 'Connexion annulée.', Colors.red);
+        return;
       }
+
+      // Obtenez les détails d'authentification de la requête
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      // Créez un nouvel identifiant avec les jetons Google
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Connectez-vous avec Firebase
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Récupération de l'utilisateur authentifié
+      final user = userCredential.user;
+
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'createdAt': FieldValue.serverTimestamp(),
+          'email': userCredential.user!.email,
+          'name': userCredential.user!.displayName,
+          'role': 'user',
+          'uid': user.uid,
+          'phoneNumber': userCredential.user!.phoneNumber,
+        });
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
+        );
+
+        showSnackBar(context, 'Bienvenue ${user.displayName}!', Colors.green);
+      }
+    } catch (e) {
+      print("Erreur lors de la connexion avec Google⛪⛪⛪⛪⛪⛪⛪: $e");
+      showSnackBar(context, 'Erreur de connexion: $e', Colors.red);
+    }
+  }
+
+  Future<void> signInWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
+    if ([email, password].any((field) => field.isEmpty)) {
+      showSnackBar(context,
+          'L\'email et le mot de passe ne peuvent pas être vides.', Colors.red);
+      return;
+    }
+
+    try {
+      final userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = userCredential.user;
+      if (user != null) {
+        await user.reload();
+        final updatedUser = FirebaseAuth.instance.currentUser;
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false,
+        );
+
+        showSnackBar(
+            context, 'Bienvenue ${updatedUser?.displayName}!', Colors.green);
+      }
+    } catch (e) {
+      handleAuthError(e, context);
+    }
+  }
+
+  void handleAuthError(dynamic error, BuildContext context) {
+    if (error is FirebaseAuthException) {
+      switch (error.code) {
+        case 'email-already-in-use':
+          showSnackBar(context, 'Cet email est déjà utilisé.', Colors.red);
+          break;
+        case 'weak-password':
+          showSnackBar(context, 'Le mot de passe est trop faible.', Colors.red);
+          break;
+        case 'user-not-found':
+          showSnackBar(
+              context, 'Aucun utilisateur trouvé pour cet email.', Colors.red);
+          break;
+        case 'wrong-password':
+          showSnackBar(context, 'Mot de passe incorrect.', Colors.red);
+          break;
+        default:
+          showSnackBar(
+              context,
+              'Informations d\'identification invalides. Veuillez vérifier et réessayer.',
+              Colors.red);
+      }
+    } else {
+      showSnackBar(context, 'Une erreur s\'est produite. Veuillez réessayer.',
+          Colors.red);
     }
   }
 }

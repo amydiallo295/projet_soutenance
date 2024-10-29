@@ -2,7 +2,7 @@ import 'package:emergency/main.dart';
 import 'package:emergency/services/authentificationService.dart';
 import 'package:emergency/ui/sreens/verificationode.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
@@ -18,10 +18,7 @@ class AuthViewModel extends ChangeNotifier {
   AuthViewModel(this._read);
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Connectivity _connectivity = Connectivity();
-  ConnectivityResult _connectivityResult = ConnectivityResult.none;
 
-  ConnectivityResult get connectivityResult => _connectivityResult;
   // verification de code envoyé
   Future userCodeVerifyToLogin(
       String verifyCode,
@@ -134,15 +131,26 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  // create user account with email and password
+  Future registerUserWithEmailAndPassword(String email, String password,
+      String displayName, String phoneNumber, BuildContext context) async {
+    await _read.read(authServiceProvider).signUpWithEmailAndPassword(
+        email, password, displayName, phoneNumber, context);
+    notifyListeners();
+  }
+
 // auth with email and password
-  Future loginUserWithEmailAndPassword(email, password, context) async {
+  Future loginUserWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     await _read
         .read(authServiceProvider)
         .signInWithEmailAndPassword(email, password, context);
+    notifyListeners();
   }
 
-  Future<ConnectivityResult> checkNetworkConnectivity() async {
-    _connectivityResult = await _connectivity.checkConnectivity();
-    return _connectivityResult;
+  //auth wiht google account
+  Future<void> signInWithGoogle(BuildContext context) async {
+    await _read.read(authServiceProvider).signInWithGoogle(context);
+    notifyListeners();
   }
 }
