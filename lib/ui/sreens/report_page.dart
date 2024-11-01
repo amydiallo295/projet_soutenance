@@ -45,7 +45,7 @@ class _EmergencySubmissionPageState
           style: TextStyle(
             fontFamily: 'Roboto',
             fontWeight: FontWeight.bold,
-            fontSize: 22.0,
+            fontSize: 20.0,
             color: Colors.white,
           ),
         ),
@@ -67,7 +67,7 @@ class _EmergencySubmissionPageState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 5),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
@@ -81,7 +81,7 @@ class _EmergencySubmissionPageState
                         children: [
                           Icon(
                             Icons.emergency,
-                            size: 40,
+                            size: 30,
                             color: primaryColor,
                           ),
                           const SizedBox(height: 8),
@@ -202,7 +202,7 @@ class _EmergencySubmissionPageState
                             TextFormField(
                               controller:
                                   emergencyViewModel.descriptionController,
-                              maxLines: 5,
+                              maxLines: 3,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey.shade50,
