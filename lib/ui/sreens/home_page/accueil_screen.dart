@@ -140,7 +140,7 @@ class DashboardScreen extends StatelessWidget {
           const Text(
             "Bienvenue sur Emergency",
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
@@ -149,7 +149,7 @@ class DashboardScreen extends StatelessWidget {
           Text(
             "Votre application de sécurité personnelle disponible 24h/24 et 7j/7",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.grey[600],
               height: 1.5,
             ),
@@ -261,7 +261,7 @@ class DashboardScreen extends StatelessWidget {
                     Icon(
                       icon,
                       color: Colors.white,
-                      size: 44.0,
+                      size: 40.0,
                     ),
                     const SizedBox(height: 12.0),
                     Text(
@@ -307,7 +307,7 @@ class DashboardScreen extends StatelessWidget {
             child: const Icon(
               Icons.emergency_share,
               color: Colors.red,
-              size: 32,
+              size: 30,
             ),
           ),
           const SizedBox(width: 16),

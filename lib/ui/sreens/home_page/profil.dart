@@ -39,7 +39,7 @@ class ProfilePage extends ConsumerWidget {
   Widget _buildSliverAppBar(
       BuildContext context, Map<String, dynamic>? currentUser) {
     return SliverAppBar(
-      expandedHeight: 280,
+      expandedHeight: 150,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -57,14 +57,14 @@ class ProfilePage extends ConsumerWidget {
               ),
             ),
             Positioned(
-              top: 100,
+              top: 60,
               left: 0,
               right: 0,
               child: Column(
                 children: [
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 60,
+                    height: 60,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
@@ -84,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
                     currentUser?['name']?.toUpperCase() ?? '',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
                     ),

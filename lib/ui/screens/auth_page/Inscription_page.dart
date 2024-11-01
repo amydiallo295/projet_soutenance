@@ -120,8 +120,8 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                   children: [
                     // Bouton retour
                     Positioned(
-                      top: 16,
-                      left: 16,
+                      top: 14,
+                      left: 14,
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back_ios,
                             color: Colors.white),
@@ -141,15 +141,15 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                             ),
                             child: const Icon(
                               Icons.emergency,
-                              size: 50,
+                              size: 40,
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 10),
                           const Text(
                             'Emergency',
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -182,12 +182,12 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                           const Text(
                             'Créer un compte',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 6),
                           Text(
                             'Veuillez renseigner vos informations',
                             style: TextStyle(
@@ -195,7 +195,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                               color: Colors.grey[600],
                             ),
                           ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 15),
                           _buildInputField(
                             controller: nameController,
                             label: 'Prénom et nom',
@@ -207,7 +207,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 15),
                           _buildInputField(
                             controller: phoneController,
                             label: 'Numéro de téléphone',
@@ -227,7 +227,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 15),
                           _buildInputField(
                             controller: emailController,
                             label: 'Adresse email',
@@ -242,7 +242,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 15),
                           _buildInputField(
                             controller: passwordController,
                             label: 'Mot de passe',
@@ -258,7 +258,7 @@ class _InscriptionPageState extends ConsumerState<InscriptionPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 20),
                           SizedBox(
                             width: double.infinity,
                             height: 56,

@@ -61,31 +61,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             BoxShadow(
                               color: primaryColor.withOpacity(0.2),
                               spreadRadius: 5,
-                              blurRadius: 20,
+                              blurRadius: 15,
                               offset: const Offset(0, 3),
                             ),
                           ],
                         ),
                         child: const Icon(
                           Icons.emergency_share,
-                          size: 80,
+                          size: 50,
                           color: primaryColor,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 15),
 
                     // Titre et sous-titre améliorés
                     const Text(
                       'EMERGENCY',
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
                         letterSpacing: 2,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     Text(
                       'Votre sécurité, notre priorité',
                       style: TextStyle(
@@ -94,7 +94,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         letterSpacing: 0.5,
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
 
                     // Bouton Google amélioré
                     Container(
@@ -221,7 +221,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 15),
 
                             // Champ mot de passe amélioré
                             _buildTextField(
@@ -262,7 +262,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 15),
 
                             // Bouton de connexion amélioré
                             SizedBox(
@@ -302,7 +302,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
 
                     // Lien d'inscription amélioré
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
